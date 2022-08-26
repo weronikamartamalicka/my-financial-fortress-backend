@@ -1,6 +1,8 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Getter
+@NoArgsConstructor
 @Entity(name = "MODEL_PORTFOLIO")
 public class ModelPortfolioInvestment {
 
@@ -56,4 +59,25 @@ public class ModelPortfolioInvestment {
 
     @Column(name = "EMERGING_MARKET_PERCENTAGE")
     private BigDecimal emergingMarketPercentage;
+
+    public ModelPortfolioInvestment(LocalDateTime redemptionDate, LocalDateTime date, BigDecimal entireValue,
+                                    BigDecimal goldValue, BigDecimal bondsQuotedValue, BigDecimal bondsIndexedValue,
+                                    BigDecimal developedMarketValue, BigDecimal emergingMarketValue,
+                                    BigDecimal goldPercentage, BigDecimal bondsQuotedPercentage,
+                                    BigDecimal bondsIndexedPercentage, BigDecimal developedMarketPercentage,
+                                    BigDecimal emergingMarketPercentage) {
+        this.redemptionDate = redemptionDate;
+        this.date = date;
+        this.entireValue = entireValue;
+        this.goldValue = goldValue;
+        this.bondsQuotedValue = bondsQuotedValue;
+        this.bondsIndexedValue = bondsIndexedValue;
+        this.developedMarketValue = developedMarketValue;
+        this.emergingMarketValue = emergingMarketValue;
+        this.goldPercentage = goldPercentage;
+        this.bondsQuotedPercentage = bondsQuotedPercentage;
+        this.bondsIndexedPercentage = bondsIndexedPercentage;
+        this.developedMarketPercentage = developedMarketPercentage;
+        this.emergingMarketPercentage = emergingMarketPercentage;
+    }
 }

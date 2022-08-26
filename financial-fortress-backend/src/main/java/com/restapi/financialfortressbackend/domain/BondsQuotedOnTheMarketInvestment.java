@@ -1,6 +1,8 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Getter
+@NoArgsConstructor
 @Entity(name = "BONDS_QUOTED_ON_THE_MARKET")
 public class BondsQuotedOnTheMarketInvestment {
 
@@ -44,4 +47,16 @@ public class BondsQuotedOnTheMarketInvestment {
 
     @Column(name = "ENTIRE_VALUATION")
     private BigDecimal entireValuation;
+
+    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal valuation, BigDecimal couponRate,
+                                            LocalDateTime redemptionDate, LocalDateTime date,
+                                            LocalDateTime interestPeriod, BigDecimal entireValuation) {
+        this.quantity = quantity;
+        this.valuation = valuation;
+        this.couponRate = couponRate;
+        this.redemptionDate = redemptionDate;
+        this.date = date;
+        this.interestPeriod = interestPeriod;
+        this.entireValuation = entireValuation;
+    }
 }

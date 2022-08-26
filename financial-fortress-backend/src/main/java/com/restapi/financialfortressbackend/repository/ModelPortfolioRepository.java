@@ -1,4 +1,25 @@
 package com.restapi.financialfortressbackend.repository;
 
-public interface ModelPortfolioRepository {
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@Transactional
+public interface ModelPortfolioRepository extends CrudRepository<ModelPortfolioInvestment, Long> {
+    @Override
+    ModelPortfolioInvestment save(ModelPortfolioInvestment modelPortfolio);
+
+    @Override
+    Optional<ModelPortfolioInvestment> findById(Long id);
+
+    @Override
+    List<ModelPortfolioInvestment> findAll();
+
+    Optional<ModelPortfolioInvestment> findByDate(LocalDateTime date);
 }
