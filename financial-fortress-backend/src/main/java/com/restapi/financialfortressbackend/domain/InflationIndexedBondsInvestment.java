@@ -3,14 +3,16 @@ package com.restapi.financialfortressbackend.domain;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "INFLATION_INDEXED_BONDS")
 public class InflationIndexedBondsInvestment {
@@ -34,27 +36,35 @@ public class InflationIndexedBondsInvestment {
     private BigDecimal interestRate;
 
     @Column(name = "REDEMPTION")
-    private LocalDateTime redemptionDate;
+    private LocalDate redemptionDate;
 
     @Column(name = "DATE")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "INTEREST_PERIOD")
-    private LocalDateTime interestPeriod;
+    private LocalDate interestPeriod;
+
+    @Column(name = "COMMISSION")
+    private BigDecimal commissionRate;
+
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
     @Column(name = "ENTIRE_VALUE")
     private BigDecimal entireValue;
 
     public InflationIndexedBondsInvestment(BigDecimal quantity, BigDecimal inflationRate,
-                                           BigDecimal interestRate, LocalDateTime redemptionDate,
-                                           LocalDateTime date, LocalDateTime interestPeriod,
-                                           BigDecimal entireValue) {
+                                           BigDecimal interestRate, LocalDate redemptionDate,
+                                           LocalDate date, LocalDate interestPeriod, BigDecimal commissionRate,
+                                           BigDecimal price, BigDecimal entireValue) {
         this.quantity = quantity;
         this.inflationRate = inflationRate;
         this.interestRate = interestRate;
         this.redemptionDate = redemptionDate;
         this.date = date;
         this.interestPeriod = interestPeriod;
+        this.commissionRate = commissionRate;
+        this.price = price;
         this.entireValue = entireValue;
     }
 }

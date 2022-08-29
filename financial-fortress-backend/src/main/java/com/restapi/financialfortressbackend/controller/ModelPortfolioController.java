@@ -1,10 +1,13 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.domain.dto.ModelPortfolioDto;
+import com.restapi.financialfortressbackend.exception.*;
+import com.restapi.financialfortressbackend.service.ModelPortfolioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,15 +18,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/v1")
 public class ModelPortfolioController {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/portfolio", consumes = APPLICATION_JSON_VALUE)
-    public void openInvestment(@RequestBody ModelPortfolioDto modelPortfolioDto) {
+    @Autowired
+    ModelPortfolioService modelPortfolioService;
 
+    @RequestMapping(method = RequestMethod.POST, value = "/portfolio")
+    public void openInvestment(@RequestBody BigDecimal investmentCapital) throws GoldNotFoundException,
+            DevelopedMarketStocksNotFoundException, EmergingMarketStocksNotFoundException, ModelPortfolioNotFoundException, InflationIndexedNotFoundException, BondsQuotedNotFoundException {
+        modelPortfolioService.calculateComposition(investmentCapital);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/portfolio/{portfolioId}")
     public ModelPortfolioDto getInvestment(@PathVariable Long portfolioIdId) {
         return new ModelPortfolioDto(
-                1L,LocalDateTime.now(), new BigDecimal(5), new BigDecimal(5),
+                1L, LocalDate.now(), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5),  new BigDecimal(5), new BigDecimal(5)
@@ -38,7 +45,7 @@ public class ModelPortfolioController {
     @RequestMapping(method = RequestMethod.PUT, value = "/portfolio", consumes = APPLICATION_JSON_VALUE)
     public ModelPortfolioDto updateInvestment(@RequestBody ModelPortfolioDto modelPortfolioDto) {
         return new ModelPortfolioDto(
-                1L,LocalDateTime.now(), new BigDecimal(5), new BigDecimal(5),
+                1L,LocalDate.now(), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
                 new BigDecimal(5),  new BigDecimal(5), new BigDecimal(5)

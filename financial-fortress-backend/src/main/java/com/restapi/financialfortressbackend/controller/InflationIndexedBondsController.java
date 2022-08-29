@@ -4,7 +4,7 @@ import com.restapi.financialfortressbackend.domain.dto.InflationIndexedBondsDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class InflationIndexedBondsController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/bonds/indexed/{investmentId}")
     public InflationIndexedBondsDto getInvestment(@PathVariable Long investmentId) {
-        return new InflationIndexedBondsDto(1L, LocalDateTime.now(), new BigDecimal(3));
+        return new InflationIndexedBondsDto(1L, LocalDate.now(), new BigDecimal(3), new BigDecimal(100), new BigDecimal(50));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/bonds/indexed")
@@ -32,7 +32,7 @@ public class InflationIndexedBondsController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/bonds/indexed", consumes = APPLICATION_JSON_VALUE)
     public InflationIndexedBondsDto updateInvestment(@RequestBody InflationIndexedBondsDto inflationIndexedBondsDto) {
-        return new InflationIndexedBondsDto(1L, LocalDateTime.now(), new BigDecimal(3));
+        return new InflationIndexedBondsDto(1L, LocalDate.now(), new BigDecimal(3),new BigDecimal(100), new BigDecimal(50));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/bonds/indexed/{investmentId}")

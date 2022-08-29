@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
@@ -12,6 +12,6 @@ public class GoldDto {
 
     private Long id;
     private static final String TYPE = "Krugerrand";
-    private LocalDateTime date;
+    private LocalDate date;
     private BigDecimal entireValue;
 }

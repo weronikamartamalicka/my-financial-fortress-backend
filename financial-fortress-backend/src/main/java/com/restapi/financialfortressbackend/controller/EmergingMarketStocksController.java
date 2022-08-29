@@ -4,7 +4,7 @@ import com.restapi.financialfortressbackend.domain.dto.EmergingMarketStocksDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class EmergingMarketStocksController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/market/emerging/{investmentId}")
     public EmergingMarketStocksDto getInvestment(@PathVariable Long investmentId) {
-        return new EmergingMarketStocksDto(1L, new BigDecimal(5), LocalDateTime.now());
+        return new EmergingMarketStocksDto(1L, new BigDecimal(5), LocalDate.now());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/market/emerging")
@@ -32,7 +32,7 @@ public class EmergingMarketStocksController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/market/emerging", consumes = APPLICATION_JSON_VALUE)
     public EmergingMarketStocksDto updateInvestment(@RequestBody EmergingMarketStocksDto emergingMarketDto) {
-        return new EmergingMarketStocksDto(1L, new BigDecimal(5), LocalDateTime.now());
+        return new EmergingMarketStocksDto(1L, new BigDecimal(5), LocalDate.now());
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/market/emerging/{investmentId}")

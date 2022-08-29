@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +22,5 @@ public interface InflationRepository extends CrudRepository<BigDecimal, Long> {
     @Override
     List<BigDecimal> findAll();
 
-    Optional<BigDecimal> findByDate(LocalDateTime date);
+    Optional<BigDecimal> findByDate(LocalDate date);
 }

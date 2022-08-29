@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class BondsQuotedOnTheMarketDto {
@@ -12,6 +12,7 @@ public class BondsQuotedOnTheMarketDto {
     private Long id;
     private static final String TYPE = "NMG7";
     private BigDecimal entireValuation;
-    private LocalDateTime redemptionDate;
-    private LocalDateTime date;
+    private BigDecimal commissionRate;
+    private LocalDate redemptionDate;
+    private LocalDate date;
 }

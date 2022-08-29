@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
 public class ModelPortfolioDto {
 
     private Long id;
-    private LocalDateTime date;
+    private LocalDate date;
     private BigDecimal entireValue;
     private BigDecimal goldValue;
     private BigDecimal bondsQuotedValue;

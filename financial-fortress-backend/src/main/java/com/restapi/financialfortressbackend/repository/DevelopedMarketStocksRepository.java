@@ -1,12 +1,11 @@
 package com.restapi.financialfortressbackend.repository;
 
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -21,5 +20,5 @@ public interface DevelopedMarketStocksRepository extends CrudRepository<Develope
     @Override
     List<DevelopedMarketStocksInvestment> findAll();
 
-    Optional<DevelopedMarketStocksInvestment> findByDate(LocalDateTime date);
+    Optional<DevelopedMarketStocksInvestment> findByDate(LocalDate date);
 }

@@ -3,14 +3,16 @@ package com.restapi.financialfortressbackend.domain;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "MODEL_PORTFOLIO")
 public class ModelPortfolioInvestment {
@@ -22,10 +24,10 @@ public class ModelPortfolioInvestment {
     private Long id;
 
     @Column(name = "REDEMPTION")
-    private LocalDateTime redemptionDate;
+    private LocalDate redemptionDate;
 
     @Column(name = "DATE")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "VALUE")
     private BigDecimal entireValue;
@@ -60,7 +62,7 @@ public class ModelPortfolioInvestment {
     @Column(name = "EMERGING_MARKET_PERCENTAGE")
     private BigDecimal emergingMarketPercentage;
 
-    public ModelPortfolioInvestment(LocalDateTime redemptionDate, LocalDateTime date, BigDecimal entireValue,
+    public ModelPortfolioInvestment(LocalDate redemptionDate, LocalDate date, BigDecimal entireValue,
                                     BigDecimal goldValue, BigDecimal bondsQuotedValue, BigDecimal bondsIndexedValue,
                                     BigDecimal developedMarketValue, BigDecimal emergingMarketValue,
                                     BigDecimal goldPercentage, BigDecimal bondsQuotedPercentage,

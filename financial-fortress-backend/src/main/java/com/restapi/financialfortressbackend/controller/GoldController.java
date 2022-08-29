@@ -4,7 +4,7 @@ import com.restapi.financialfortressbackend.domain.dto.GoldDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class GoldController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/{investmentId}")
     public GoldDto getInvestment(@PathVariable Long investmentId) {
-        return new GoldDto(1L,LocalDateTime.now(), new BigDecimal(5));
+        return new GoldDto(1L,LocalDate.now(), new BigDecimal(5));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold")
@@ -32,7 +32,7 @@ public class GoldController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/gold", consumes = APPLICATION_JSON_VALUE)
     public GoldDto updateInvestment(@RequestBody GoldDto goldDto) {
-        return new GoldDto(1L,LocalDateTime.now(), new BigDecimal(5));
+        return new GoldDto(1L, LocalDate.now(), new BigDecimal(5));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/gold/{investmentId}")

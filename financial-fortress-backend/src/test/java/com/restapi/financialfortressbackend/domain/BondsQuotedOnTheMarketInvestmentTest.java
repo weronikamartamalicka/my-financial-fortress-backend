@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,18 +33,18 @@ class BondsQuotedOnTheMarketInvestmentTest {
 
     @BeforeEach
     public void prepareData() {
-        bondsQuoted1 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(100), new BigDecimal(1.5), new BigDecimal(0.3), LocalDateTime.now(),
-                LocalDateTime.of(2022, 06, 03, 12, 55),LocalDateTime.now(), new BigDecimal(500));
+        bondsQuoted1 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
+                new BigDecimal(100), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
+                LocalDate.of(2022, 06, 03),LocalDate.now(), new BigDecimal(500));
 
-        bondsQuoted2 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(200), new BigDecimal(1.5), new BigDecimal(0.3), LocalDateTime.now(),
-                LocalDateTime.of(2022, 06, 05, 12, 55),LocalDateTime.now(), new BigDecimal(500));
+        bondsQuoted2 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
+                new BigDecimal(200), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
+                LocalDate.of(2022, 06, 05),LocalDate.now(), new BigDecimal(500));
 
-        bondsQuoted3 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(300), new BigDecimal(1.5), new BigDecimal(0.3), LocalDateTime.now(),
-                LocalDateTime.of(2022, 07, 05, 12, 55)
-                ,LocalDateTime.now(), new BigDecimal(500));
+        bondsQuoted3 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
+                new BigDecimal(300), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
+                LocalDate.of(2022, 07, 05)
+                ,LocalDate.now(), new BigDecimal(500));
 
         list = new ArrayList<>();
         list.add(bondsQuoted1);
@@ -87,7 +87,7 @@ class BondsQuotedOnTheMarketInvestmentTest {
         bondsQuotedRepository.save(bondsQuoted2);
         bondsQuotedRepository.save(bondsQuoted3);
 
-        LocalDateTime date = bondsQuoted1.getDate();
+        LocalDate date = bondsQuoted1.getDate();
 
         Optional<BondsQuotedOnTheMarketInvestment> fetchedBond = bondsQuotedRepository.findByDate(date);
 
