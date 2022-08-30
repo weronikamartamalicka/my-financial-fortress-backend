@@ -23,11 +23,11 @@ public class ModelPortfolioInvestment {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @Column(name = "REDEMPTION")
-    private LocalDate redemptionDate;
-
     @Column(name = "DATE")
     private LocalDate date;
+
+    @Column(name = "REDEMPTION")
+    private LocalDate redemptionDate;
 
     @Column(name = "VALUE")
     private BigDecimal entireValue;
@@ -61,25 +61,4 @@ public class ModelPortfolioInvestment {
 
     @Column(name = "EMERGING_MARKET_PERCENTAGE")
     private BigDecimal emergingMarketPercentage;
-
-    public ModelPortfolioInvestment(LocalDate redemptionDate, LocalDate date, BigDecimal entireValue,
-                                    BigDecimal goldValue, BigDecimal bondsQuotedValue, BigDecimal bondsIndexedValue,
-                                    BigDecimal developedMarketValue, BigDecimal emergingMarketValue,
-                                    BigDecimal goldPercentage, BigDecimal bondsQuotedPercentage,
-                                    BigDecimal bondsIndexedPercentage, BigDecimal developedMarketPercentage,
-                                    BigDecimal emergingMarketPercentage) {
-        this.redemptionDate = redemptionDate;
-        this.date = date;
-        this.entireValue = entireValue;
-        this.goldValue = goldValue;
-        this.bondsQuotedValue = bondsQuotedValue;
-        this.bondsIndexedValue = bondsIndexedValue;
-        this.developedMarketValue = developedMarketValue;
-        this.emergingMarketValue = emergingMarketValue;
-        this.goldPercentage = goldPercentage;
-        this.bondsQuotedPercentage = bondsQuotedPercentage;
-        this.bondsIndexedPercentage = bondsIndexedPercentage;
-        this.developedMarketPercentage = developedMarketPercentage;
-        this.emergingMarketPercentage = emergingMarketPercentage;
-    }
 }

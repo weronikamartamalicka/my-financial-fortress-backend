@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 @Transactional
-public interface DevelopedMarketStocksRepository extends CrudRepository<DevelopedMarketStocksInvestment, Long> {
+public interface DevelopedMarketInvestmentRepository extends CrudRepository<DevelopedMarketStocksInvestment, Long> {
     @Override
     DevelopedMarketStocksInvestment save(DevelopedMarketStocksInvestment developedMarketStocks);
 
@@ -19,6 +19,4 @@ public interface DevelopedMarketStocksRepository extends CrudRepository<Develope
 
     @Override
     List<DevelopedMarketStocksInvestment> findAll();
-
-    Optional<DevelopedMarketStocksInvestment> findByDate(LocalDate date);
 }

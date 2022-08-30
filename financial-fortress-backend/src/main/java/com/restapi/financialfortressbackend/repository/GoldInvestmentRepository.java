@@ -1,26 +1,25 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
-public interface InflationRepository extends CrudRepository<BigDecimal, Long> {
-    @Override
-    BigDecimal save(BigDecimal value);
+public interface GoldInvestmentRepository extends CrudRepository<GoldInvestment, Long> {
 
     @Override
-    Optional<BigDecimal> findById(Long id);
+    GoldInvestment save(GoldInvestment goldInvestment);
 
     @Override
-    List<BigDecimal> findAll();
+    Optional<GoldInvestment> findById(Long id);
 
-    Optional<BigDecimal> findByDate(LocalDate date);
+    @Override
+    List<GoldInvestment> findAll();
+
 }

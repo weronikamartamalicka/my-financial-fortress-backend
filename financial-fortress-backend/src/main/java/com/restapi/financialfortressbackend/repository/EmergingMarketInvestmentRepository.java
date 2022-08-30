@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface EmergingMarketStocksRepository extends CrudRepository<EmergingMarketStocksInvestment, Long> {
+public interface EmergingMarketInvestmentRepository extends CrudRepository<EmergingMarketStocksInvestment, Long> {
 
     @Override
     EmergingMarketStocksInvestment save(EmergingMarketStocksInvestment emergingMarketStocks);
@@ -21,6 +21,4 @@ public interface EmergingMarketStocksRepository extends CrudRepository<EmergingM
 
     @Override
     List<EmergingMarketStocksInvestment> findAll();
-
-    Optional<EmergingMarketStocksInvestment> findByDate(LocalDate date);
 }

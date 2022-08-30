@@ -25,13 +25,10 @@ public class BondsQuotedOnTheMarketInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    private static final String TYPE = "NMG7";
+    public static final String TYPE = "NMG7";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
-
-    @Column(name = "VALUATION")
-    private BigDecimal valuation;
 
     @Column(name = "FACE_VALUE")
     private final static BigDecimal FACE_VALUE = new BigDecimal(1000);
@@ -39,29 +36,18 @@ public class BondsQuotedOnTheMarketInvestment {
     @Column(name = "COUPON")
     private BigDecimal couponRate;
 
-    @Column(name = "COMMISSION")
-    private BigDecimal commissionRate;
-
     @Column(name = "REDEMPTION")
     private LocalDate redemptionDate;
-
-    @Column(name = "DATE")
-    private LocalDate date;
 
     @Column(name = "INTEREST_PERIOD")
     private LocalDate interestPeriod;
 
-    @Column(name = "ENTIRE_VALUATION")
-    private BigDecimal entireValuation;
-
-    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal valuation, BigDecimal couponRate, BigDecimal commissionRate, LocalDate redemptionDate, LocalDate date, LocalDate interestPeriod, BigDecimal entireValuation) {
+    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal couponRate,
+                                            LocalDate redemptionDate,
+                                            LocalDate interestPeriod) {
         this.quantity = quantity;
-        this.valuation = valuation;
         this.couponRate = couponRate;
-        this.commissionRate = commissionRate;
         this.redemptionDate = redemptionDate;
-        this.date = date;
         this.interestPeriod = interestPeriod;
-        this.entireValuation = entireValuation;
     }
 }

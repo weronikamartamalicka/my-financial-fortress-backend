@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,29 +23,12 @@ public class EmergingMarketStocksInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    private static final String TYPE = "WIG5";
+    public static final String TYPE = "WIG10";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
-    @Column(name = "VALUATION")
-    private BigDecimal valuation;
-
-    @Column(name = "COMMISSION")
-    private BigDecimal commissionRate;
-
-    @Column(name = "DATE")
-    private LocalDate date;
-
-    @Column(name = "ENTIRE_VALUATION")
-    private BigDecimal entireValuation;
-
-    public EmergingMarketStocksInvestment(BigDecimal quantity, BigDecimal valuation, BigDecimal commissionRate,
-                                          LocalDate date, BigDecimal entireValuation) {
+    public EmergingMarketStocksInvestment(BigDecimal quantity) {
         this.quantity = quantity;
-        this.valuation = valuation;
-        this.commissionRate = commissionRate;
-        this.date = date;
-        this.entireValuation = entireValuation;
     }
 }

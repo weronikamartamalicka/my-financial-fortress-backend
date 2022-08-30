@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.domain;
 
-import com.restapi.financialfortressbackend.repository.BondsQuotedOnTheMarketRepository;
+import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BondsQuotedOnTheMarketInvestmentTest {
 
     @Autowired
-    private BondsQuotedOnTheMarketRepository bondsQuotedRepository;
+    private BondsQuotedInvestmentRepository bondsQuotedRepository;
 
     BondsQuotedOnTheMarketInvestment bondsQuoted1;
     BondsQuotedOnTheMarketInvestment bondsQuoted2;
@@ -33,18 +33,17 @@ class BondsQuotedOnTheMarketInvestmentTest {
 
     @BeforeEach
     public void prepareData() {
-        bondsQuoted1 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
-                new BigDecimal(100), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
-                LocalDate.of(2022, 06, 03),LocalDate.now(), new BigDecimal(500));
+        bondsQuoted1 = new BondsQuotedOnTheMarketInvestment(
+                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+        );
 
-        bondsQuoted2 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
-                new BigDecimal(200), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
-                LocalDate.of(2022, 06, 05),LocalDate.now(), new BigDecimal(500));
+        bondsQuoted2 = new BondsQuotedOnTheMarketInvestment(
+                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+        );
 
-        bondsQuoted3 = new BondsQuotedOnTheMarketInvestment(new BigDecimal(20),
-                new BigDecimal(300), new BigDecimal(1.5), new BigDecimal(0.3), LocalDate.now(),
-                LocalDate.of(2022, 07, 05)
-                ,LocalDate.now(), new BigDecimal(500));
+        bondsQuoted3 = new BondsQuotedOnTheMarketInvestment(
+                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+        );
 
         list = new ArrayList<>();
         list.add(bondsQuoted1);
@@ -82,16 +81,17 @@ class BondsQuotedOnTheMarketInvestmentTest {
     }
 
     @Test
-    public void shouldFindBondValueByDate() {
+    public void shouldFindBondValueByType() {
         bondsQuotedRepository.save(bondsQuoted1);
         bondsQuotedRepository.save(bondsQuoted2);
         bondsQuotedRepository.save(bondsQuoted3);
 
-        LocalDate date = bondsQuoted1.getDate();
-
-        Optional<BondsQuotedOnTheMarketInvestment> fetchedBond = bondsQuotedRepository.findByDate(date);
-
-        assertEquals(date, fetchedBond.get().getDate());
+//        String type = BondsQuotedOnTheMarketInvestment.TYPE;
+//
+//        BondsQuotedOnTheMarketInvestment fetchedBond = bondsQuotedRepository.findByType(type);
+//        Optional<BondsQuotedOnTheMarketInvestment> bond = Optional.ofNullable(fetchedBond);
+//
+//        assertTrue(bond.isPresent());
 
         try {
             bondsQuotedRepository.deleteAll();

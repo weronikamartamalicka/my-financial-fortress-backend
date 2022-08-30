@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +28,7 @@ public class ModelPortfolioController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/portfolio/{portfolioId}")
     public ModelPortfolioDto getInvestment(@PathVariable Long portfolioIdId) {
-        return new ModelPortfolioDto(
-                1L, LocalDate.now(), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5),  new BigDecimal(5), new BigDecimal(5)
-        );
+        return new ModelPortfolioDto();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/portfolio")
@@ -44,12 +38,7 @@ public class ModelPortfolioController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/portfolio", consumes = APPLICATION_JSON_VALUE)
     public ModelPortfolioDto updateInvestment(@RequestBody ModelPortfolioDto modelPortfolioDto) {
-        return new ModelPortfolioDto(
-                1L,LocalDate.now(), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5), new BigDecimal(5), new BigDecimal(5),
-                new BigDecimal(5),  new BigDecimal(5), new BigDecimal(5)
-        );
+        return new ModelPortfolioDto();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/portfolio/{portfolioId}")

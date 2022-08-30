@@ -24,47 +24,28 @@ public class InflationIndexedBondsInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    private static final String TYPE = "NMG7";
+    public static final String TYPE = "NMG7";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
-    @Column(name = "INFLATION_RATE")
-    private BigDecimal inflationRate;
-
-    @Column(name = "INTEREST_RATE")
+    @Column(name = "CONST_INTEREST_RATE")
     private BigDecimal interestRate;
 
     @Column(name = "REDEMPTION")
     private LocalDate redemptionDate;
 
-    @Column(name = "DATE")
-    private LocalDate date;
-
     @Column(name = "INTEREST_PERIOD")
     private LocalDate interestPeriod;
 
-    @Column(name = "COMMISSION")
-    private BigDecimal commissionRate;
 
-    @Column(name = "PRICE")
-    private BigDecimal price;
 
-    @Column(name = "ENTIRE_VALUE")
-    private BigDecimal entireValue;
-
-    public InflationIndexedBondsInvestment(BigDecimal quantity, BigDecimal inflationRate,
-                                           BigDecimal interestRate, LocalDate redemptionDate,
-                                           LocalDate date, LocalDate interestPeriod, BigDecimal commissionRate,
-                                           BigDecimal price, BigDecimal entireValue) {
+    public InflationIndexedBondsInvestment(BigDecimal quantity, BigDecimal interestRate,
+                                           LocalDate redemptionDate, LocalDate interestPeriod
+                                           ) {
         this.quantity = quantity;
-        this.inflationRate = inflationRate;
         this.interestRate = interestRate;
         this.redemptionDate = redemptionDate;
-        this.date = date;
         this.interestPeriod = interestPeriod;
-        this.commissionRate = commissionRate;
-        this.price = price;
-        this.entireValue = entireValue;
     }
 }

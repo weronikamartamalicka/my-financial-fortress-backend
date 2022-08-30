@@ -21,5 +21,5 @@ public interface ModelPortfolioRepository extends CrudRepository<ModelPortfolioI
     @Override
     List<ModelPortfolioInvestment> findAll();
 
-    Optional<ModelPortfolioInvestment> findByDate(LocalDate date);
+    ModelPortfolioInvestment findByDate(LocalDate date);
 }

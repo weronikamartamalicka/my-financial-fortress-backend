@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,29 +23,12 @@ public class GoldInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    private static final String TYPE = "Krugerrand";
+    public static final String TYPE = "Krugerrand";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
-    @Column(name = "PURCHASE")
-    private BigDecimal purchaseValuation;
-
-    @Column(name = "SALE")
-    private BigDecimal saleValuation;
-
-    @Column(name = "DATE")
-    private LocalDate date;
-
-    @Column(name = "ENTIRE_VALUE")
-    private BigDecimal entireValue;
-
-    public GoldInvestment(BigDecimal quantity, BigDecimal purchaseValuation, BigDecimal saleValuation,
-                          LocalDate date, BigDecimal entireValue) {
+    public GoldInvestment(BigDecimal quantity) {
         this.quantity = quantity;
-        this.purchaseValuation = purchaseValuation;
-        this.saleValuation = saleValuation;
-        this.date = date;
-        this.entireValue = entireValue;
     }
 }

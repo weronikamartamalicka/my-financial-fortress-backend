@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface InflationIndexedBondsRepository extends CrudRepository<InflationIndexedBondsInvestment, Long> {
+public interface InflationIndexedInvestmentRepository extends CrudRepository<InflationIndexedBondsInvestment, Long> {
     @Override
     InflationIndexedBondsInvestment save(InflationIndexedBondsInvestment inflationIndexedBonds);
 
@@ -20,6 +20,4 @@ public interface InflationIndexedBondsRepository extends CrudRepository<Inflatio
 
     @Override
     List<InflationIndexedBondsInvestment> findAll();
-
-    Optional<InflationIndexedBondsInvestment> findByDate(LocalDate date);
 }
