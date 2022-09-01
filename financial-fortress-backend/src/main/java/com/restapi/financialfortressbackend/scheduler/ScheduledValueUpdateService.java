@@ -31,8 +31,7 @@ public class ScheduledValueUpdateService {
     public void updateGoldValue() {
 
         if(Optional.ofNullable(goldValuationRepository.findByDate(LocalDate.now())).isPresent() == false) {
-            //goldClient.updateGoldPurchaseValue();
-            //goldClient.updateGoldSaleValue();
+            goldClient.getGoldSaleValue();
         }
     }
 

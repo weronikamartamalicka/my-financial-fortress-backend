@@ -1,6 +1,9 @@
 package com.restapi.financialfortressbackend.controller;
 
+import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.dto.GoldDto;
+import com.restapi.financialfortressbackend.service.GoldValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,12 +13,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController()
 @CrossOrigin(value = "*")
+@RequiredArgsConstructor
 @RequestMapping(value = "/v1")
 public class GoldController {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/gold", consumes = APPLICATION_JSON_VALUE)
-    public void openInvestment(@RequestBody GoldDto goldDto) {
+    private final GoldClient goldClient;
+    private final GoldValuationService goldValuationService;
 
+    @RequestMapping(method = RequestMethod.POST, value = "/gold")
+    public void openInvestment() {
+
+        goldClient.getGoldPurchaseValue();
+        goldValuationService.getOneCoinValue(goldClient.getGoldSaleValue());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/{investmentId}")
@@ -28,10 +37,6 @@ public class GoldController {
         return new ArrayList<>();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/gold", consumes = APPLICATION_JSON_VALUE)
-    public GoldDto updateInvestment(@RequestBody GoldDto goldDto) {
-        return new GoldDto();
-    }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/gold/{investmentId}")
     public void deleteInvestment(@PathVariable Long investmentId) {
