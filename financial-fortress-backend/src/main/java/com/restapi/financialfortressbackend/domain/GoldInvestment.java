@@ -23,7 +23,7 @@ public class GoldInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "Krugerrand";
+    public static final String TYPE = "Krugerrand 1/2 oz.";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;

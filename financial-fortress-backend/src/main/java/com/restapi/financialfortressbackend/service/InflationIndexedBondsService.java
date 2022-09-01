@@ -40,10 +40,8 @@ public class InflationIndexedBondsService {
 
         BigDecimal bondsNumber = capital.divide(price, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(price);
-        //BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
 
         myModelPortfolio.setBondsIndexedValue(entireStocksValuation);
-        //myModelPortfolio.setBondsIndexedPercentage(actualPercentage);
         inflationIndexedBondsInvestment.setQuantity(bondsNumber);
         inflationValuationService.findByDate(LocalDate.now()).setValuation(entireStocksValuation);
 

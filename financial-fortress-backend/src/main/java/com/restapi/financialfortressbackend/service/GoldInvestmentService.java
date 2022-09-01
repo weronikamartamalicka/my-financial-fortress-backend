@@ -34,21 +34,15 @@ public class GoldInvestmentService {
 
         if(goldModelValuation.compareTo(goldSale) == -1) {
             myModelPortfolio.setGoldValue(goldSale);
-            //BigDecimal actualPercentage = goldSale.divide(investmentCapital, 2, RoundingMode.HALF_UP);
-            //myModelPortfolio.setGoldPercentage(actualPercentage);
             goldInvestment.setQuantity(new BigDecimal(1));
             goldValuationService.findByDate(LocalDate.now()).setEntireValuation(goldPurchase);
 
         } else {
             BigDecimal coinsQuantity = goldModelValuation.divide(goldSale, 0, RoundingMode.DOWN);
-
             goldInvestment.setQuantity(coinsQuantity);
             BigDecimal actualValue = coinsQuantity.multiply(goldPurchase);
             goldValuationService.findByDate(LocalDate.now()).setEntireValuation(actualValue);
-            //BigDecimal actualPercentage = actualValue.divide(investmentCapital, 2, RoundingMode.HALF_UP);
             myModelPortfolio.setGoldValue(actualValue);
-            //myModelPortfolio.setGoldPercentage(actualPercentage);
-            //modelPortfolioRepository.findByDate(LocalDate.now()).setGoldPercentage(actualPercentage);
         }
 
         goldRepository.save(goldInvestment);
