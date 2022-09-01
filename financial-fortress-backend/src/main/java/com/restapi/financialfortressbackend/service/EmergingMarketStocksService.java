@@ -33,10 +33,10 @@ public class EmergingMarketStocksService {
 
         BigDecimal stocksNumber = capital.divide(saleValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = stocksNumber.multiply(saleValuation);
-        BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
+        //BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
 
         myModelPortfolio.setEmergingMarketValue(entireStocksValuation);
-        myModelPortfolio.setEmergingMarketPercentage(actualPercentage);
+        //myModelPortfolio.setEmergingMarketPercentage(actualPercentage);
         emergingMarketStocksInvestment.setQuantity(stocksNumber);
         emergingMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
 

@@ -34,10 +34,10 @@ public class DevelopedMarketStocksService {
 
         BigDecimal stocksNumber = capital.divide(saleValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = stocksNumber.multiply(saleValuation);
-        BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
+        //BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
 
         myModelPortfolio.setDevelopedMarketValue(entireStocksValuation);
-        myModelPortfolio.setDevelopedMarketPercentage(actualPercentage);
+        //myModelPortfolio.setDevelopedMarketPercentage(actualPercentage);
         developedMarketStocksInvestment.setQuantity(stocksNumber);
         developedMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
 

@@ -22,4 +22,9 @@ public class InflationIndexedBondsClient {
         return new BigDecimal(1);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/bonds/indexed/rate")
+    public BigDecimal updateInflationIndexedBondsRate() {
+        return new BigDecimal(1.25);
+    }
+
 }

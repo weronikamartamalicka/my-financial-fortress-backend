@@ -36,10 +36,10 @@ public class BondsQuotedOnTheMarketService {
 
         BigDecimal bondsNumber = capital.divide(oneBondValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(oneBondValuation);
-        BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
+        //BigDecimal actualPercentage = entireStocksValuation.divide(investmentCapital, 2, RoundingMode.HALF_UP);
 
         myModelPortfolio.setBondsQuotedValue(entireStocksValuation);
-        myModelPortfolio.setBondsQuotedPercentage(actualPercentage);
+        //myModelPortfolio.setBondsQuotedPercentage(actualPercentage);
         bondsQuotedOnTheMarketInvestment.setQuantity(bondsNumber);
         bondsQuotedValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
 

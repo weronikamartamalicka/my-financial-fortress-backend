@@ -17,4 +17,9 @@ public class InflationClient {
         return new BigDecimal(0.25);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/inflation")
+    public BigDecimal updateInflationRate() {
+        return new BigDecimal(0.25);
+    }
+
 }

@@ -21,4 +21,9 @@ public class DevelopedMarketStocksClient {
     public BigDecimal getDevelopedMarketStockCommission() {
         return new BigDecimal(0.3);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/market/developed/value")
+    public BigDecimal updateDevelopedMarketStockValuation() {
+        return new BigDecimal(1.25);
+    }
 }

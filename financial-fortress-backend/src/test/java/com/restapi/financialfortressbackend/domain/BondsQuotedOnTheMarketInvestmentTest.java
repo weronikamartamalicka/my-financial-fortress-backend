@@ -80,24 +80,4 @@ class BondsQuotedOnTheMarketInvestmentTest {
         }
     }
 
-    @Test
-    public void shouldFindBondValueByType() {
-        bondsQuotedRepository.save(bondsQuoted1);
-        bondsQuotedRepository.save(bondsQuoted2);
-        bondsQuotedRepository.save(bondsQuoted3);
-
-//        String type = BondsQuotedOnTheMarketInvestment.TYPE;
-//
-//        BondsQuotedOnTheMarketInvestment fetchedBond = bondsQuotedRepository.findByType(type);
-//        Optional<BondsQuotedOnTheMarketInvestment> bond = Optional.ofNullable(fetchedBond);
-//
-//        assertTrue(bond.isPresent());
-
-        try {
-            bondsQuotedRepository.deleteAll();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

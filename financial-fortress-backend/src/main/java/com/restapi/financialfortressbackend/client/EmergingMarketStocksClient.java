@@ -21,4 +21,9 @@ public class EmergingMarketStocksClient {
     public BigDecimal getEmergingMarketStockCommission() {
         return new BigDecimal(0.2);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/market/emerging/commission")
+    public BigDecimal updateEmergingMarketStockValuation() {
+        return new BigDecimal(0.2);
+    }
 }

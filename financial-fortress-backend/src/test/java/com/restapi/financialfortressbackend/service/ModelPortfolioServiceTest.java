@@ -11,6 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 class ModelPortfolioServiceTest {
@@ -72,12 +74,16 @@ class ModelPortfolioServiceTest {
 
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
-        System.out.println(myModelPortfolio.getBondsIndexedPercentage());
-        System.out.println(myModelPortfolio.getBondsQuotedPercentage());
-        System.out.println(myModelPortfolio.getDevelopedMarketPercentage());
-        System.out.println(myModelPortfolio.getGoldPercentage());
-        System.out.println(myModelPortfolio.getEmergingMarketPercentage());
-        System.out.println(myModelPortfolio.getDate());
+        BigDecimal bondsIndexed = myModelPortfolio.getBondsIndexedPercentage();
+        BigDecimal bondsQuoted = myModelPortfolio.getBondsQuotedPercentage();
+        BigDecimal developedMarket = myModelPortfolio.getDevelopedMarketPercentage();
+        BigDecimal gold = myModelPortfolio.getGoldPercentage();
+        BigDecimal emergingMarket = myModelPortfolio.getEmergingMarketPercentage();
+
+        assertEquals(BigDecimal.valueOf(0.22), bondsIndexed);
+        assertEquals(BigDecimal.valueOf(0.27), bondsQuoted);
+        assertEquals(BigDecimal.valueOf(0.11), gold);
+
 
         try {
             goldValuationRepository.deleteAll();
@@ -85,6 +91,7 @@ class ModelPortfolioServiceTest {
             bondsQuotedValuationRepository.deleteAll();
             emergingMarketValuationRepository.deleteAll();
             developedMarketValuationRepository.deleteAll();
+            modelPortfolioRepository.deleteAll();
 
         } catch (Throwable e) {
             e.printStackTrace();
