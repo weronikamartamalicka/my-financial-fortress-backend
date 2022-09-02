@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class GoldInvestmentService {
@@ -27,20 +28,25 @@ public class GoldInvestmentService {
 
         GoldInvestment goldInvestment = new GoldInvestment();
 
-        BigDecimal goldSale = goldValuationService.findByDate(LocalDate.now()).getSaleValuation();
-        BigDecimal goldPurchase = goldValuationService.findByDate(LocalDate.now()).getPurchaseValuation();
+        Optional<BigDecimal> goldSale = Optional.ofNullable(
+                goldValuationService.findByDate(LocalDate.now()).getOneCoinPrice());
+
+        goldSale.orElse(
+                goldValuationService.findByDate(LocalDate.now().minusDays(1)).getOneCoinPrice());
+
+        BigDecimal goldPurchase = GoldInvestment.purchaseValuation;
         BigDecimal goldModelValuation = investmentCapital.multiply(GOLD_PERCENTAGE);
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
-        if(goldModelValuation.compareTo(goldSale) == -1) {
-            myModelPortfolio.setGoldValue(goldSale);
+        if (goldModelValuation.compareTo(goldPurchase) == -1) {
+            myModelPortfolio.setGoldValue(goldPurchase);
             goldInvestment.setQuantity(new BigDecimal(1));
-            goldValuationService.findByDate(LocalDate.now()).setEntireValuation(goldPurchase);
+            goldValuationService.findByDate(LocalDate.now()).setEntireValuation(goldSale.get());
 
         } else {
-            BigDecimal coinsQuantity = goldModelValuation.divide(goldSale, 0, RoundingMode.DOWN);
+            BigDecimal coinsQuantity = goldModelValuation.divide(goldPurchase, 0, RoundingMode.DOWN);
             goldInvestment.setQuantity(coinsQuantity);
-            BigDecimal actualValue = coinsQuantity.multiply(goldPurchase);
+            BigDecimal actualValue = coinsQuantity.multiply(goldSale.get());
             goldValuationService.findByDate(LocalDate.now()).setEntireValuation(actualValue);
             myModelPortfolio.setGoldValue(actualValue);
         }
@@ -48,4 +54,9 @@ public class GoldInvestmentService {
         goldRepository.save(goldInvestment);
         modelPortfolioRepository.save(myModelPortfolio);
     }
+
+    public GoldInvestment findByType(String type) {
+        return goldRepository.findByType(type);
+    }
+
 }

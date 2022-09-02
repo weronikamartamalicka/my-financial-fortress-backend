@@ -9,16 +9,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class GoldValuationService {
 
     @Autowired
     GoldValuationRepository goldValuationRepository;
-
-    public GoldValuation findByDate(LocalDate date) {
-        return goldValuationRepository.findByDate(date);
-    }
 
     public BigDecimal getOneCoinValue(Root root) {
 
@@ -33,5 +30,13 @@ public class GoldValuationService {
 
     public void saveGoldValuation(GoldValuation goldValuation) {
         goldValuationRepository.save(goldValuation);
+    }
+
+    public List<GoldValuation> getAll() {
+        return goldValuationRepository.findAll();
+    }
+
+    public GoldValuation findByDate(LocalDate date) {
+        return goldValuationRepository.findFirstByDate(date);
     }
 }

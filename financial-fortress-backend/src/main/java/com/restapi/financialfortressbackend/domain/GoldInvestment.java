@@ -23,10 +23,13 @@ public class GoldInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "Krugerrand 1/2 oz.";
+    private final String type = "Krugerrand 1/2 oz.";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
+
+    @Column(name = "PURCHASE_VALUATION")
+    public static final BigDecimal purchaseValuation = BigDecimal.valueOf(4667);
 
     public GoldInvestment(BigDecimal quantity) {
         this.quantity = quantity;

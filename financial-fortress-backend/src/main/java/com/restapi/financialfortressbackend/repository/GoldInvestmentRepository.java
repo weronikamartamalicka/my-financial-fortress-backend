@@ -22,4 +22,10 @@ public interface GoldInvestmentRepository extends CrudRepository<GoldInvestment,
     @Override
     List<GoldInvestment> findAll();
 
+    @Override
+    long count();
+
+    GoldInvestment findByType(String type);
+
+
 }
