@@ -29,7 +29,7 @@ public class GoldInvestment {
     private BigDecimal quantity;
 
     @Column(name = "PURCHASE_VALUATION")
-    public static final BigDecimal purchaseValuation = BigDecimal.valueOf(4667);
+    public final BigDecimal purchaseValuation = BigDecimal.valueOf(4667);
 
     public GoldInvestment(BigDecimal quantity) {
         this.quantity = quantity;

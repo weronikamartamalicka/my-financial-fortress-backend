@@ -34,7 +34,7 @@ public class GoldInvestmentService {
         goldSale.orElse(
                 goldValuationService.findByDate(LocalDate.now().minusDays(1)).getOneCoinPrice());
 
-        BigDecimal goldPurchase = GoldInvestment.purchaseValuation;
+        BigDecimal goldPurchase = goldInvestment.getPurchaseValuation();
         BigDecimal goldModelValuation = investmentCapital.multiply(GOLD_PERCENTAGE);
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 

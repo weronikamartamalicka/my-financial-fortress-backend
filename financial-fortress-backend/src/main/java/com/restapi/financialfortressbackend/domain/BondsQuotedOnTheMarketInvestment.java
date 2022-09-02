@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "BONDS_QUOTED_ON_THE_MARKET")
 public class BondsQuotedOnTheMarketInvestment {
 
@@ -25,13 +27,16 @@ public class BondsQuotedOnTheMarketInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "NMG7";
+    public final String TYPE = "NMG7";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
     @Column(name = "FACE_VALUE")
-    private final static BigDecimal FACE_VALUE = new BigDecimal(1000);
+    public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
+
+    @Column(name = "COMMISSION")
+    private BigDecimal commissionRate;
 
     @Column(name = "COUPON")
     private BigDecimal couponRate;
@@ -40,12 +45,13 @@ public class BondsQuotedOnTheMarketInvestment {
     private LocalDate redemptionDate;
 
     @Column(name = "INTEREST_PERIOD")
-    private LocalDate interestPeriod;
+    private BigDecimal interestPeriod;
 
-    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal couponRate,
-                                            LocalDate redemptionDate,
-                                            LocalDate interestPeriod) {
+    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal commissionRate,
+                                            BigDecimal couponRate, LocalDate redemptionDate,
+                                            BigDecimal interestPeriod) {
         this.quantity = quantity;
+        this.commissionRate = commissionRate;
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
         this.interestPeriod = interestPeriod;

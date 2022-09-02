@@ -34,15 +34,15 @@ class BondsQuotedOnTheMarketInvestmentTest {
     @BeforeEach
     public void prepareData() {
         bondsQuoted1 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+                new BigDecimal(500),new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), BigDecimal.TEN
         );
 
         bondsQuoted2 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+                new BigDecimal(500),new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), BigDecimal.TEN
         );
 
         bondsQuoted3 = new BondsQuotedOnTheMarketInvestment(
-                new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), LocalDate.now()
+                new BigDecimal(500),new BigDecimal(500), new BigDecimal(0.3), LocalDate.now(), BigDecimal.ONE
         );
 
         list = new ArrayList<>();

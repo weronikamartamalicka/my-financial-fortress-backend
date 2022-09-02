@@ -1,17 +1,23 @@
 package com.restapi.financialfortressbackend.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 @Getter
+@Setter
+@AllArgsConstructor
 public class BondsQuotedOnTheMarketDto {
 
     private Long id;
-    private static final String TYPE = "NMG7";
+    public final String TYPE = "NMG7";
     private BigDecimal quantity;
-    private BigDecimal couponRate;
+    public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
     private BigDecimal commissionRate;
+    private BigDecimal couponRate;
     private LocalDate redemptionDate;
-    private LocalDate interestPeriod;
+    private BigDecimal interestPeriod;
+
 }

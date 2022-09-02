@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 @Transactional
 public interface BondsQuotedValuationRepository extends CrudRepository<BondsQuotedOnTheMarketValuation, LocalDate> {
 
     BondsQuotedOnTheMarketValuation findByDate(LocalDate date);
+    @Override
+    List<BondsQuotedOnTheMarketValuation> findAll();
 }

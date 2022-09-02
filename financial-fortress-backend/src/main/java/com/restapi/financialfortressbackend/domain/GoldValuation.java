@@ -27,7 +27,7 @@ public class GoldValuation {
     private LocalDate date;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "Krugerrand 1/2 oz.";
+    public final String TYPE = "Krugerrand 1/2 oz.";
 
     @Column(name = "MARKET_PRICE")
     private BigDecimal marketPrice;

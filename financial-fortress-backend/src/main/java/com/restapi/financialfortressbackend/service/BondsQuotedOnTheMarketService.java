@@ -45,4 +45,7 @@ public class BondsQuotedOnTheMarketService {
         modelPortfolioRepository.save(myModelPortfolio);
     }
 
+    public BondsQuotedOnTheMarketInvestment findByType(String type) {
+        return bondsQuotedInvestmentRepository.findByType(type);
+    }
 }
