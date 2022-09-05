@@ -14,7 +14,7 @@ public class BondsQuotedValuationDto {
 
     private Long id;
     private LocalDate date;
-    public final String TYPE = "NMG7";
+    public final String type = "NMG7";
     private BigDecimal valuation;
     private BigDecimal entireValuation;
 }

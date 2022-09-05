@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class BondsQuotedOnTheMarketDto {
 
     private Long id;
-    public final String TYPE = "NMG7";
+    public final String type = "NMG7";
     private BigDecimal quantity;
     public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
     private BigDecimal commissionRate;

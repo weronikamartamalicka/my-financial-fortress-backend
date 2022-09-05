@@ -29,7 +29,8 @@ public class BondsQuotedOnTheMarketService {
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = bondsQuotedValuationService.findByDate(LocalDate.now()).getValuation();
-        BigDecimal commissionValue = bondsQuotedValuationService.findByDate(LocalDate.now()).getCommissionRate();
+        BigDecimal commissionValue = bondsQuotedInvestmentRepository
+                .findByType(bondsQuotedValuationService.findByDate(LocalDate.now()).getType()).getCommissionRate();
         BigDecimal oneBondValuation = saleValuation.divide(new BigDecimal(100)).multiply(FACE_VALUE);
         BigDecimal bondsQuotedModelValuation = investmentCapital.subtract(commissionValue).multiply(BONDS_QUOTED_PERCENTAGE);
         BigDecimal capital = bondsQuotedModelValuation.subtract(commissionValue);

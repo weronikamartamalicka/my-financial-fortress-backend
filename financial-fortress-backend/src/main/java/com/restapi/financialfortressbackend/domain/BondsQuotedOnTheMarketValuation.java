@@ -27,7 +27,7 @@ public class BondsQuotedOnTheMarketValuation {
     private LocalDate date;
 
     @Column(name = "TYPE")
-    public final String TYPE = "NMG7";
+    public final String type = "NMG7";
 
     @Column(name = "VALUATION")
     private BigDecimal valuation;

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class EmergingMarketValuationDto {
 
     private LocalDate date;
-    private static final String TYPE = "WIG10";
+    private static final String TYPE = "BofAML AAA-A Emerging Markets Corporate Ix";
     private BigDecimal valuation;
     private BigDecimal entireValuation;
 }

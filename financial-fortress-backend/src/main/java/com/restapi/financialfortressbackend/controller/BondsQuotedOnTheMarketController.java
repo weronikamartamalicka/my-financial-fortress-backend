@@ -44,7 +44,7 @@ public class BondsQuotedOnTheMarketController {
         bondsQuotedValuation.setValuation(bondsQuotedClient.getBondsQuotedOnTheMarketValuation());
 
         Optional<BigDecimal> bondsQuantity = Optional.ofNullable(
-                bondsQuotedService.findByType(bondsQuotedValuation.getTYPE()).getQuantity());
+                bondsQuotedService.findByType(bondsQuotedValuation.getType()).getQuantity());
 
         bondsQuotedValuation.setEntireValuation(bondsQuantity.orElse(BigDecimal.ZERO).multiply(oneBondPrice));
 

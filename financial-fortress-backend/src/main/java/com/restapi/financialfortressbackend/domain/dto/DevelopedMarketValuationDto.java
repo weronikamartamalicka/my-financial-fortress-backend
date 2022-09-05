@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class DevelopedMarketValuationDto {
 
     private LocalDate date;
-    private static final String TYPE = "WIG5";
+    private static final String TYPE = "MSCI China A DivAdj Ix";
     private BigDecimal valuation;
     private BigDecimal entireValuation;
 }
