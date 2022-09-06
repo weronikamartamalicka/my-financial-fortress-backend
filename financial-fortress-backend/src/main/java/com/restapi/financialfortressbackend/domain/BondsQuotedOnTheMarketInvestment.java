@@ -27,7 +27,7 @@ public class BondsQuotedOnTheMarketInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public final String type = "NMG7";
+    public final String type = "10 Yr Gov Bond iShr Ix";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;

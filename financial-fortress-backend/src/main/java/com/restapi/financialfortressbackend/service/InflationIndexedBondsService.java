@@ -33,10 +33,9 @@ public class InflationIndexedBondsService {
                 .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getGoldValue())
                 .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getEmergingMarketValue());
 
-        BigDecimal commissionValue = inflationValuationService.findByDate(LocalDate.now()).getCommissionRate();
-        BigDecimal price = inflationValuationService.findByDate(LocalDate.now()).getPrice();
+        BigDecimal price = inflationIndexedBondsInvestment.getPrice();
         BigDecimal bondsQuotedModelValuation = remainingCapital.multiply(BONDS_INDEXED_PERCENTAGE);
-        BigDecimal capital = bondsQuotedModelValuation.subtract(commissionValue);
+        BigDecimal capital = bondsQuotedModelValuation;
 
         BigDecimal bondsNumber = capital.divide(price, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(price);
@@ -47,5 +46,9 @@ public class InflationIndexedBondsService {
 
         inflationIndexedInvestmentRepository.save(inflationIndexedBondsInvestment);
         modelPortfolioRepository.save(myModelPortfolio);
+    }
+
+    public InflationIndexedBondsInvestment findByType(String type) {
+        return inflationIndexedInvestmentRepository.findByType(type);
     }
 }

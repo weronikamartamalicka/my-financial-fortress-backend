@@ -14,7 +14,7 @@ public class BondsQuotedValuationDto {
 
     private Long id;
     private LocalDate date;
-    public final String type = "NMG7";
+    public final String type = "10 Yr Gov Bond iShr Ix";
     private BigDecimal valuation;
     private BigDecimal entireValuation;
 }

@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "INFLATION_INDEXED_BONDS")
 public class InflationIndexedBondsInvestment {
 
@@ -24,28 +26,25 @@ public class InflationIndexedBondsInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "NMG7";
+    public final String type = "ROD0934";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
-    @Column(name = "CONST_INTEREST_RATE")
-    private BigDecimal interestRate;
+    @Column(name = "FIRST_YEAR_INTEREST_RATE")
+    private final BigDecimal firstYearInterestRate = BigDecimal.valueOf(0.07);
+
+    @Column(name = "INTEREST_RATE")
+    private final BigDecimal interestRate = BigDecimal.valueOf(0.0175);
 
     @Column(name = "REDEMPTION")
     private LocalDate redemptionDate;
 
-    @Column(name = "INTEREST_PERIOD")
-    private LocalDate interestPeriod;
+    @Column(name = "ONE_BOND_PRICE")
+    private final BigDecimal price = BigDecimal.valueOf(100);
 
-
-
-    public InflationIndexedBondsInvestment(BigDecimal quantity, BigDecimal interestRate,
-                                           LocalDate redemptionDate, LocalDate interestPeriod
-                                           ) {
+    public InflationIndexedBondsInvestment(BigDecimal quantity, LocalDate redemptionDate) {
         this.quantity = quantity;
-        this.interestRate = interestRate;
         this.redemptionDate = redemptionDate;
-        this.interestPeriod = interestPeriod;
     }
 }

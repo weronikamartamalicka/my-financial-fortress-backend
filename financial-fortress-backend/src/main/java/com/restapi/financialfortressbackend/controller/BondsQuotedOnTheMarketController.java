@@ -60,4 +60,9 @@ public class BondsQuotedOnTheMarketController {
     public List<BondsQuotedValuationDto> getAllValuations() {
         return bondsQuotedMapper.mapToBondsQuotedListDto(bondsQuotedValuationService.getAll());
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/bonds/values")
+    public List<BigDecimal> getYearPrices() {
+        return bondsQuotedClient.getYearBondsValuation();
+    }
 }

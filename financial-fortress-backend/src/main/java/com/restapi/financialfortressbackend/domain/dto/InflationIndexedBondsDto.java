@@ -1,19 +1,20 @@
 package com.restapi.financialfortressbackend.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
+@AllArgsConstructor
 public class InflationIndexedBondsDto {
 
     private Long id;
-    private static final String TYPE = "NMG7";
+    public final String type = "ROD0934";
     private BigDecimal quantity;
-    private BigDecimal interestRate;
+    private final BigDecimal firstYearInterestRate = BigDecimal.valueOf(0.07);
+    private final BigDecimal interestRate = BigDecimal.valueOf(0.0175);
     private LocalDate redemptionDate;
-    private LocalDate interestPeriod;
-    private BigDecimal commissionRate;
-    private BigDecimal price;
+    private final BigDecimal price = BigDecimal.valueOf(100);
 }

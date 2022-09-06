@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "INFLATION_INDEXED_BONDS_VALUATION")
 public class InflationIndexedBondsValuation {
 
@@ -21,9 +23,8 @@ public class InflationIndexedBondsValuation {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "INVESTMENT_ID", referencedColumnName = "ID")
-    private InflationIndexedBondsInvestment inflationIndexedBondsInvestment;
+    @Column(name = "TYPE")
+    public final String type = "ROD0934";
 
     @Column(name = "DATE", unique = true)
     private LocalDate date;
@@ -34,12 +35,7 @@ public class InflationIndexedBondsValuation {
     @Column(name = "INTERESTS_VALUATION")
     private BigDecimal interestsValuation;
 
-    @Column(name = "COMMISSION")
-    private BigDecimal commissionRate;
-
-    @Column(name = "PRICE")
-    private BigDecimal price;
-
     @Column(name = "ENTIRE_VALUATION")
     private BigDecimal entireValuation;
+
 }
