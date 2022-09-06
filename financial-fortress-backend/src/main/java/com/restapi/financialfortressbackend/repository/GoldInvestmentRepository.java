@@ -25,7 +25,7 @@ public interface GoldInvestmentRepository extends CrudRepository<GoldInvestment,
     @Override
     long count();
 
-    GoldInvestment findByType(String type);
+    Optional<GoldInvestment> findByType(String type);
 
 
 }

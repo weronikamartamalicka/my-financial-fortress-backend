@@ -23,7 +23,7 @@ public class GoldValuation {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @Column(name = "DATE", unique = true)
+    @Column(name = "DATE")
     private LocalDate date;
 
     @Column(name = "TYPE")

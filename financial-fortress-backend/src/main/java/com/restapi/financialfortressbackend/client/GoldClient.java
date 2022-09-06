@@ -1,6 +1,8 @@
 package com.restapi.financialfortressbackend.client;
 
 import com.restapi.financialfortressbackend.domain.GoldValuation;
+import com.restapi.financialfortressbackend.domain.dto.GoldResponse;
+import com.restapi.financialfortressbackend.domain.dto.Rates;
 import com.restapi.financialfortressbackend.domain.dto.Root;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -37,7 +39,8 @@ public class GoldClient {
 
     public Root getGoldSaleValue() {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "latest" + "?api_key=" + API_KEY)
+        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "latest")
+                .queryParam("api_key", API_KEY)
                 .queryParam("base", "PLN")
                 .queryParam("currencies", "XAU")
                 .build()
@@ -53,11 +56,12 @@ public class GoldClient {
         }
     }
 
-    public List<BigDecimal> getYearGoldSaleValue() {
+    public List<Rates> getYearGoldSaleValue() {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "timeframe" + "?api_key=" + API_KEY)
-                .queryParam("start_date", "2021-08-29")
-                .queryParam("end_date", "2022-08-27")
+        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "timeframe")
+                .queryParam("api_key", API_KEY)
+                .queryParam("start_date", "2021-09-29")
+                .queryParam("end_date", "2022-08-20")
                 .queryParam("base", "PLN")
                 .queryParam("currencies", "XAU")
                 .build()
@@ -65,12 +69,11 @@ public class GoldClient {
                 .toUri();
 
         try {
-            Root[] goldResponse = restTemplate.getForObject(url, Root[].class);
+            GoldResponse goldResponse = restTemplate.getForObject(url, GoldResponse.class);
             return Optional.ofNullable(goldResponse)
-                    .map(Arrays::asList)
+                    .map(goldResponse1 -> goldResponse1.getRates())
                     .orElse(Collections.emptyList())
                     .stream()
-                    .map(root -> BigDecimal.valueOf(root.getRates().getXAU()))
                     .collect(Collectors.toList());
         } catch (RestClientException e) {
             e.printStackTrace();

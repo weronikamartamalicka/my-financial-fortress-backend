@@ -1,9 +1,12 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.GoldClient;
+import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.dto.GoldInvestmentDto;
 import com.restapi.financialfortressbackend.domain.dto.GoldValuationDto;
+import com.restapi.financialfortressbackend.domain.dto.Rates;
+import com.restapi.financialfortressbackend.domain.dto.Root;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -34,21 +37,23 @@ public class GoldController {
         GoldValuation goldValuation = new GoldValuation();
 
         goldValuation.setDate(LocalDate.now());
-        BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldClient.getGoldSaleValue());
+        Root goldResponse = goldClient.getGoldSaleValue();
+        BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
         goldValuation.setOneCoinPrice(oneCoinPrice);
-        goldValuation.setMarketPrice(BigDecimal.valueOf(goldClient.getGoldSaleValue().getRates().getXAU()));
+        goldValuation.setMarketPrice(BigDecimal.valueOf(goldResponse.getRates().getXAU()));
 
-        Optional<BigDecimal> coinsQuantity = Optional.ofNullable(
-                goldInvestmentService.findByType(goldValuation.getTYPE()).getQuantity());
+        BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE())
+                        .orElse(new GoldInvestment(new BigDecimal(0))).getQuantity();
 
-        goldValuation.setEntireValuation(coinsQuantity.orElse(BigDecimal.ZERO).multiply(oneCoinPrice));
+        goldValuation.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
 
         goldValuationService.saveGoldValuation(goldValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/invest/{type}")
     public GoldInvestmentDto getInvestmentInfo(@PathVariable String type) {
-        return goldMapper.matToGoldInvestmentDto(goldInvestmentService.findByType(type));
+        return goldMapper.matToGoldInvestmentDto(goldInvestmentService.findByType(type)
+                .orElse(new GoldInvestment(new BigDecimal(0))));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/value")
@@ -57,7 +62,7 @@ public class GoldController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/values")
-    public List<BigDecimal> getYearPrices() {
+    public List<Rates> getYearPrices() {
         return goldClient.getYearGoldSaleValue();
     }
 

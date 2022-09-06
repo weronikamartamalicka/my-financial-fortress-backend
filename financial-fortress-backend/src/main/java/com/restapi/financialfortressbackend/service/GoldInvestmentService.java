@@ -55,7 +55,7 @@ public class GoldInvestmentService {
         modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public GoldInvestment findByType(String type) {
+    public Optional<GoldInvestment> findByType(String type) {
         return goldRepository.findByType(type);
     }
 
