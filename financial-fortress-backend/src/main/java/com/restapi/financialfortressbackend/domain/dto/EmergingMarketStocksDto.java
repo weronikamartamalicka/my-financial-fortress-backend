@@ -1,14 +1,15 @@
 package com.restapi.financialfortressbackend.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Getter
+@AllArgsConstructor
 public class EmergingMarketStocksDto {
 
     private Long id;
-    private static final String TYPE = "WIG5";
+    public final String type = "BofAML AAA-A Emerging Markets Corporate Ix";
     private BigDecimal quantity;
-    private BigDecimal commissionRate;
 }

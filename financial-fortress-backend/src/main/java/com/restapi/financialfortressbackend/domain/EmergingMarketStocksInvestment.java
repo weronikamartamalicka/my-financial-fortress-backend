@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "EMERGING_MARKET_STOCKS")
 public class EmergingMarketStocksInvestment {
 
@@ -23,7 +25,7 @@ public class EmergingMarketStocksInvestment {
     private Long id;
 
     @Column(name = "TYPE")
-    public static final String TYPE = "WIG10";
+    public final String type = "BofAML AAA-A Emerging Markets Corporate Ix";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;

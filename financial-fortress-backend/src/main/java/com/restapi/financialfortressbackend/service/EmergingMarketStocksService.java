@@ -41,4 +41,8 @@ public class EmergingMarketStocksService {
         emergingMarketRepository.save(emergingMarketStocksInvestment);
         modelPortfolioRepository.save(myModelPortfolio);
     }
+
+    public EmergingMarketStocksInvestment findByType(String type) {
+        return emergingMarketRepository.findByType(type);
+    }
 }

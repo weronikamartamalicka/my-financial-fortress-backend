@@ -42,4 +42,8 @@ public class DevelopedMarketStocksService {
         developedMarketRepository.save(developedMarketStocksInvestment);
         modelPortfolioRepository.save(myModelPortfolio);
     }
+
+    public DevelopedMarketStocksInvestment findByType(String type) {
+        return developedMarketRepository.findByType(type);
+    }
 }

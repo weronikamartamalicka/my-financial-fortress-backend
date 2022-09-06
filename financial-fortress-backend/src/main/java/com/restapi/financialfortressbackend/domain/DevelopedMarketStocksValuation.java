@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "DEVELOPED_MARKET_STOCKS_VALUATION")
 public class DevelopedMarketStocksValuation {
 
@@ -21,15 +23,11 @@ public class DevelopedMarketStocksValuation {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "INVESTMENT_ID", referencedColumnName = "ID")
-    private DevelopedMarketStocksInvestment developedMarketStocksInvestment;
-
     @Column(name = "DATE", unique = true)
     private LocalDate date;
 
     @Column(name = "TYPE")
-    private static final String TYPE = "WIG5";
+    public final String type = "MSCI China A DivAdj Ix";
 
     @Column(name = "VALUATION")
     private BigDecimal valuation;

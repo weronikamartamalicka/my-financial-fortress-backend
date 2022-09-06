@@ -56,6 +56,7 @@ public class GoldController {
         return goldMapper.matToGoldListDto(goldValuationService.getAll());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/gold/values")
     public List<BigDecimal> getYearPrices() {
         return goldClient.getYearGoldSaleValue();
     }
