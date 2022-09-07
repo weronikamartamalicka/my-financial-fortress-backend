@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +65,13 @@ public class ModelPortfolioService {
         modelPortfolioInvestment.setEntireValue(entirePortfolioValue);
 
         modelPortfolioRepository.save(modelPortfolioInvestment);
+    }
+
+    public List<ModelPortfolioInvestment> getAll() {
+        return modelPortfolioRepository.findAll();
+    }
+
+    public void deleteAll() {
+        modelPortfolioRepository.deleteAll();
     }
 }

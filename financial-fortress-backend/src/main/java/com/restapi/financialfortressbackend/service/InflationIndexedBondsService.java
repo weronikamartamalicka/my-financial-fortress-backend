@@ -26,6 +26,7 @@ public class InflationIndexedBondsService {
     public void calculateBondsIndexedComposition(BigDecimal investmentCapital) {
 
         InflationIndexedBondsInvestment inflationIndexedBondsInvestment = new InflationIndexedBondsInvestment();
+        inflationIndexedBondsInvestment.setRedemptionDate(LocalDate.now().plusYears(12));
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal remainingCapital = investmentCapital
@@ -35,8 +36,7 @@ public class InflationIndexedBondsService {
                 .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getEmergingMarketValue());
 
         BigDecimal price = inflationIndexedBondsInvestment.getPrice();
-        BigDecimal bondsQuotedModelValuation = remainingCapital.multiply(BONDS_INDEXED_PERCENTAGE);
-        BigDecimal capital = bondsQuotedModelValuation;
+        BigDecimal capital = remainingCapital;
 
         BigDecimal bondsNumber = capital.divide(price, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(price);

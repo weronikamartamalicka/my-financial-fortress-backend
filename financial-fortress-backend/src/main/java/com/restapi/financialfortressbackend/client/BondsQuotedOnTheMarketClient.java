@@ -30,7 +30,7 @@ public class BondsQuotedOnTheMarketClient {
     private static final String ticket = "GLJ-X";
 
     public BigDecimal getCommissionValue() {
-        return new BigDecimal(0.29);
+        return new BigDecimal(20);
     }
 
     public void setApiToken() {

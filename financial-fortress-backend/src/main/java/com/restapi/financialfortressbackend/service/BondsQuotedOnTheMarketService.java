@@ -27,12 +27,13 @@ public class BondsQuotedOnTheMarketService {
     public void calculateBondsQuotedComposition(BigDecimal investmentCapital) {
 
         BondsQuotedOnTheMarketInvestment bondsQuotedOnTheMarketInvestment = new BondsQuotedOnTheMarketInvestment();
+        bondsQuotedOnTheMarketInvestment.setRedemptionDate(LocalDate.now().plusYears(10));
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = bondsQuotedValuationService.findByDate(LocalDate.now()).getValuation();
         BigDecimal commissionValue = bondsQuotedValuationService.findByDate(LocalDate.now()).getCommissionRate();
-        BigDecimal oneBondValuation = saleValuation.divide(new BigDecimal(100)).multiply(FACE_VALUE);
-        BigDecimal bondsQuotedModelValuation = investmentCapital.subtract(commissionValue).multiply(BONDS_QUOTED_PERCENTAGE);
+        BigDecimal oneBondValuation = saleValuation;
+        BigDecimal bondsQuotedModelValuation = investmentCapital.multiply(BONDS_QUOTED_PERCENTAGE);
         BigDecimal capital = bondsQuotedModelValuation.subtract(commissionValue);
 
         BigDecimal bondsNumber = capital.divide(oneBondValuation, 0, RoundingMode.DOWN);

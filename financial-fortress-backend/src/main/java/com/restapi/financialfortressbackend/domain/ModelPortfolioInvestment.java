@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "MODEL_PORTFOLIO")
 public class ModelPortfolioInvestment {
 
@@ -25,9 +27,6 @@ public class ModelPortfolioInvestment {
 
     @Column(name = "DATE")
     private LocalDate date;
-
-    @Column(name = "REDEMPTION")
-    private LocalDate redemptionDate;
 
     @Column(name = "VALUE")
     private BigDecimal entireValue;

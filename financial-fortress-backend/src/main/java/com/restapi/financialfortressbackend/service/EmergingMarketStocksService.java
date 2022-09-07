@@ -29,7 +29,7 @@ public class EmergingMarketStocksService {
 
         BigDecimal saleValuation = emergingMarketValuationService.findByDate(LocalDate.now()).getValuation();
         BigDecimal commissionValue = emergingMarketValuationService.findByDate(LocalDate.now()).getCommissionRate();
-        BigDecimal emergingMarketModelValuation = investmentCapital.subtract(commissionValue).multiply(EMERGING_MARKET_PERCENTAGE);
+        BigDecimal emergingMarketModelValuation = investmentCapital.multiply(EMERGING_MARKET_PERCENTAGE);
         BigDecimal capital = emergingMarketModelValuation.subtract(commissionValue);
 
         BigDecimal stocksNumber = capital.divide(saleValuation, 0, RoundingMode.DOWN);

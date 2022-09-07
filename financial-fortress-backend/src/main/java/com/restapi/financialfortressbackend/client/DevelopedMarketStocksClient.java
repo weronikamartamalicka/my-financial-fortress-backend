@@ -16,7 +16,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 @Getter
@@ -30,7 +29,7 @@ public class DevelopedMarketStocksClient {
     private static final String ticket = "M-CNA";
 
     public BigDecimal getCommissionValue() {
-        return new BigDecimal(0.29);
+        return new BigDecimal(25);
     }
 
     public void setApiToken() {

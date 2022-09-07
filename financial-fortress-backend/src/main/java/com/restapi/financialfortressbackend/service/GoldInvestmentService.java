@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.exception.GoldNotFoundException;
@@ -23,6 +24,8 @@ public class GoldInvestmentService {
     GoldValuationService goldValuationService;
     @Autowired
     ModelPortfolioRepository modelPortfolioRepository;
+    @Autowired
+    GoldClient goldClient;
 
     public void calculateGoldComposition(BigDecimal investmentCapital) {
 

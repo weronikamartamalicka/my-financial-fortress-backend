@@ -4,28 +4,20 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.restapi.financialfortressbackend.domain.dto.LoginResponse;
-import com.restapi.financialfortressbackend.domain.dto.Root;
-import com.restapi.financialfortressbackend.domain.dto.StocksResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 @Component
@@ -39,7 +31,7 @@ public class EmergingMarketStocksClient {
     private static final String ticket = "EEM-X";
 
     public BigDecimal getCommissionValue() {
-        return new BigDecimal(0.29);
+        return new BigDecimal(20);
     }
 
     public void setApiToken() {

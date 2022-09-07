@@ -34,9 +34,6 @@ public class GoldClient {
     private static final String API_ROOT = "https://api.metalpriceapi.com/v1/";
     private static final String API_KEY = "0536b4c167ab37347f33927745026aab";
 
-    public BigDecimal getGoldPurchaseValue() {
-        return new BigDecimal(4667);
-    }
 
     public Root getGoldSaleValue() {
 
