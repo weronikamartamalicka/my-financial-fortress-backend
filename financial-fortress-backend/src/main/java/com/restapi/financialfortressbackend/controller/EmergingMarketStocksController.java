@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class EmergingMarketStocksController {
 
         EmergingMarketStocksValuation emergingMarketValuation = new EmergingMarketStocksValuation();
 
-        emergingMarketValuation.setDate(LocalDate.now());
+        emergingMarketValuation.setDate(LocalDateTime.now());
         BigDecimal oneSharePrice = emergingValuationService
                 .getOneShareValue(emergingMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         emergingMarketValuation.setValuation(oneSharePrice);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class GoldController {
 
         GoldValuation goldValuation = new GoldValuation();
 
-        goldValuation.setDate(LocalDate.now());
+        goldValuation.setDate(LocalDateTime.now());
         Root goldResponse = goldClient.getGoldSaleValue();
         BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
         goldValuation.setOneCoinPrice(oneCoinPrice);

@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 @Transactional
 public interface InflationValuationRepository extends CrudRepository<InflationIndexedBondsValuation, LocalDate> {
-    InflationIndexedBondsValuation findByDate(LocalDate date);
 
     @Override
     List<InflationIndexedBondsValuation> findAll();
+
 }

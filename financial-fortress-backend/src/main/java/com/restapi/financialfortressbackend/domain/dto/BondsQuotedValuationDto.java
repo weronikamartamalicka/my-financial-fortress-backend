@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class BondsQuotedValuationDto {
 
     private Long id;
-    private LocalDate date;
+    private LocalDateTime date;
     public final String type = "10 Yr Gov Bond iShr Ix";
     private BigDecimal valuation;
     private BigDecimal commissionRate;

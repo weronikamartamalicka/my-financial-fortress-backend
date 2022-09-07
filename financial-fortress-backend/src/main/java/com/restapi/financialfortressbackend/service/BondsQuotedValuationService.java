@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -13,8 +14,8 @@ public class BondsQuotedValuationService {
     @Autowired
     BondsQuotedValuationRepository bondsQuotedValuationRepository;
 
-    public BondsQuotedOnTheMarketValuation findByDate(LocalDate date) {
-        return bondsQuotedValuationRepository.findByDate(date);
+    public BondsQuotedOnTheMarketValuation findTopByDate() {
+        return bondsQuotedValuationRepository.findAll().get(bondsQuotedValuationRepository.findAll().size() - 1);
     }
 
     public List<BondsQuotedOnTheMarketValuation> getAll() {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,8 +16,8 @@ public class DevelopedMarketValuationService {
     @Autowired
     DevelopedMarketValuationRepository developedMarketValuationRepository;
 
-    public DevelopedMarketStocksValuation findByDate(LocalDate date) {
-        return developedMarketValuationRepository.findByDate(date);
+    public DevelopedMarketStocksValuation findTopByDate() {
+        return developedMarketValuationRepository.findAll().get(developedMarketValuationRepository.findAll().size() - 1);
     }
 
     public void saveDevelopedMarketValuation(DevelopedMarketStocksValuation developedMarketValuation) {

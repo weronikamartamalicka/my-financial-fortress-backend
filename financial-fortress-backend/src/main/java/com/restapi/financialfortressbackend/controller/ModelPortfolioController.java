@@ -51,10 +51,10 @@ public class ModelPortfolioController {
         emergingMarketStocksService.deleteAll();
         developedMarketStocksService.deleteAll();
 
-        bondsQuotedValuationService.findByDate(LocalDate.now()).setEntireValuation(BigDecimal.ZERO);
-        goldValuationService.findByDate(LocalDate.now()).setEntireValuation(BigDecimal.ZERO);
-        inflationValuationService.findByDate(LocalDate.now()).setEntireValuation(BigDecimal.ZERO);
-        emergingMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(BigDecimal.ZERO);
-        developedMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(BigDecimal.ZERO);
+        bondsQuotedValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
+        goldValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
+        inflationValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
+        emergingMarketValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
+        developedMarketValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
     }
 }

@@ -27,8 +27,8 @@ public class EmergingMarketStocksService {
         EmergingMarketStocksInvestment emergingMarketStocksInvestment = new EmergingMarketStocksInvestment();
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
-        BigDecimal saleValuation = emergingMarketValuationService.findByDate(LocalDate.now()).getValuation();
-        BigDecimal commissionValue = emergingMarketValuationService.findByDate(LocalDate.now()).getCommissionRate();
+        BigDecimal saleValuation = emergingMarketValuationService.findTopByDate().getValuation();
+        BigDecimal commissionValue = emergingMarketValuationService.findTopByDate().getCommissionRate();
         BigDecimal emergingMarketModelValuation = investmentCapital.multiply(EMERGING_MARKET_PERCENTAGE);
         BigDecimal capital = emergingMarketModelValuation.subtract(commissionValue);
 
@@ -37,7 +37,7 @@ public class EmergingMarketStocksService {
 
         myModelPortfolio.setEmergingMarketValue(entireStocksValuation);
         emergingMarketStocksInvestment.setQuantity(stocksNumber);
-        emergingMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
+        emergingMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         emergingMarketRepository.save(emergingMarketStocksInvestment);
         modelPortfolioRepository.save(myModelPortfolio);

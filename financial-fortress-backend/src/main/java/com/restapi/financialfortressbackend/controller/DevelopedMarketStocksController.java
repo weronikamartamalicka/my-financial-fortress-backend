@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class DevelopedMarketStocksController {
 
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
 
-        developedMarketValuation.setDate(LocalDate.now());
+        developedMarketValuation.setDate(LocalDateTime.now());
         BigDecimal oneSharePrice = developedMarketValuationService
                 .getOneShareValue(developedMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         developedMarketValuation.setValuation(oneSharePrice);

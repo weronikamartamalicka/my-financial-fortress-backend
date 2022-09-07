@@ -6,13 +6,15 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 public class GoldValuationDto {
 
     private Long id;
-    private LocalDate date;
+    private LocalDateTime date;
     public final String TYPE = "Krugerrand 1/2 oz.";
     private BigDecimal oneCoinPrice;
     private BigDecimal entireValuation;

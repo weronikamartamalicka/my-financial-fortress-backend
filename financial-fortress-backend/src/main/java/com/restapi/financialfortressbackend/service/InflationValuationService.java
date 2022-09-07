@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,8 +16,9 @@ public class InflationValuationService {
     @Autowired
     InflationValuationRepository inflationValuationRepository;
 
-    public InflationIndexedBondsValuation findByDate(LocalDate date) {
-        return inflationValuationRepository.findByDate(date);
+
+    public InflationIndexedBondsValuation findTopByDate() {
+        return inflationValuationRepository.findAll().get(inflationValuationRepository.findAll().size() - 1);
     }
 
     public void saveBondsValuation(InflationIndexedBondsValuation inflationIndexedBondsValuation) {

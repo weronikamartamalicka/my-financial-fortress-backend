@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,8 +16,8 @@ public class EmergingMarketValuationService {
     @Autowired
     EmergingMarketValuationRepository emergingMarketValuationRepository;
 
-    public EmergingMarketStocksValuation findByDate(LocalDate date) {
-        return emergingMarketValuationRepository.findByDate(date);
+    public EmergingMarketStocksValuation findTopByDate() {
+        return emergingMarketValuationRepository.findAll().get(emergingMarketValuationRepository.findAll().size() - 1);
     }
 
     public BigDecimal getOneShareValue(BigDecimal dayStockValuation, BigDecimal exchange) {

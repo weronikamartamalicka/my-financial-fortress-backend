@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class InflationIndexedBondsValuation {
     public final String type = "ROD0934";
 
     @Column(name = "DATE", unique = true)
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "VALUATION")
     private BigDecimal valuation;

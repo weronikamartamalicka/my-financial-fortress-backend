@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class EmergingMarketStocksValuation {
     private Long id;
 
     @Column(name = "DATE", unique = true)
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "TYPE")
     public final String type = "BofAML AAA-A Emerging Markets Corporate Ix";

@@ -32,8 +32,8 @@ public class BondsQuotedOnTheMarketService {
         bondsQuotedOnTheMarketInvestment.setRedemptionDate(LocalDate.now().plusYears(10));
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
-        BigDecimal saleValuation = bondsQuotedValuationService.findByDate(LocalDate.now()).getValuation();
-        BigDecimal commissionValue = bondsQuotedValuationService.findByDate(LocalDate.now()).getCommissionRate();
+        BigDecimal saleValuation = bondsQuotedValuationService.findTopByDate().getValuation();
+        BigDecimal commissionValue = bondsQuotedValuationService.findTopByDate().getCommissionRate();
         BigDecimal oneBondValuation = saleValuation;
         BigDecimal bondsQuotedModelValuation = investmentCapital.multiply(BONDS_QUOTED_PERCENTAGE);
         BigDecimal capital = bondsQuotedModelValuation.subtract(commissionValue);
@@ -43,7 +43,7 @@ public class BondsQuotedOnTheMarketService {
 
         myModelPortfolio.setBondsQuotedValue(entireStocksValuation);
         bondsQuotedOnTheMarketInvestment.setQuantity(bondsNumber);
-        bondsQuotedValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
+        bondsQuotedValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         bondsQuotedInvestmentRepository.save(bondsQuotedOnTheMarketInvestment);
         modelPortfolioRepository.save(myModelPortfolio);

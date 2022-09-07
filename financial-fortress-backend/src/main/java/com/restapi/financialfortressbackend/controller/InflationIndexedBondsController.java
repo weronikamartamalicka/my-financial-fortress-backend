@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class InflationIndexedBondsController {
     public void saveNewValuation() {
 
         InflationIndexedBondsValuation inflationIndexedBondsValuation = new InflationIndexedBondsValuation();
-        inflationIndexedBondsValuation.setDate(LocalDate.now());
+        inflationIndexedBondsValuation.setDate(LocalDateTime.now());
         BigDecimal inflationRate = inflationClient.getInflationRate();
         inflationIndexedBondsValuation.setValuation(inflationRate);
 

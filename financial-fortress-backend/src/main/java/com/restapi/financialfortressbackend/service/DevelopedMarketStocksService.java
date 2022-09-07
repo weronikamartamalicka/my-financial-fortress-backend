@@ -28,8 +28,8 @@ public class DevelopedMarketStocksService {
         DevelopedMarketStocksInvestment developedMarketStocksInvestment = new DevelopedMarketStocksInvestment();
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
-        BigDecimal saleValuation = developedMarketValuationService.findByDate(LocalDate.now()).getValuation();
-        BigDecimal commissionValue = developedMarketValuationService.findByDate(LocalDate.now()).getCommissionRate();
+        BigDecimal saleValuation = developedMarketValuationService.findTopByDate().getValuation();
+        BigDecimal commissionValue = developedMarketValuationService.findTopByDate().getCommissionRate();
         BigDecimal developedMarketModelValuation = investmentCapital.multiply(DEVELOPED_MARKET_PERCENTAGE);
         BigDecimal capital = developedMarketModelValuation.subtract(commissionValue);
 
@@ -38,7 +38,7 @@ public class DevelopedMarketStocksService {
 
         myModelPortfolio.setDevelopedMarketValue(entireStocksValuation);
         developedMarketStocksInvestment.setQuantity(stocksNumber);
-        developedMarketValuationService.findByDate(LocalDate.now()).setEntireValuation(entireStocksValuation);
+        developedMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         developedMarketRepository.save(developedMarketStocksInvestment);
         modelPortfolioRepository.save(myModelPortfolio);

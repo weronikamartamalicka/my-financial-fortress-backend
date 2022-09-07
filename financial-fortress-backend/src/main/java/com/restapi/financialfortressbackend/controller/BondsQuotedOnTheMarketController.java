@@ -3,11 +3,8 @@ package com.restapi.financialfortressbackend.controller;
 import com.restapi.financialfortressbackend.client.BondsQuotedOnTheMarketClient;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
-import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.dto.BondsQuotedOnTheMarketDto;
 import com.restapi.financialfortressbackend.domain.dto.BondsQuotedValuationDto;
-import com.restapi.financialfortressbackend.domain.dto.GoldInvestmentDto;
-import com.restapi.financialfortressbackend.domain.dto.GoldValuationDto;
 import com.restapi.financialfortressbackend.mapper.BondsQuotedOnTheMarketMapper;
 import com.restapi.financialfortressbackend.service.BondsQuotedOnTheMarketService;
 import com.restapi.financialfortressbackend.service.BondsQuotedValuationService;
@@ -18,11 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 @RestController()
 @CrossOrigin(value = "*")
@@ -42,7 +40,7 @@ public class BondsQuotedOnTheMarketController {
 
         BondsQuotedOnTheMarketValuation bondsQuotedValuation = new BondsQuotedOnTheMarketValuation();
 
-        bondsQuotedValuation.setDate(LocalDate.now());
+        bondsQuotedValuation.setDate(LocalDateTime.now());
         BigDecimal oneBondPrice = bondsQuotedClient.getDayBondsValuation().add(BigDecimal.valueOf(1000));
         bondsQuotedValuation.setValuation(oneBondPrice);
         bondsQuotedValuation.setCommissionRate(bondsQuotedClient.getCommissionValue());

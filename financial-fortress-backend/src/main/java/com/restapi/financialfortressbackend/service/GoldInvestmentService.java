@@ -32,10 +32,9 @@ public class GoldInvestmentService {
         GoldInvestment goldInvestment = new GoldInvestment();
 
         Optional<BigDecimal> goldSale = Optional.ofNullable(
-                goldValuationService.findByDate(LocalDate.now()).getOneCoinPrice());
+                goldValuationService.findTopByDate().getOneCoinPrice());
 
-        goldSale.orElse(
-                goldValuationService.findByDate(LocalDate.now().minusDays(1)).getOneCoinPrice());
+        goldSale.orElse(new BigDecimal(4562));
 
         BigDecimal goldPurchase = goldInvestment.getPurchaseValuation();
         BigDecimal goldModelValuation = investmentCapital.multiply(GOLD_PERCENTAGE);
@@ -44,13 +43,13 @@ public class GoldInvestmentService {
         if (goldModelValuation.compareTo(goldPurchase) == -1) {
             myModelPortfolio.setGoldValue(goldPurchase);
             goldInvestment.setQuantity(new BigDecimal(1));
-            goldValuationService.findByDate(LocalDate.now()).setEntireValuation(goldSale.get());
+            goldValuationService.findTopByDate().setEntireValuation(goldSale.get());
 
         } else {
             BigDecimal coinsQuantity = goldModelValuation.divide(goldPurchase, 0, RoundingMode.DOWN);
             goldInvestment.setQuantity(coinsQuantity);
             BigDecimal actualValue = coinsQuantity.multiply(goldSale.get());
-            goldValuationService.findByDate(LocalDate.now()).setEntireValuation(actualValue);
+            goldValuationService.findTopByDate().setEntireValuation(actualValue);
             myModelPortfolio.setGoldValue(actualValue);
         }
 

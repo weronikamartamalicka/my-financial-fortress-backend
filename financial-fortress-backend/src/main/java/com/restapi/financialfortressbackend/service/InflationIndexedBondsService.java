@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class InflationIndexedBondsService {
+
     private static final BigDecimal BONDS_INDEXED_PERCENTAGE = new BigDecimal(0.4);
     @Autowired
     InflationIndexedInvestmentRepository inflationIndexedInvestmentRepository;
@@ -43,7 +44,7 @@ public class InflationIndexedBondsService {
 
         myModelPortfolio.setBondsIndexedValue(entireStocksValuation);
         inflationIndexedBondsInvestment.setQuantity(bondsNumber);
-        inflationValuationService.findByDate(LocalDate.now()).setValuation(entireStocksValuation);
+        inflationValuationService.findTopByDate().setValuation(entireStocksValuation);
 
         inflationIndexedInvestmentRepository.save(inflationIndexedBondsInvestment);
         modelPortfolioRepository.save(myModelPortfolio);
