@@ -43,8 +43,7 @@ public class InflationIndexedBondsInvestment {
     @Column(name = "ONE_BOND_PRICE")
     private final BigDecimal price = BigDecimal.valueOf(100);
 
-    public InflationIndexedBondsInvestment(BigDecimal quantity, LocalDate redemptionDate) {
+    public InflationIndexedBondsInvestment(BigDecimal quantity) {
         this.quantity = quantity;
-        this.redemptionDate = redemptionDate;
     }
 }

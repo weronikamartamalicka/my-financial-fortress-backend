@@ -35,9 +35,6 @@ public class BondsQuotedOnTheMarketInvestment {
     @Column(name = "FACE_VALUE")
     public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
 
-    @Column(name = "COMMISSION")
-    private BigDecimal commissionRate;
-
     @Column(name = "COUPON")
     private BigDecimal couponRate;
 
@@ -47,11 +44,15 @@ public class BondsQuotedOnTheMarketInvestment {
     @Column(name = "INTEREST_PERIOD")
     private BigDecimal interestPeriod;
 
-    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity, BigDecimal commissionRate,
-                                            BigDecimal couponRate, LocalDate redemptionDate,
+    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity,
+                                            BigDecimal couponRate,
+                                            LocalDate redemptionDate,
                                             BigDecimal interestPeriod) {
         this.quantity = quantity;
-        this.commissionRate = commissionRate;
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
         this.interestPeriod = interestPeriod;

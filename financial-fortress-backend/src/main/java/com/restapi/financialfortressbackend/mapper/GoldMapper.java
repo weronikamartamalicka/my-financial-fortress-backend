@@ -15,7 +15,7 @@ public class GoldMapper {
 
         return new GoldValuationDto(
                 goldValuation.getId(), goldValuation.getDate(),
-                goldValuation.getMarketPrice(), goldValuation.getOneCoinPrice(),
+                 goldValuation.getOneCoinPrice(),
                 goldValuation.getEntireValuation());
     }
 

@@ -32,6 +32,9 @@ public class BondsQuotedOnTheMarketValuation {
     @Column(name = "VALUATION")
     private BigDecimal valuation;
 
+    @Column(name = "COMMISSION")
+    private BigDecimal commissionRate;
+
     @Column(name = "ENTIRE_VALUATION")
     private BigDecimal entireValuation;
 }

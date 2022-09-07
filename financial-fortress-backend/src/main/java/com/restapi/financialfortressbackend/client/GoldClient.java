@@ -3,6 +3,7 @@ package com.restapi.financialfortressbackend.client;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.dto.GoldResponse;
 import com.restapi.financialfortressbackend.domain.dto.Rates;
+import com.restapi.financialfortressbackend.domain.dto.RatesMap;
 import com.restapi.financialfortressbackend.domain.dto.Root;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -56,7 +57,7 @@ public class GoldClient {
         }
     }
 
-    public List<Rates> getYearGoldSaleValue() {
+    public List<RatesMap> getYearGoldSaleValue() {
 
         URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "timeframe")
                 .queryParam("api_key", API_KEY)

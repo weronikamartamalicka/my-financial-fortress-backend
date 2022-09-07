@@ -15,7 +15,6 @@ public class BondsQuotedOnTheMarketDto {
     public final String type = "10 Yr Gov Bond iShr Ix";
     private BigDecimal quantity;
     public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
-    private BigDecimal commissionRate;
     private BigDecimal couponRate;
     private LocalDate redemptionDate;
     private BigDecimal interestPeriod;

@@ -2,6 +2,7 @@ package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.EmergingMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
+import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksValuation;
 import com.restapi.financialfortressbackend.domain.dto.EmergingMarketStocksDto;
 import com.restapi.financialfortressbackend.domain.dto.EmergingMarketValuationDto;
@@ -41,17 +42,19 @@ public class EmergingMarketStocksController {
         emergingMarketValuation.setValuation(oneSharePrice);
         emergingMarketValuation.setCommissionRate(emergingMarketClient.getCommissionValue());
 
-        Optional<BigDecimal> sharesQuantity = Optional.ofNullable(
-                emergingMarketService.findByType(emergingMarketValuation.getType()).getQuantity());
+        BigDecimal sharesQuantity = emergingMarketService
+                .findByType(emergingMarketValuation.getType())
+                .orElse(new EmergingMarketStocksInvestment(BigDecimal.valueOf(0)))
+                .getQuantity();
 
-        emergingMarketValuation.setEntireValuation(sharesQuantity.orElse(BigDecimal.ZERO).multiply(oneSharePrice));
+        emergingMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
 
         emergingValuationService.saveDevelopedMarketValuation(emergingMarketValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/emerging/invest/{type}")
     public EmergingMarketStocksDto getInvestmentInfo(@PathVariable String type) {
-        return emergingMarketMapper.mapToEmergingInvestmentDto(emergingMarketService.findByType(type));
+        return emergingMarketMapper.mapToEmergingInvestmentDto(emergingMarketService.findByType(type).get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/emerging/value")

@@ -22,5 +22,5 @@ public interface EmergingMarketInvestmentRepository extends CrudRepository<Emerg
     @Override
     List<EmergingMarketStocksInvestment> findAll();
 
-    EmergingMarketStocksInvestment findByType(String type);
+    Optional<EmergingMarketStocksInvestment> findByType(String type);
 }

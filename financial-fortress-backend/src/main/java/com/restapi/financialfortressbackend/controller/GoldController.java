@@ -3,10 +3,7 @@ package com.restapi.financialfortressbackend.controller;
 import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
-import com.restapi.financialfortressbackend.domain.dto.GoldInvestmentDto;
-import com.restapi.financialfortressbackend.domain.dto.GoldValuationDto;
-import com.restapi.financialfortressbackend.domain.dto.Rates;
-import com.restapi.financialfortressbackend.domain.dto.Root;
+import com.restapi.financialfortressbackend.domain.dto.*;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -40,7 +37,6 @@ public class GoldController {
         Root goldResponse = goldClient.getGoldSaleValue();
         BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
         goldValuation.setOneCoinPrice(oneCoinPrice);
-        goldValuation.setMarketPrice(BigDecimal.valueOf(goldResponse.getRates().getXAU()));
 
         BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE())
                         .orElse(new GoldInvestment(new BigDecimal(0))).getQuantity();
@@ -62,7 +58,7 @@ public class GoldController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/values")
-    public List<Rates> getYearPrices() {
+    public List<RatesMap> getYearPrices() {
         return goldClient.getYearGoldSaleValue();
     }
 

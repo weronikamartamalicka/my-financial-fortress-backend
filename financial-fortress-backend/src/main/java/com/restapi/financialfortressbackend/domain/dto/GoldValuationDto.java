@@ -14,7 +14,6 @@ public class GoldValuationDto {
     private Long id;
     private LocalDate date;
     public final String TYPE = "Krugerrand 1/2 oz.";
-    private BigDecimal marketPrice;
     private BigDecimal oneCoinPrice;
     private BigDecimal entireValuation;
 }

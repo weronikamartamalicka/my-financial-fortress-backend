@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.InflationClient;
+import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
 import com.restapi.financialfortressbackend.domain.dto.InflationIndexedBondsDto;
 import com.restapi.financialfortressbackend.domain.dto.InflationValuationDto;
@@ -36,13 +37,15 @@ public class InflationIndexedBondsController {
         BigDecimal inflationRate = inflationClient.getInflationRate();
         inflationIndexedBondsValuation.setValuation(inflationRate);
 
-        Optional<BigDecimal> interestRate = Optional.ofNullable(inflationIndexedBondsService
-                .findByType(inflationIndexedBondsValuation.getType()).getInterestRate());
+        BigDecimal interestRate = inflationIndexedBondsService.findByType(inflationIndexedBondsValuation
+                .getType())
+                .orElse(new InflationIndexedBondsInvestment(BigDecimal.valueOf(0)))
+                .getInterestRate();
 
-        inflationIndexedBondsValuation.setInterestsValuation(interestRate.orElse(BigDecimal.ZERO).add(inflationRate));
+        inflationIndexedBondsValuation.setInterestsValuation(interestRate.add(inflationRate));
 
         BigDecimal entireValuation = inflationValuationService.getEntireValuation(
-                interestRate.orElse(BigDecimal.ZERO).add(inflationRate));
+                interestRate.add(inflationRate));
 
         inflationIndexedBondsValuation.setEntireValuation(entireValuation);
 
@@ -51,7 +54,7 @@ public class InflationIndexedBondsController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/inflation/invest/{type}")
     public InflationIndexedBondsDto getInvestmentInfo(@PathVariable String type) {
-        return inflationMapper.mapToInflationBondsInvestmentDto(inflationIndexedBondsService.findByType(type));
+        return inflationMapper.mapToInflationBondsInvestmentDto(inflationIndexedBondsService.findByType(type).get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inflation/value")

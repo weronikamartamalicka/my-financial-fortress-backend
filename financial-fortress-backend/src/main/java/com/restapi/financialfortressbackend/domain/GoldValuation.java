@@ -29,9 +29,6 @@ public class GoldValuation {
     @Column(name = "TYPE")
     public final String TYPE = "Krugerrand 1/2 oz.";
 
-    @Column(name = "MARKET_PRICE")
-    private BigDecimal marketPrice;
-
     @Column(name = "COIN_PRICE")
     private BigDecimal oneCoinPrice;
 

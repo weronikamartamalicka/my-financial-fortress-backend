@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class EmergingMarketStocksService {
@@ -42,7 +43,7 @@ public class EmergingMarketStocksService {
         modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public EmergingMarketStocksInvestment findByType(String type) {
+    public Optional<EmergingMarketStocksInvestment> findByType(String type) {
         return emergingMarketRepository.findByType(type);
     }
 }

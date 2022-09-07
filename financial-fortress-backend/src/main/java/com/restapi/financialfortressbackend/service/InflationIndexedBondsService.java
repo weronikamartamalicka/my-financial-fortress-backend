@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class InflationIndexedBondsService {
@@ -48,7 +49,7 @@ public class InflationIndexedBondsService {
         modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public InflationIndexedBondsInvestment findByType(String type) {
+    public Optional<InflationIndexedBondsInvestment> findByType(String type) {
         return inflationIndexedInvestmentRepository.findByType(type);
     }
 }

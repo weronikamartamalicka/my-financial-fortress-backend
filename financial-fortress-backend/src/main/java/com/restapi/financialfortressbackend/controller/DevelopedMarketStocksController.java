@@ -2,6 +2,7 @@ package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.DevelopedMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
+import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksValuation;
 import com.restapi.financialfortressbackend.domain.dto.DevelopedMarketStocksDto;
 import com.restapi.financialfortressbackend.domain.dto.DevelopedMarketValuationDto;
@@ -43,17 +44,19 @@ public class DevelopedMarketStocksController {
         developedMarketValuation.setValuation(oneSharePrice);
         developedMarketValuation.setCommissionRate(developedMarketClient.getCommissionValue());
 
-        Optional<BigDecimal> sharesQuantity = Optional.ofNullable(
-                developedMarketService.findByType(developedMarketValuation.getType()).getQuantity());
+        BigDecimal sharesQuantity = developedMarketService
+                .findByType(developedMarketValuation.getType())
+                .orElse(new DevelopedMarketStocksInvestment(BigDecimal.valueOf(0)))
+                .getQuantity();
 
-        developedMarketValuation.setEntireValuation(sharesQuantity.orElse(BigDecimal.ZERO).multiply(oneSharePrice));
+        developedMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
 
         developedMarketValuationService.saveDevelopedMarketValuation(developedMarketValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/invest/{type}")
     public DevelopedMarketStocksDto getInvestmentInfo(@PathVariable String type) {
-        return developedMarketMapper.mapToDevelopedInvestmentDto(developedMarketService.findByType(type));
+        return developedMarketMapper.mapToDevelopedInvestmentDto(developedMarketService.findByType(type).get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/value")

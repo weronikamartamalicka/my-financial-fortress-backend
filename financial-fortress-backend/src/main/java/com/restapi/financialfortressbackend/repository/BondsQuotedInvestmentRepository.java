@@ -19,5 +19,5 @@ public interface BondsQuotedInvestmentRepository extends CrudRepository<BondsQuo
     @Override
     List<BondsQuotedOnTheMarketInvestment> findAll();
 
-    BondsQuotedOnTheMarketInvestment findByType(String type);
+    Optional<BondsQuotedOnTheMarketInvestment> findByType(String type);
 }

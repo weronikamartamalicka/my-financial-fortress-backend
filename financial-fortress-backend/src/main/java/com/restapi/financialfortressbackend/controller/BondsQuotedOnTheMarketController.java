@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.BondsQuotedOnTheMarketClient;
+import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.dto.BondsQuotedOnTheMarketDto;
@@ -40,23 +41,26 @@ public class BondsQuotedOnTheMarketController {
         BondsQuotedOnTheMarketValuation bondsQuotedValuation = new BondsQuotedOnTheMarketValuation();
 
         bondsQuotedValuation.setDate(LocalDate.now());
-        BigDecimal oneBondPrice = bondsQuotedClient.getBondsQuotedOnTheMarketValuation();
-        bondsQuotedValuation.setValuation(bondsQuotedClient.getBondsQuotedOnTheMarketValuation());
+        BigDecimal oneBondPrice = bondsQuotedClient.getDayBondsValuation().add(BigDecimal.valueOf(1000));
+        bondsQuotedValuation.setValuation(oneBondPrice);
+        bondsQuotedValuation.setCommissionRate(bondsQuotedClient.getCommissionValue());
 
-        Optional<BigDecimal> bondsQuantity = Optional.ofNullable(
-                bondsQuotedService.findByType(bondsQuotedValuation.getType()).getQuantity());
+        BigDecimal bondsQuantity = bondsQuotedService
+                .findByType(bondsQuotedValuation.getType())
+                .orElse(new BondsQuotedOnTheMarketInvestment(BigDecimal.valueOf(0)))
+                .getQuantity();
 
-        bondsQuotedValuation.setEntireValuation(bondsQuantity.orElse(BigDecimal.ZERO).multiply(oneBondPrice));
+        bondsQuotedValuation.setEntireValuation(bondsQuantity.multiply(oneBondPrice));
 
         bondsQuotedValuationService.saveBondsQuotedValuation(bondsQuotedValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted/{type}")
     public BondsQuotedOnTheMarketDto getInvestmentInfo(@PathVariable String type) {
-        return bondsQuotedMapper.mapToBondsQuotedInvestmentDto(bondsQuotedService.findByType(type));
+        return bondsQuotedMapper.mapToBondsQuotedInvestmentDto(bondsQuotedService.findByType(type).get());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted")
+    @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted/value")
     public List<BondsQuotedValuationDto> getAllValuations() {
         return bondsQuotedMapper.mapToBondsQuotedListDto(bondsQuotedValuationService.getAll());
     }

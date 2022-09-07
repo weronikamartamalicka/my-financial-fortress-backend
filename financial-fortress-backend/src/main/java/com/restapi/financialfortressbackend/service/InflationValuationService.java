@@ -29,9 +29,13 @@ public class InflationValuationService {
 
     public BigDecimal getEntireValuation(BigDecimal interestRate) {
         int size = inflationValuationRepository.findAll().size();
-        BigDecimal actualEntireValue = inflationValuationRepository.findAll().get(size - 1).getEntireValuation();
-        BigDecimal interests =  actualEntireValue.multiply(interestRate);
+        if(size!=0) {
+            BigDecimal actualEntireValue = inflationValuationRepository.findAll().get(size - 1).getEntireValuation();
+            BigDecimal interests =  actualEntireValue.multiply(interestRate);
 
-        return actualEntireValue.add(interests);
+            return actualEntireValue.add(interests);
+        } else {
+            return BigDecimal.valueOf(0);
+        }
     }
 }

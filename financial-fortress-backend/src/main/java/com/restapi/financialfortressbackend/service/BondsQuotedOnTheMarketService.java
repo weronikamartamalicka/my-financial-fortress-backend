@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class BondsQuotedOnTheMarketService {
@@ -29,8 +30,7 @@ public class BondsQuotedOnTheMarketService {
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = bondsQuotedValuationService.findByDate(LocalDate.now()).getValuation();
-        BigDecimal commissionValue = bondsQuotedInvestmentRepository
-                .findByType(bondsQuotedValuationService.findByDate(LocalDate.now()).getType()).getCommissionRate();
+        BigDecimal commissionValue = bondsQuotedValuationService.findByDate(LocalDate.now()).getCommissionRate();
         BigDecimal oneBondValuation = saleValuation.divide(new BigDecimal(100)).multiply(FACE_VALUE);
         BigDecimal bondsQuotedModelValuation = investmentCapital.subtract(commissionValue).multiply(BONDS_QUOTED_PERCENTAGE);
         BigDecimal capital = bondsQuotedModelValuation.subtract(commissionValue);
@@ -46,7 +46,7 @@ public class BondsQuotedOnTheMarketService {
         modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public BondsQuotedOnTheMarketInvestment findByType(String type) {
+    public Optional<BondsQuotedOnTheMarketInvestment> findByType(String type) {
         return bondsQuotedInvestmentRepository.findByType(type);
     }
 }

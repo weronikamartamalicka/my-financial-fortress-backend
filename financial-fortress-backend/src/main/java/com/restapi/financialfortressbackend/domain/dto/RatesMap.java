@@ -4,21 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GoldResponse {
-
-    @JsonProperty("success")
-    public boolean success;
-
-    @JsonProperty("base")
-    public String base;
-
-    @JsonProperty("timestamp")
-    public int timestamp;
+public class RatesMap {
 
     @JsonProperty("rates")
-    public List<RatesMap> rates;
+    private HashMap<LocalDate, XAG> ratesMap;
 }
