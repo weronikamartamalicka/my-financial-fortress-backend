@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.service;
 
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
+import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,5 +51,13 @@ public class BondsQuotedOnTheMarketService {
 
     public Optional<BondsQuotedOnTheMarketInvestment> findByType(String type) {
         return bondsQuotedInvestmentRepository.findByType(type);
+    }
+
+    public List<BondsQuotedOnTheMarketInvestment> findAll() {
+        return bondsQuotedInvestmentRepository.findAll();
+    }
+
+    public void deleteAll() {
+        bondsQuotedInvestmentRepository.deleteAll();
     }
 }

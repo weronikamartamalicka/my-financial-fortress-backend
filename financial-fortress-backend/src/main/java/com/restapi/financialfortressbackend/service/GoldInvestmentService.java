@@ -62,4 +62,7 @@ public class GoldInvestmentService {
         return goldRepository.findByType(type);
     }
 
+    public void deleteAll() {
+        goldRepository.deleteAll();
+    }
 }

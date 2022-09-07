@@ -13,7 +13,7 @@ public class BondsQuotedValuationService {
     @Autowired
     BondsQuotedValuationRepository bondsQuotedValuationRepository;
 
-    BondsQuotedOnTheMarketValuation findByDate(LocalDate date) {
+    public BondsQuotedOnTheMarketValuation findByDate(LocalDate date) {
         return bondsQuotedValuationRepository.findByDate(date);
     }
 

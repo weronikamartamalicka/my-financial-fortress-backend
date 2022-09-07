@@ -59,9 +59,9 @@ public class BondsQuotedOnTheMarketController {
         bondsQuotedValuationService.saveBondsQuotedValuation(bondsQuotedValuation);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted/{type}")
-    public BondsQuotedOnTheMarketDto getInvestmentInfo(@PathVariable String type) {
-        return bondsQuotedMapper.mapToBondsQuotedInvestmentDto(bondsQuotedService.findByType(type).get());
+    @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted")
+    public List<BondsQuotedOnTheMarketDto> getInvestmentInfo() {
+        return bondsQuotedMapper.mapToBondsQuotedInvestmentListDto(bondsQuotedService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/bonds/quoted/value")

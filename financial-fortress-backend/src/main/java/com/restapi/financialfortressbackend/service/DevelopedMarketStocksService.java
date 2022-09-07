@@ -47,4 +47,8 @@ public class DevelopedMarketStocksService {
     public Optional<DevelopedMarketStocksInvestment> findByType(String type) {
         return developedMarketRepository.findByType(type);
     }
+
+    public void deleteAll() {
+        developedMarketRepository.deleteAll();
+    }
 }

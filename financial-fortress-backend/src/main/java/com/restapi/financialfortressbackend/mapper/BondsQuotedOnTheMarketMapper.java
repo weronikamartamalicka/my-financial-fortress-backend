@@ -37,4 +37,10 @@ public class BondsQuotedOnTheMarketMapper {
                 .map(this::mapToBondsValuationDto)
                 .collect(Collectors.toList());
     }
+
+    public List<BondsQuotedOnTheMarketDto> mapToBondsQuotedInvestmentListDto(List<BondsQuotedOnTheMarketInvestment> list) {
+        return list.stream()
+                .map(this::mapToBondsQuotedInvestmentDto)
+                .collect(Collectors.toList());
+    }
 }

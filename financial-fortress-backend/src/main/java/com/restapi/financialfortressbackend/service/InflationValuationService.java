@@ -15,7 +15,7 @@ public class InflationValuationService {
     @Autowired
     InflationValuationRepository inflationValuationRepository;
 
-    InflationIndexedBondsValuation findByDate(LocalDate date) {
+    public InflationIndexedBondsValuation findByDate(LocalDate date) {
         return inflationValuationRepository.findByDate(date);
     }
 

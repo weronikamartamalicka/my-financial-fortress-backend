@@ -52,4 +52,8 @@ public class InflationIndexedBondsService {
     public Optional<InflationIndexedBondsInvestment> findByType(String type) {
         return inflationIndexedInvestmentRepository.findByType(type);
     }
+
+    public void deleteAll() {
+        inflationIndexedInvestmentRepository.deleteAll();
+    }
 }

@@ -46,4 +46,8 @@ public class EmergingMarketStocksService {
     public Optional<EmergingMarketStocksInvestment> findByType(String type) {
         return emergingMarketRepository.findByType(type);
     }
+
+    public void deleteAll() {
+        emergingMarketRepository.deleteAll();
+    }
 }
