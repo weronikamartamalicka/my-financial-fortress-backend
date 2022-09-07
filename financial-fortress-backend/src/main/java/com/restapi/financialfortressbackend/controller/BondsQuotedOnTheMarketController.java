@@ -11,6 +11,7 @@ import com.restapi.financialfortressbackend.domain.dto.GoldValuationDto;
 import com.restapi.financialfortressbackend.mapper.BondsQuotedOnTheMarketMapper;
 import com.restapi.financialfortressbackend.service.BondsQuotedOnTheMarketService;
 import com.restapi.financialfortressbackend.service.BondsQuotedValuationService;
+import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class BondsQuotedOnTheMarketController {
     private final BondsQuotedOnTheMarketClient bondsQuotedClient;
     private final BondsQuotedOnTheMarketService bondsQuotedService;
     private final BondsQuotedValuationService bondsQuotedValuationService;
+    private final ModelPortfolioService modelPortfolioService;
 
     @Scheduled(cron = "0 0 10 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/bonds/quoted/value")
@@ -51,6 +53,8 @@ public class BondsQuotedOnTheMarketController {
                 .getQuantity();
 
         bondsQuotedValuation.setEntireValuation(bondsQuantity.multiply(oneBondPrice));
+        modelPortfolioService.findByDate(LocalDate.now()).setBondsQuotedValue(bondsQuantity.multiply(oneBondPrice));
+        modelPortfolioService.calculatePercentageComposition();
 
         bondsQuotedValuationService.saveBondsQuotedValuation(bondsQuotedValuation);
     }

@@ -74,4 +74,8 @@ public class ModelPortfolioService {
     public void deleteAll() {
         modelPortfolioRepository.deleteAll();
     }
+
+    public ModelPortfolioInvestment findByDate(LocalDate date) {
+        return modelPortfolioRepository.findByDate(date);
+    }
 }

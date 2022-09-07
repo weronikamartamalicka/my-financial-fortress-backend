@@ -9,6 +9,7 @@ import com.restapi.financialfortressbackend.domain.dto.EmergingMarketValuationDt
 import com.restapi.financialfortressbackend.mapper.EmergingMarketStocksMapper;
 import com.restapi.financialfortressbackend.service.EmergingMarketStocksService;
 import com.restapi.financialfortressbackend.service.EmergingMarketValuationService;
+import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class EmergingMarketStocksController {
     private final EmergingMarketStocksClient emergingMarketClient;
     private final EmergingMarketStocksMapper emergingMarketMapper;
     private final ExchangeClient exchangeClient;
+    private final ModelPortfolioService modelPortfolioService;
 
     @Scheduled(cron = "0 0 10 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/emerging/value")
@@ -48,6 +50,8 @@ public class EmergingMarketStocksController {
                 .getQuantity();
 
         emergingMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
+        modelPortfolioService.findByDate(LocalDate.now()).setEmergingMarketValue(sharesQuantity.multiply(oneSharePrice));
+        modelPortfolioService.calculatePercentageComposition();
 
         emergingValuationService.saveDevelopedMarketValuation(emergingMarketValuation);
     }

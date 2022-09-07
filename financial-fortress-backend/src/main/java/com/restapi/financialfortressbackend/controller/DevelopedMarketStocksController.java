@@ -10,6 +10,7 @@ import com.restapi.financialfortressbackend.domain.dto.DevelopedMarketValuationD
 import com.restapi.financialfortressbackend.mapper.DevelopedMarketStocksMapper;
 import com.restapi.financialfortressbackend.service.DevelopedMarketStocksService;
 import com.restapi.financialfortressbackend.service.DevelopedMarketValuationService;
+import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class DevelopedMarketStocksController {
     private final DevelopedMarketValuationService developedMarketValuationService;
     private final DevelopedMarketStocksMapper developedMarketMapper;
     private final ExchangeClient exchangeClient;
+    private final ModelPortfolioService modelPortfolioService;
 
     @Scheduled(cron = "0 0 10 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
@@ -50,6 +52,8 @@ public class DevelopedMarketStocksController {
                 .getQuantity();
 
         developedMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
+        modelPortfolioService.findByDate(LocalDate.now()).setDevelopedMarketValue(sharesQuantity.multiply(oneSharePrice));
+        modelPortfolioService.calculatePercentageComposition();
 
         developedMarketValuationService.saveDevelopedMarketValuation(developedMarketValuation);
     }

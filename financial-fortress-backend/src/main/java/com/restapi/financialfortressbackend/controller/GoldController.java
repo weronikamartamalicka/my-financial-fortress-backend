@@ -7,6 +7,7 @@ import com.restapi.financialfortressbackend.domain.dto.*;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
+import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class GoldController {
     private final GoldValuationService goldValuationService;
     private final GoldInvestmentService goldInvestmentService;
     private final GoldMapper goldMapper;
+    private final ModelPortfolioService modelPortfolioService;
 
     @Scheduled(cron = "0 0 10 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/gold/value")
@@ -42,6 +44,8 @@ public class GoldController {
                         .orElse(new GoldInvestment(new BigDecimal(0))).getQuantity();
 
         goldValuation.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
+        modelPortfolioService.findByDate(LocalDate.now()).setGoldValue(coinsQuantity.multiply(oneCoinPrice));
+        modelPortfolioService.calculatePercentageComposition();
 
         goldValuationService.saveGoldValuation(goldValuation);
     }
