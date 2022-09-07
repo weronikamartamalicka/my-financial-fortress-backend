@@ -1,5 +1,7 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.google.common.collect.Iterables;
+import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.DevelopedMarketInvestmentRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,10 +26,9 @@ public class DevelopedMarketStocksService {
     @Autowired
     DevelopedMarketInvestmentRepository developedMarketRepository;
 
-    public void calculateDevelopedMarketComposition(BigDecimal investmentCapital) {
+    public void calculateDevelopedMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         DevelopedMarketStocksInvestment developedMarketStocksInvestment = new DevelopedMarketStocksInvestment();
-        ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = developedMarketValuationService.findTopByDate().getValuation();
         BigDecimal commissionValue = developedMarketValuationService.findTopByDate().getCommissionRate();
@@ -36,16 +38,16 @@ public class DevelopedMarketStocksService {
         BigDecimal stocksNumber = capital.divide(saleValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = stocksNumber.multiply(saleValuation);
 
-        myModelPortfolio.setDevelopedMarketValue(entireStocksValuation);
+        modelPortfolio.setDevelopedMarketValue(entireStocksValuation);
         developedMarketStocksInvestment.setQuantity(stocksNumber);
         developedMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         developedMarketRepository.save(developedMarketStocksInvestment);
-        modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public Optional<DevelopedMarketStocksInvestment> findByType(String type) {
-        return developedMarketRepository.findByType(type);
+    public DevelopedMarketStocksInvestment findByType(String type) {
+        return Iterables.getLast(developedMarketRepository.findByType(type)
+                .orElse(List.of(new DevelopedMarketStocksInvestment(BigDecimal.valueOf(0)))));
     }
 
     public void deleteAll() {

@@ -1,5 +1,7 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.google.common.collect.Iterables;
+import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.exception.InflationIndexedNotFoundException;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,11 +27,10 @@ public class InflationIndexedBondsService {
     @Autowired
     ModelPortfolioRepository modelPortfolioRepository;
 
-    public void calculateBondsIndexedComposition(BigDecimal investmentCapital) {
+    public void calculateBondsIndexedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         InflationIndexedBondsInvestment inflationIndexedBondsInvestment = new InflationIndexedBondsInvestment();
         inflationIndexedBondsInvestment.setRedemptionDate(LocalDate.now().plusYears(12));
-        ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal remainingCapital = investmentCapital
                 .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getBondsQuotedValue())
@@ -42,16 +44,16 @@ public class InflationIndexedBondsService {
         BigDecimal bondsNumber = capital.divide(price, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(price);
 
-        myModelPortfolio.setBondsIndexedValue(entireStocksValuation);
+        modelPortfolio.setBondsIndexedValue(entireStocksValuation);
         inflationIndexedBondsInvestment.setQuantity(bondsNumber);
         inflationValuationService.findTopByDate().setValuation(entireStocksValuation);
 
         inflationIndexedInvestmentRepository.save(inflationIndexedBondsInvestment);
-        modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public Optional<InflationIndexedBondsInvestment> findByType(String type) {
-        return inflationIndexedInvestmentRepository.findByType(type);
+    public InflationIndexedBondsInvestment findByType(String type) {
+        return Iterables.getLast(inflationIndexedInvestmentRepository.findByType(type)
+                .orElse(List.of(new InflationIndexedBondsInvestment(BigDecimal.valueOf(0)))));
     }
 
     public void deleteAll() {

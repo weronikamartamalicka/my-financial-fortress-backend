@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,25 +27,23 @@ public class ModelPortfolioService {
     public void calculateComposition(BigDecimal investmentCapital) {
 
         modelPortfolio = new ModelPortfolioInvestment();
-        modelPortfolio.setDate(LocalDate.now());
-        modelPortfolioRepository.save(modelPortfolio);
+        modelPortfolio.setDate(LocalDateTime.now());
 
-        goldInvestmentService.calculateGoldComposition(investmentCapital);
-        developedMarketStocksService.calculateDevelopedMarketComposition(investmentCapital);
-        emergingMarketStocksService.calculateEmergingMarketComposition(investmentCapital);
-        bondsQuotedOnTheMarketService.calculateBondsQuotedComposition(investmentCapital);
-        inflationIndexedBondsService.calculateBondsIndexedComposition(investmentCapital);
+        goldInvestmentService.calculateGoldComposition(investmentCapital, modelPortfolio);
+        developedMarketStocksService.calculateDevelopedMarketComposition(investmentCapital, modelPortfolio);
+        emergingMarketStocksService.calculateEmergingMarketComposition(investmentCapital, modelPortfolio);
+        bondsQuotedOnTheMarketService.calculateBondsQuotedComposition(investmentCapital, modelPortfolio);
+        inflationIndexedBondsService.calculateBondsIndexedComposition(investmentCapital, modelPortfolio);
         calculatePercentageComposition();
     }
 
     public void calculatePercentageComposition() {
 
-        ModelPortfolioInvestment modelPortfolioInvestment = modelPortfolioRepository.findByDate(LocalDate.now());
-        BigDecimal goldValue = modelPortfolioInvestment.getGoldValue();
-        BigDecimal bondsIndexedValue = modelPortfolioInvestment.getBondsIndexedValue();
-        BigDecimal bondsQuotedValue = modelPortfolioInvestment.getBondsQuotedValue();
-        BigDecimal developedMarketValue = modelPortfolioInvestment.getDevelopedMarketValue();
-        BigDecimal emergingMarketValue = modelPortfolioInvestment.getEmergingMarketValue();
+        BigDecimal goldValue = modelPortfolio.getGoldValue();
+        BigDecimal bondsIndexedValue = modelPortfolio.getBondsIndexedValue();
+        BigDecimal bondsQuotedValue = modelPortfolio.getBondsQuotedValue();
+        BigDecimal developedMarketValue = modelPortfolio.getDevelopedMarketValue();
+        BigDecimal emergingMarketValue = modelPortfolio.getEmergingMarketValue();
 
         BigDecimal entirePortfolioValue = goldValue.add(bondsIndexedValue)
                 .add(bondsQuotedValue)
@@ -57,14 +56,14 @@ public class ModelPortfolioService {
         BigDecimal developedMarketPercentage = developedMarketValue.divide(entirePortfolioValue, 2, RoundingMode.HALF_UP);
         BigDecimal emergingMarketPercentage = emergingMarketValue.divide(entirePortfolioValue, 2, RoundingMode.HALF_UP);
 
-        modelPortfolioInvestment.setGoldPercentage(goldPercentage);
-        modelPortfolioInvestment.setBondsIndexedPercentage(bondsIndexedPercentage);
-        modelPortfolioInvestment.setBondsQuotedPercentage(bondsQuotedPercentage);
-        modelPortfolioInvestment.setDevelopedMarketPercentage(developedMarketPercentage);
-        modelPortfolioInvestment.setEmergingMarketPercentage(emergingMarketPercentage);
-        modelPortfolioInvestment.setEntireValue(entirePortfolioValue);
+        modelPortfolio.setGoldPercentage(goldPercentage);
+        modelPortfolio.setBondsIndexedPercentage(bondsIndexedPercentage);
+        modelPortfolio.setBondsQuotedPercentage(bondsQuotedPercentage);
+        modelPortfolio.setDevelopedMarketPercentage(developedMarketPercentage);
+        modelPortfolio.setEmergingMarketPercentage(emergingMarketPercentage);
+        modelPortfolio.setEntireValue(entirePortfolioValue);
 
-        modelPortfolioRepository.save(modelPortfolioInvestment);
+        modelPortfolioRepository.save(modelPortfolio);
     }
 
     public List<ModelPortfolioInvestment> getAll() {
@@ -75,7 +74,7 @@ public class ModelPortfolioService {
         modelPortfolioRepository.deleteAll();
     }
 
-    public ModelPortfolioInvestment findByDate(LocalDate date) {
-        return modelPortfolioRepository.findByDate(date);
+    public ModelPortfolioInvestment findTopByDate() {
+        return modelPortfolioRepository.findAll().get(modelPortfolioRepository.findAll().size() - 1);
     }
 }

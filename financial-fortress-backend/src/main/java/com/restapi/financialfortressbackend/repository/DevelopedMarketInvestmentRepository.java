@@ -20,5 +20,5 @@ public interface DevelopedMarketInvestmentRepository extends CrudRepository<Deve
     @Override
     List<DevelopedMarketStocksInvestment> findAll();
 
-    Optional<DevelopedMarketStocksInvestment> findByType(String type);
+    Optional<List<DevelopedMarketStocksInvestment>> findByType(String type);
 }

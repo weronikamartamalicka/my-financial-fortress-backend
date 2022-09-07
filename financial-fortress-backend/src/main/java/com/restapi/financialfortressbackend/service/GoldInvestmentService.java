@@ -1,6 +1,8 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.client.GoldClient;
+import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.exception.GoldNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +30,7 @@ public class GoldInvestmentService {
     @Autowired
     GoldClient goldClient;
 
-    public void calculateGoldComposition(BigDecimal investmentCapital) {
+    public void calculateGoldComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         GoldInvestment goldInvestment = new GoldInvestment();
 
@@ -38,10 +41,9 @@ public class GoldInvestmentService {
 
         BigDecimal goldPurchase = goldInvestment.getPurchaseValuation();
         BigDecimal goldModelValuation = investmentCapital.multiply(GOLD_PERCENTAGE);
-        ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         if (goldModelValuation.compareTo(goldPurchase) == -1) {
-            myModelPortfolio.setGoldValue(goldPurchase);
+            modelPortfolio.setGoldValue(goldPurchase);
             goldInvestment.setQuantity(new BigDecimal(1));
             goldValuationService.findTopByDate().setEntireValuation(goldSale.get());
 
@@ -50,15 +52,15 @@ public class GoldInvestmentService {
             goldInvestment.setQuantity(coinsQuantity);
             BigDecimal actualValue = coinsQuantity.multiply(goldSale.get());
             goldValuationService.findTopByDate().setEntireValuation(actualValue);
-            myModelPortfolio.setGoldValue(actualValue);
+            modelPortfolio.setGoldValue(actualValue);
         }
 
         goldRepository.save(goldInvestment);
-        modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public Optional<GoldInvestment> findByType(String type) {
-        return goldRepository.findByType(type);
+    public GoldInvestment findByType(String type) {
+        return Iterables.getLast(goldRepository.findByType(type)
+                .orElse(List.of(new GoldInvestment(BigDecimal.valueOf(0)))));
     }
 
     public void deleteAll() {

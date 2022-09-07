@@ -3,6 +3,7 @@ package com.restapi.financialfortressbackend.controller;
 import com.restapi.financialfortressbackend.client.InflationClient;
 import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.InflationIndexedBondsDto;
 import com.restapi.financialfortressbackend.domain.dto.InflationValuationDto;
 import com.restapi.financialfortressbackend.mapper.InflationMapper;
@@ -51,15 +52,19 @@ public class InflationIndexedBondsController {
                 interestRate.add(inflationRate));
 
         inflationIndexedBondsValuation.setEntireValuation(entireValuation);
-        modelPortfolioService.findByDate(LocalDate.now()).setBondsIndexedValue(entireValuation);
+
+        ModelPortfolioInvestment modelPortfolioInvestment = new ModelPortfolioInvestment();
+        modelPortfolioInvestment.setDate(LocalDateTime.now());
+        modelPortfolioInvestment.setBondsIndexedValue(entireValuation);
+
         modelPortfolioService.calculatePercentageComposition();
 
         inflationValuationService.saveBondsValuation(inflationIndexedBondsValuation);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/inflation/invest/{type}")
-    public InflationIndexedBondsDto getInvestmentInfo(@PathVariable String type) {
-        return inflationMapper.mapToInflationBondsInvestmentDto(inflationIndexedBondsService.findByType(type).get());
+    @RequestMapping(method = RequestMethod.GET, value = "/inflation/invest")
+    public InflationIndexedBondsDto getInvestmentInfo() {
+        return inflationMapper.mapToInflationBondsInvestmentDto(inflationIndexedBondsService.findByType(type));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inflation/value")

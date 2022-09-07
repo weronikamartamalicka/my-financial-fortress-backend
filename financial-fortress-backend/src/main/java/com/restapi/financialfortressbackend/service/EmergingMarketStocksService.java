@@ -1,5 +1,7 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.google.common.collect.Iterables;
+import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.EmergingMarketInvestmentRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,10 +25,9 @@ public class EmergingMarketStocksService {
     @Autowired
     EmergingMarketValuationService emergingMarketValuationService;
 
-    public void calculateEmergingMarketComposition(BigDecimal investmentCapital) {
+    public void calculateEmergingMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         EmergingMarketStocksInvestment emergingMarketStocksInvestment = new EmergingMarketStocksInvestment();
-        ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = emergingMarketValuationService.findTopByDate().getValuation();
         BigDecimal commissionValue = emergingMarketValuationService.findTopByDate().getCommissionRate();
@@ -35,16 +37,16 @@ public class EmergingMarketStocksService {
         BigDecimal stocksNumber = capital.divide(saleValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = stocksNumber.multiply(saleValuation);
 
-        myModelPortfolio.setEmergingMarketValue(entireStocksValuation);
+        modelPortfolio.setEmergingMarketValue(entireStocksValuation);
         emergingMarketStocksInvestment.setQuantity(stocksNumber);
         emergingMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         emergingMarketRepository.save(emergingMarketStocksInvestment);
-        modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public Optional<EmergingMarketStocksInvestment> findByType(String type) {
-        return emergingMarketRepository.findByType(type);
+    public EmergingMarketStocksInvestment findByType(String type) {
+        return Iterables.getLast(emergingMarketRepository.findByType(type)
+                .orElse(List.of(new EmergingMarketStocksInvestment(BigDecimal.valueOf(0)))));
     }
 
     public void deleteAll() {

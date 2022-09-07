@@ -21,5 +21,5 @@ public interface InflationIndexedInvestmentRepository extends CrudRepository<Inf
     @Override
     List<InflationIndexedBondsInvestment> findAll();
 
-    Optional<InflationIndexedBondsInvestment> findByType(String type);
+    Optional<List<InflationIndexedBondsInvestment>> findByType(String type);
 }

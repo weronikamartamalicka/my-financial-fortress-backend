@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,7 +28,7 @@ public class ModelPortfolioInvestment {
     private Long id;
 
     @Column(name = "DATE")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "VALUE")
     private BigDecimal entireValue;

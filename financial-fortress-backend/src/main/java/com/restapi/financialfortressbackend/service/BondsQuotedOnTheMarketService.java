@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.service;
 
+import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +28,10 @@ public class BondsQuotedOnTheMarketService {
     @Autowired
     ModelPortfolioRepository modelPortfolioRepository;
 
-    public void calculateBondsQuotedComposition(BigDecimal investmentCapital) {
+    public void calculateBondsQuotedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         BondsQuotedOnTheMarketInvestment bondsQuotedOnTheMarketInvestment = new BondsQuotedOnTheMarketInvestment();
         bondsQuotedOnTheMarketInvestment.setRedemptionDate(LocalDate.now().plusYears(10));
-        ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 
         BigDecimal saleValuation = bondsQuotedValuationService.findTopByDate().getValuation();
         BigDecimal commissionValue = bondsQuotedValuationService.findTopByDate().getCommissionRate();
@@ -41,16 +42,17 @@ public class BondsQuotedOnTheMarketService {
         BigDecimal bondsNumber = capital.divide(oneBondValuation, 0, RoundingMode.DOWN);
         BigDecimal entireStocksValuation = bondsNumber.multiply(oneBondValuation);
 
-        myModelPortfolio.setBondsQuotedValue(entireStocksValuation);
+        modelPortfolio.setBondsQuotedValue(entireStocksValuation);
         bondsQuotedOnTheMarketInvestment.setQuantity(bondsNumber);
         bondsQuotedValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
 
         bondsQuotedInvestmentRepository.save(bondsQuotedOnTheMarketInvestment);
-        modelPortfolioRepository.save(myModelPortfolio);
     }
 
-    public Optional<BondsQuotedOnTheMarketInvestment> findByType(String type) {
-        return bondsQuotedInvestmentRepository.findByType(type);
+    public BondsQuotedOnTheMarketInvestment findByType(String type) {
+
+        return Iterables.getLast(bondsQuotedInvestmentRepository.findByType(type)
+                .orElse(List.of(new BondsQuotedOnTheMarketInvestment(BigDecimal.valueOf(0)))));
     }
 
     public List<BondsQuotedOnTheMarketInvestment> findAll() {
