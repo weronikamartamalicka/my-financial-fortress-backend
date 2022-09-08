@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -72,7 +73,7 @@ public class DevelopedMarketStocksClient {
 
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             JsonObject dataRange = jsonObject.getAsJsonArray("datarange").get(0).getAsJsonObject();
-            return dataRange.get("price").getAsBigDecimal();
+            return dataRange.get("price").getAsBigDecimal().divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -107,7 +108,7 @@ public class DevelopedMarketStocksClient {
             Iterator iterator = dataRangeArray.iterator();
             while(iterator.hasNext()) {
                 JsonObject object = (JsonObject)iterator.next();
-                priceList.add(object.get("price").getAsBigDecimal());
+                priceList.add(object.get("price").getAsBigDecimal().divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
             }
             return priceList;
 

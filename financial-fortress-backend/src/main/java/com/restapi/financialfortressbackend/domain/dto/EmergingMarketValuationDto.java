@@ -16,5 +16,4 @@ public class EmergingMarketValuationDto {
     public final String type = "BofAML AAA-A Emerging Markets Corporate Ix";
     private BigDecimal valuation;
     private BigDecimal commissionRate;
-    private BigDecimal entireValuation;
 }

@@ -15,7 +15,9 @@ public class EmergingMarketStocksMapper {
     public EmergingMarketStocksDto mapToEmergingInvestmentDto(EmergingMarketStocksInvestment emergingInvestment) {
         return new EmergingMarketStocksDto(
                 emergingInvestment.getId(),
-                emergingInvestment.getQuantity()
+                emergingInvestment.getDate(),
+                emergingInvestment.getQuantity(),
+                emergingInvestment.getEntireValuation()
         );
     }
 
@@ -24,14 +26,19 @@ public class EmergingMarketStocksMapper {
                 emergingValuation.getId(),
                 emergingValuation.getDate(),
                 emergingValuation.getValuation(),
-                emergingValuation.getCommissionRate(),
-                emergingValuation.getEntireValuation()
+                emergingValuation.getCommissionRate()
         );
     }
 
     public List<EmergingMarketValuationDto> mapToEmergingValuationListDto(List<EmergingMarketStocksValuation> list) {
         return list.stream()
                 .map(this::mapToEmergingValuationDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmergingMarketStocksDto> mapToEmergingInvestmentListDto(List<EmergingMarketStocksInvestment> list) {
+        return list.stream()
+                .map(this::mapToEmergingInvestmentDto)
                 .collect(Collectors.toList());
     }
 }

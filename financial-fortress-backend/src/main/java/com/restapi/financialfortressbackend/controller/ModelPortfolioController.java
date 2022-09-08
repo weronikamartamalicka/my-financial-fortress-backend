@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.controller;
 
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.ModelPortfolioDto;
 import com.restapi.financialfortressbackend.mapper.ModelPortfolioMapper;
 import com.restapi.financialfortressbackend.service.*;
@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -25,15 +24,13 @@ public class ModelPortfolioController {
     private final GoldInvestmentService goldInvestmentService;
     private final DevelopedMarketStocksService developedMarketStocksService;
     private final EmergingMarketStocksService emergingMarketStocksService;
-    private final BondsQuotedValuationService bondsQuotedValuationService;
-    private final InflationValuationService inflationValuationService;
-    private final GoldValuationService goldValuationService;
-    private final EmergingMarketValuationService emergingMarketValuationService;
-    private final DevelopedMarketValuationService developedMarketValuationService;
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/portfolio/{investmentCapital}")
     public void openInvestment(@PathVariable Long investmentCapital)  {
-        modelPortfolioService.calculateComposition(BigDecimal.valueOf(investmentCapital));
+        ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
+        modelPortfolioService.calculateComposition(BigDecimal.valueOf(investmentCapital), modelPortfolio);
+        modelPortfolioService.saveModelPortfolio(modelPortfolio);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/portfolio")
@@ -50,11 +47,5 @@ public class ModelPortfolioController {
         inflationIndexedBondsService.deleteAll();
         emergingMarketStocksService.deleteAll();
         developedMarketStocksService.deleteAll();
-
-        bondsQuotedValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
-        goldValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
-        inflationValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
-        emergingMarketValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
-        developedMarketValuationService.findTopByDate().setEntireValuation(BigDecimal.ZERO);
     }
 }

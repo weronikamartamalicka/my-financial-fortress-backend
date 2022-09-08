@@ -15,10 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController()
@@ -40,31 +38,41 @@ public class InflationIndexedBondsController {
         inflationIndexedBondsValuation.setDate(LocalDateTime.now());
         BigDecimal inflationRate = inflationClient.getInflationRate();
         inflationIndexedBondsValuation.setValuation(inflationRate);
+        inflationIndexedBondsValuation.setInterestsValuation(BigDecimal.valueOf(0));
 
-        BigDecimal interestRate = inflationIndexedBondsService.findByType(inflationIndexedBondsValuation
-                .getType())
-                .orElse(new InflationIndexedBondsInvestment(BigDecimal.valueOf(0)))
-                .getInterestRate();
+        if(modelPortfolioService.getAll().size()!=0) {
+            InflationIndexedBondsInvestment inflationIndexedInvestment = new InflationIndexedBondsInvestment();
+            InflationIndexedBondsInvestment lastIndexedInvestment = inflationIndexedBondsService.findTopByDate();
+            inflationIndexedInvestment.setQuantity(lastIndexedInvestment.getQuantity());
+            inflationIndexedInvestment.setRedemptionDate(lastIndexedInvestment.getRedemptionDate());
 
-        inflationIndexedBondsValuation.setInterestsValuation(interestRate.add(inflationRate));
+            BigDecimal interestRate = inflationIndexedBondsService.findByType(inflationIndexedBondsValuation
+                            .getType())
+                    .getInterestRate();
 
-        BigDecimal entireValuation = inflationValuationService.getEntireValuation(
-                interestRate.add(inflationRate));
+            inflationIndexedBondsValuation.setInterestsValuation(interestRate.add(inflationRate));
 
-        inflationIndexedBondsValuation.setEntireValuation(entireValuation);
+            BigDecimal entireValuation = inflationValuationService.getEntireValuation(
+                    interestRate.add(inflationRate));
 
-        ModelPortfolioInvestment modelPortfolioInvestment = new ModelPortfolioInvestment();
-        modelPortfolioInvestment.setDate(LocalDateTime.now());
-        modelPortfolioInvestment.setBondsIndexedValue(entireValuation);
+            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
+            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
-        modelPortfolioService.calculatePercentageComposition();
+            inflationIndexedInvestment.setEntireValuation(entireValuation);
+            modelPortfolio.setBondsIndexedValue(entireValuation);
+            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+
+            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+            inflationIndexedBondsService.saveInflationIndexedInvestment(inflationIndexedInvestment);
+        }
 
         inflationValuationService.saveBondsValuation(inflationIndexedBondsValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inflation/invest")
-    public InflationIndexedBondsDto getInvestmentInfo() {
-        return inflationMapper.mapToInflationBondsInvestmentDto(inflationIndexedBondsService.findByType(type));
+    public List<InflationIndexedBondsDto> getInvestmentInfo() {
+        return inflationMapper.mapToInflationBondsInvestmentListDto(inflationIndexedBondsService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inflation/value")

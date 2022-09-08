@@ -16,5 +16,4 @@ public class DevelopedMarketValuationDto {
     public final String type = "MSCI China A DivAdj Ix";
     private BigDecimal valuation;
     private BigDecimal commissionRate;
-    private BigDecimal entireValuation;
 }

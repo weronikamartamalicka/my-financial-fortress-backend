@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,7 +22,7 @@ public class EmergingMarketValuationService {
         return dayStockValuation.multiply(exchange);
     }
 
-    public void saveDevelopedMarketValuation(EmergingMarketStocksValuation emergingMarketValuation) {
+    public void saveEmergingMarketValuation(EmergingMarketStocksValuation emergingMarketValuation) {
         emergingMarketValuationRepository.save(emergingMarketValuation);
     }
 

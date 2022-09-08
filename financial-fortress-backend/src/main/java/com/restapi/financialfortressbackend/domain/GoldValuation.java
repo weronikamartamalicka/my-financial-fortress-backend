@@ -32,7 +32,4 @@ public class GoldValuation {
 
     @Column(name = "COIN_PRICE")
     private BigDecimal oneCoinPrice;
-
-    @Column(name = "ENTIRE_VALUATION")
-    private BigDecimal entireValuation;
 }

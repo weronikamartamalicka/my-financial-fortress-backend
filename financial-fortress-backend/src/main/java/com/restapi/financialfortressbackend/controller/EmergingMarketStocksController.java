@@ -4,6 +4,7 @@ import com.restapi.financialfortressbackend.client.EmergingMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksValuation;
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.EmergingMarketStocksDto;
 import com.restapi.financialfortressbackend.domain.dto.EmergingMarketValuationDto;
 import com.restapi.financialfortressbackend.mapper.EmergingMarketStocksMapper;
@@ -15,10 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @CrossOrigin(value = "*")
@@ -33,33 +32,44 @@ public class EmergingMarketStocksController {
     private final ExchangeClient exchangeClient;
     private final ModelPortfolioService modelPortfolioService;
 
-    @Scheduled(cron = "0 0 10 * * *")
+    @Scheduled(cron = "0 0 12,20 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/emerging/value")
     public void saveNewValuation() {
 
         EmergingMarketStocksValuation emergingMarketValuation = new EmergingMarketStocksValuation();
-
         emergingMarketValuation.setDate(LocalDateTime.now());
         BigDecimal oneSharePrice = emergingValuationService
                 .getOneShareValue(emergingMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         emergingMarketValuation.setValuation(oneSharePrice);
         emergingMarketValuation.setCommissionRate(emergingMarketClient.getCommissionValue());
 
-        BigDecimal sharesQuantity = emergingMarketService
-                .findByType(emergingMarketValuation.getType())
-                .orElse(new EmergingMarketStocksInvestment(BigDecimal.valueOf(0)))
-                .getQuantity();
+        if(modelPortfolioService.getAll().size()!=0) {
+            EmergingMarketStocksInvestment emergingMarketInvestment = new EmergingMarketStocksInvestment();
+            EmergingMarketStocksInvestment lastEmergingInvestment = emergingMarketService.findTopByDate();
+            emergingMarketInvestment.setQuantity(lastEmergingInvestment.getQuantity());
 
-        emergingMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
-        modelPortfolioService.findByDate(LocalDate.now()).setEmergingMarketValue(sharesQuantity.multiply(oneSharePrice));
-        modelPortfolioService.calculatePercentageComposition();
+            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
+            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
-        emergingValuationService.saveDevelopedMarketValuation(emergingMarketValuation);
+            BigDecimal sharesQuantity = emergingMarketService
+                    .findByType(emergingMarketValuation.getType())
+                    .getQuantity();
+
+            emergingMarketInvestment.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
+            modelPortfolio.setEmergingMarketValue(sharesQuantity.multiply(oneSharePrice));
+            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+
+            emergingMarketService.saveEmergingMarketInvestment(emergingMarketInvestment);
+            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+        }
+
+        emergingValuationService.saveEmergingMarketValuation(emergingMarketValuation);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/emerging/invest/{type}")
-    public EmergingMarketStocksDto getInvestmentInfo(@PathVariable String type) {
-        return emergingMarketMapper.mapToEmergingInvestmentDto(emergingMarketService.findByType(type).get());
+    @RequestMapping(method = RequestMethod.GET, value = "/emerging/invest")
+    public List<EmergingMarketStocksDto> getInvestmentInfo() {
+        return emergingMarketMapper.mapToEmergingInvestmentListDto(emergingMarketService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/emerging/value")

@@ -27,7 +27,7 @@ public class InflationIndexedBondsValuation {
     @Column(name = "TYPE")
     public final String type = "ROD0934";
 
-    @Column(name = "DATE", unique = true)
+    @Column(name = "DATE")
     private LocalDateTime date;
 
     @Column(name = "VALUATION")
@@ -35,8 +35,5 @@ public class InflationIndexedBondsValuation {
 
     @Column(name = "INTERESTS_VALUATION")
     private BigDecimal interestsValuation;
-
-    @Column(name = "ENTIRE_VALUATION")
-    private BigDecimal entireValuation;
 
 }

@@ -4,6 +4,7 @@ import com.restapi.financialfortressbackend.client.DevelopedMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksValuation;
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.DevelopedMarketStocksDto;
 import com.restapi.financialfortressbackend.domain.dto.DevelopedMarketValuationDto;
 
@@ -16,10 +17,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController()
@@ -35,33 +34,44 @@ public class DevelopedMarketStocksController {
     private final ExchangeClient exchangeClient;
     private final ModelPortfolioService modelPortfolioService;
 
-    @Scheduled(cron = "0 0 10 * * *")
+    @Scheduled(cron = "0 0 11,19 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
     public void saveNewValuation() {
 
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
-
         developedMarketValuation.setDate(LocalDateTime.now());
         BigDecimal oneSharePrice = developedMarketValuationService
                 .getOneShareValue(developedMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         developedMarketValuation.setValuation(oneSharePrice);
         developedMarketValuation.setCommissionRate(developedMarketClient.getCommissionValue());
 
-        BigDecimal sharesQuantity = developedMarketService
-                .findByType(developedMarketValuation.getType())
-                .orElse(new DevelopedMarketStocksInvestment(BigDecimal.valueOf(0)))
-                .getQuantity();
+        if(modelPortfolioService.getAll().size()!=0) {
+            DevelopedMarketStocksInvestment developedMarketInvestment = new DevelopedMarketStocksInvestment();
+            DevelopedMarketStocksInvestment lastDevelopedInvestment = developedMarketService.findTopByDate();
+            developedMarketInvestment.setQuantity(lastDevelopedInvestment.getQuantity());
 
-        developedMarketValuation.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
-        modelPortfolioService.findByDate(LocalDate.now()).setDevelopedMarketValue(sharesQuantity.multiply(oneSharePrice));
-        modelPortfolioService.calculatePercentageComposition();
+            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
+            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
+
+            BigDecimal sharesQuantity = developedMarketService
+                    .findByType(developedMarketValuation.getType())
+                    .getQuantity();
+
+            developedMarketInvestment.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
+            modelPortfolio.setDevelopedMarketValue(sharesQuantity.multiply(oneSharePrice));
+            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+
+            developedMarketService.saveDevelopedMarketInvestment(developedMarketInvestment);
+            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+        }
 
         developedMarketValuationService.saveDevelopedMarketValuation(developedMarketValuation);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/developed/invest/{type}")
-    public DevelopedMarketStocksDto getInvestmentInfo(@PathVariable String type) {
-        return developedMarketMapper.mapToDevelopedInvestmentDto(developedMarketService.findByType(type).get());
+    @RequestMapping(method = RequestMethod.GET, value = "/developed/invest")
+    public List<DevelopedMarketStocksDto> getInvestmentInfo() {
+        return developedMarketMapper.mapToDevelopedInvestmentListDto(developedMarketService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/value")

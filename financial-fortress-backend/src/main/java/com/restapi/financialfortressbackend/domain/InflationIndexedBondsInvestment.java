@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +26,9 @@ public class InflationIndexedBondsInvestment {
     @GeneratedValue
     @Column(name = "ID", unique = true)
     private Long id;
+
+    @Column(name = "DATE")
+    private LocalDateTime date;
 
     @Column(name = "TYPE")
     public final String type = "ROD0934";
@@ -42,6 +47,9 @@ public class InflationIndexedBondsInvestment {
 
     @Column(name = "ONE_BOND_PRICE")
     private final BigDecimal price = BigDecimal.valueOf(100);
+
+    @Column(name = "ENTIRE_VALUATION")
+    private BigDecimal entireValuation;
 
     public InflationIndexedBondsInvestment(BigDecimal quantity) {
         this.quantity = quantity;

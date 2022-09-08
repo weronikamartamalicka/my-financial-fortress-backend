@@ -14,10 +14,12 @@ public class BondsQuotedOnTheMarketMapper {
 
         return new BondsQuotedOnTheMarketDto(
                 bonds.getId(),
+                bonds.getDate(),
                 bonds.getQuantity(),
                 bonds.getCouponRate(),
                 bonds.getRedemptionDate(),
-                bonds.getInterestPeriod()
+                bonds.getInterestPeriod(),
+                bonds.getEntireValuation()
         );
     }
 
@@ -27,8 +29,7 @@ public class BondsQuotedOnTheMarketMapper {
                 bonds.getId(),
                 bonds.getDate(),
                 bonds.getValuation(),
-                bonds.getCommissionRate(),
-                bonds.getEntireValuation()
+                bonds.getCommissionRate()
         );
     }
 

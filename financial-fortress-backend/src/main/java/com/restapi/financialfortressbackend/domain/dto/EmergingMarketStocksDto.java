@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 public class EmergingMarketStocksDto {
 
     private Long id;
+    private LocalDateTime date;
     public final String type = "BofAML AAA-A Emerging Markets Corporate Ix";
     private BigDecimal quantity;
+    private BigDecimal entireValuation;
 }

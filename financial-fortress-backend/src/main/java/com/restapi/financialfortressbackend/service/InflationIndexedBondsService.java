@@ -1,10 +1,8 @@
 package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
-import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.exception.InflationIndexedNotFoundException;
 import com.restapi.financialfortressbackend.repository.InflationIndexedInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InflationIndexedBondsService {
@@ -33,10 +30,10 @@ public class InflationIndexedBondsService {
         inflationIndexedBondsInvestment.setRedemptionDate(LocalDate.now().plusYears(12));
 
         BigDecimal remainingCapital = investmentCapital
-                .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getBondsQuotedValue())
-                .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getDevelopedMarketValue())
-                .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getGoldValue())
-                .subtract(modelPortfolioRepository.findByDate(LocalDate.now()).getEmergingMarketValue());
+                .subtract(modelPortfolio.getBondsQuotedValue())
+                .subtract(modelPortfolio.getDevelopedMarketValue())
+                .subtract(modelPortfolio.getGoldValue())
+                .subtract(modelPortfolio.getEmergingMarketValue());
 
         BigDecimal price = inflationIndexedBondsInvestment.getPrice();
         BigDecimal capital = remainingCapital;
@@ -46,7 +43,7 @@ public class InflationIndexedBondsService {
 
         modelPortfolio.setBondsIndexedValue(entireStocksValuation);
         inflationIndexedBondsInvestment.setQuantity(bondsNumber);
-        inflationValuationService.findTopByDate().setValuation(entireStocksValuation);
+        inflationIndexedBondsInvestment.setEntireValuation(entireStocksValuation);
 
         inflationIndexedInvestmentRepository.save(inflationIndexedBondsInvestment);
     }
@@ -58,5 +55,17 @@ public class InflationIndexedBondsService {
 
     public void deleteAll() {
         inflationIndexedInvestmentRepository.deleteAll();
+    }
+
+    public List<InflationIndexedBondsInvestment> findAll() {
+        return inflationIndexedInvestmentRepository.findAll();
+    }
+
+    public InflationIndexedBondsInvestment findTopByDate() {
+        return inflationIndexedInvestmentRepository.findAll().get(inflationIndexedInvestmentRepository.findAll().size() - 1);
+    }
+
+    public void saveInflationIndexedInvestment(InflationIndexedBondsInvestment inflationIndexedInvestment) {
+        inflationIndexedInvestmentRepository.save(inflationIndexedInvestment);
     }
 }

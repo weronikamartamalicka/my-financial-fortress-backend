@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,11 +26,17 @@ public class DevelopedMarketStocksInvestment {
     @Column(name = "ID", unique = true)
     private Long id;
 
+    @Column(name = "DATE")
+    private LocalDateTime date;
+
     @Column(name = "TYPE")
     public final String type = "MSCI China A DivAdj Ix";
 
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
+
+    @Column(name = "ENTIRE_VALUATION")
+    private BigDecimal entireValuation;
 
     public DevelopedMarketStocksInvestment(BigDecimal quantity) {
         this.quantity = quantity;

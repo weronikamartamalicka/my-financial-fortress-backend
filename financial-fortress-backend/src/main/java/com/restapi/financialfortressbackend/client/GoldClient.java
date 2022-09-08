@@ -1,5 +1,8 @@
 package com.restapi.financialfortressbackend.client;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.dto.GoldResponse;
 import com.restapi.financialfortressbackend.domain.dto.Rates;
@@ -18,12 +21,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -54,26 +58,35 @@ public class GoldClient {
         }
     }
 
-    public List<RatesMap> getYearGoldSaleValue() {
+    public List<BigDecimal> getYearGoldSaleValue() {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "timeframe")
-                .queryParam("api_key", API_KEY)
-                .queryParam("start_date", "2021-09-29")
-                .queryParam("end_date", "2022-08-20")
-                .queryParam("base", "PLN")
-                .queryParam("currencies", "XAU")
-                .build()
-                .encode()
-                .toUri();
-
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(API_ROOT + "timeframe" + "?api_key=" + API_KEY + "&start_date=2021-09-29" +
+                        "&end_date=2022-08-20" + "&base=PLN" + "&currencies=XAU"))
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
         try {
-            GoldResponse goldResponse = restTemplate.getForObject(url, GoldResponse.class);
-            return Optional.ofNullable(goldResponse)
-                    .map(goldResponse1 -> goldResponse1.getRates())
-                    .orElse(Collections.emptyList())
-                    .stream()
-                    .collect(Collectors.toList());
-        } catch (RestClientException e) {
+            HttpResponse<String> responseString = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            String json = responseString.body();
+
+            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+            JsonObject rates = jsonObject.getAsJsonObject("rates");
+            JsonArray dataRangeArray = rates.getAsJsonObject().getAsJsonArray();
+
+            List<BigDecimal> priceList = new ArrayList<>();
+
+            Iterator iterator = dataRangeArray.iterator();
+            while(iterator.hasNext()) {
+                JsonObject object = (JsonObject)iterator.next();
+                priceList.add(object.get("XAU").getAsBigDecimal());
+            }
+            return priceList;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return Collections.emptyList();
         }

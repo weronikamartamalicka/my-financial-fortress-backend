@@ -3,12 +3,10 @@ package com.restapi.financialfortressbackend.service;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,12 +19,10 @@ public class ModelPortfolioService {
     private final BondsQuotedOnTheMarketService bondsQuotedOnTheMarketService;
     private final InflationIndexedBondsService inflationIndexedBondsService;
     private final ModelPortfolioRepository modelPortfolioRepository;
-    private ModelPortfolioInvestment modelPortfolio;
 
 
-    public void calculateComposition(BigDecimal investmentCapital) {
+    public void calculateComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
-        modelPortfolio = new ModelPortfolioInvestment();
         modelPortfolio.setDate(LocalDateTime.now());
 
         goldInvestmentService.calculateGoldComposition(investmentCapital, modelPortfolio);
@@ -34,10 +30,10 @@ public class ModelPortfolioService {
         emergingMarketStocksService.calculateEmergingMarketComposition(investmentCapital, modelPortfolio);
         bondsQuotedOnTheMarketService.calculateBondsQuotedComposition(investmentCapital, modelPortfolio);
         inflationIndexedBondsService.calculateBondsIndexedComposition(investmentCapital, modelPortfolio);
-        calculatePercentageComposition();
+        calculatePercentageComposition(modelPortfolio);
     }
 
-    public void calculatePercentageComposition() {
+    public ModelPortfolioInvestment calculatePercentageComposition(ModelPortfolioInvestment modelPortfolio) {
 
         BigDecimal goldValue = modelPortfolio.getGoldValue();
         BigDecimal bondsIndexedValue = modelPortfolio.getBondsIndexedValue();
@@ -63,7 +59,7 @@ public class ModelPortfolioService {
         modelPortfolio.setEmergingMarketPercentage(emergingMarketPercentage);
         modelPortfolio.setEntireValue(entirePortfolioValue);
 
-        modelPortfolioRepository.save(modelPortfolio);
+        return modelPortfolio;
     }
 
     public List<ModelPortfolioInvestment> getAll() {
@@ -76,5 +72,22 @@ public class ModelPortfolioService {
 
     public ModelPortfolioInvestment findTopByDate() {
         return modelPortfolioRepository.findAll().get(modelPortfolioRepository.findAll().size() - 1);
+    }
+
+    public void saveModelPortfolio(ModelPortfolioInvestment modelPortfolio) {
+        modelPortfolioRepository.save(modelPortfolio);
+    }
+
+    public ModelPortfolioInvestment copyPortfolioValues(ModelPortfolioInvestment modelPortfolio) {
+        ModelPortfolioInvestment lastModelPortfolio = findTopByDate();
+
+        modelPortfolio.setDate(LocalDateTime.now());
+        modelPortfolio.setBondsIndexedValue(lastModelPortfolio.getBondsIndexedValue());
+        modelPortfolio.setGoldValue(lastModelPortfolio.getGoldValue());
+        modelPortfolio.setEmergingMarketValue(lastModelPortfolio.getEmergingMarketValue());
+        modelPortfolio.setDevelopedMarketValue(lastModelPortfolio.getDevelopedMarketValue());
+        modelPortfolio.setBondsQuotedValue(lastModelPortfolio.getBondsQuotedValue());
+
+        return modelPortfolio;
     }
 }

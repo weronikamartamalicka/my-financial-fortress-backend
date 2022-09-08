@@ -16,5 +16,4 @@ public class InflationValuationDto {
     private LocalDateTime date;
     private BigDecimal valuation;
     private BigDecimal interestsValuation;
-    private BigDecimal entireValuation;
 }

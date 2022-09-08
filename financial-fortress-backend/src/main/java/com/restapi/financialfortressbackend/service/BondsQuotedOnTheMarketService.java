@@ -2,7 +2,6 @@ package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BondsQuotedOnTheMarketService {
@@ -44,7 +41,7 @@ public class BondsQuotedOnTheMarketService {
 
         modelPortfolio.setBondsQuotedValue(entireStocksValuation);
         bondsQuotedOnTheMarketInvestment.setQuantity(bondsNumber);
-        bondsQuotedValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
+        bondsQuotedOnTheMarketInvestment.setEntireValuation(entireStocksValuation);
 
         bondsQuotedInvestmentRepository.save(bondsQuotedOnTheMarketInvestment);
     }
@@ -61,5 +58,13 @@ public class BondsQuotedOnTheMarketService {
 
     public void deleteAll() {
         bondsQuotedInvestmentRepository.deleteAll();
+    }
+
+    public void saveBondsQuotedInvestment(BondsQuotedOnTheMarketInvestment bondsQuotedInvestment) {
+        bondsQuotedInvestmentRepository.save(bondsQuotedInvestment);
+    }
+
+    public BondsQuotedOnTheMarketInvestment findTopByDate() {
+        return bondsQuotedInvestmentRepository.findAll().get(bondsQuotedInvestmentRepository.findAll().size() - 1);
     }
 }

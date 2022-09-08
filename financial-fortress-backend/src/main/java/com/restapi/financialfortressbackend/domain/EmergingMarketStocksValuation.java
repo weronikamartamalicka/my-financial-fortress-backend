@@ -24,7 +24,7 @@ public class EmergingMarketStocksValuation {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @Column(name = "DATE", unique = true)
+    @Column(name = "DATE")
     private LocalDateTime date;
 
     @Column(name = "TYPE")
@@ -35,8 +35,4 @@ public class EmergingMarketStocksValuation {
 
     @Column(name = "COMMISSION")
     private BigDecimal commissionRate;
-
-
-    @Column(name = "ENTIRE_VALUATION")
-    private BigDecimal entireValuation;
 }

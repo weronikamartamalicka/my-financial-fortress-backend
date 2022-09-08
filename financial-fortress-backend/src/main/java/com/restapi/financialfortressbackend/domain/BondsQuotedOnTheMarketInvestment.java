@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,6 +26,9 @@ public class BondsQuotedOnTheMarketInvestment {
     @GeneratedValue
     @Column(name = "ID", unique = true)
     private Long id;
+
+    @Column(name = "DATE")
+    private LocalDateTime date;
 
     @Column(name = "TYPE")
     public final String type = "10 Yr Gov Bond iShr Ix";
@@ -43,6 +47,9 @@ public class BondsQuotedOnTheMarketInvestment {
 
     @Column(name = "INTEREST_PERIOD")
     private BigDecimal interestPeriod;
+
+    @Column(name = "ENTIRE_VALUATION")
+    private BigDecimal entireValuation;
 
     public BondsQuotedOnTheMarketInvestment(BigDecimal quantity) {
         this.quantity = quantity;

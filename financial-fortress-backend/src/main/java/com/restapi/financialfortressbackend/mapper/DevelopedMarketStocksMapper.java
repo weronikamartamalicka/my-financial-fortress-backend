@@ -14,7 +14,9 @@ public class DevelopedMarketStocksMapper {
     public DevelopedMarketStocksDto mapToDevelopedInvestmentDto(DevelopedMarketStocksInvestment developedInvestment) {
         return new DevelopedMarketStocksDto(
                 developedInvestment.getId(),
-                developedInvestment.getQuantity()
+                developedInvestment.getDate(),
+                developedInvestment.getQuantity(),
+                developedInvestment.getEntireValuation()
         );
     }
 
@@ -23,14 +25,19 @@ public class DevelopedMarketStocksMapper {
                 developedValuation.getId(),
                 developedValuation.getDate(),
                 developedValuation.getValuation(),
-                developedValuation.getCommissionRate(),
-                developedValuation.getEntireValuation()
+                developedValuation.getCommissionRate()
         );
     }
 
     public List<DevelopedMarketValuationDto> mapToDevelopedValuationListDto(List<DevelopedMarketStocksValuation> list) {
         return list.stream()
                 .map(this::mapToDevelopedValuationDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<DevelopedMarketStocksDto> mapToDevelopedInvestmentListDto(List<DevelopedMarketStocksInvestment> list) {
+        return list.stream()
+                .map(this::mapToDevelopedInvestmentDto)
                 .collect(Collectors.toList());
     }
 }

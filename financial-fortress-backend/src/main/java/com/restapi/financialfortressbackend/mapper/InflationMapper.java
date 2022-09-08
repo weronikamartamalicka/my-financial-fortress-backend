@@ -14,8 +14,10 @@ public class InflationMapper {
     public InflationIndexedBondsDto mapToInflationBondsInvestmentDto(InflationIndexedBondsInvestment inflationBonds) {
         return new InflationIndexedBondsDto(
                 inflationBonds.getId(),
+                inflationBonds.getDate(),
                 inflationBonds.getQuantity(),
-                inflationBonds.getRedemptionDate()
+                inflationBonds.getRedemptionDate(),
+                inflationBonds.getEntireValuation()
         );
     }
 
@@ -31,8 +33,13 @@ public class InflationMapper {
                 inflationValuation.getId(),
                 inflationValuation.getDate(),
                 inflationValuation.getValuation(),
-                inflationValuation.getInterestsValuation(),
-                inflationValuation.getEntireValuation()
+                inflationValuation.getInterestsValuation()
         );
+    }
+
+    public List<InflationIndexedBondsDto> mapToInflationBondsInvestmentListDto(List<InflationIndexedBondsInvestment> list) {
+        return list.stream()
+                .map(this::mapToInflationBondsInvestmentDto)
+                .collect(Collectors.toList());
     }
 }

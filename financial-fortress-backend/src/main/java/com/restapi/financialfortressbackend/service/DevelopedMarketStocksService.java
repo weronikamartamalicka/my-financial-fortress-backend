@@ -1,7 +1,6 @@
 package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.DevelopedMarketInvestmentRepository;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DevelopedMarketStocksService {
@@ -40,7 +37,7 @@ public class DevelopedMarketStocksService {
 
         modelPortfolio.setDevelopedMarketValue(entireStocksValuation);
         developedMarketStocksInvestment.setQuantity(stocksNumber);
-        developedMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
+        developedMarketStocksInvestment.setEntireValuation(entireStocksValuation);
 
         developedMarketRepository.save(developedMarketStocksInvestment);
     }
@@ -52,5 +49,17 @@ public class DevelopedMarketStocksService {
 
     public void deleteAll() {
         developedMarketRepository.deleteAll();
+    }
+
+    public List<DevelopedMarketStocksInvestment> findAll() {
+        return developedMarketRepository.findAll();
+    }
+
+    public DevelopedMarketStocksInvestment findTopByDate() {
+        return developedMarketRepository.findAll().get(developedMarketRepository.findAll().size() - 1);
+    }
+
+    public void saveDevelopedMarketInvestment(DevelopedMarketStocksInvestment developedMarketInvestment) {
+        developedMarketRepository.save(developedMarketInvestment);
     }
 }

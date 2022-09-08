@@ -3,6 +3,7 @@ package com.restapi.financialfortressbackend.controller;
 import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
+import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.*;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
@@ -13,10 +14,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @CrossOrigin(value = "*")
@@ -30,31 +29,41 @@ public class GoldController {
     private final GoldMapper goldMapper;
     private final ModelPortfolioService modelPortfolioService;
 
-    @Scheduled(cron = "0 0 10 * * *")
+    @Scheduled(cron = "0 0 09,14 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/gold/value")
     public void saveNewValuation() {
 
         GoldValuation goldValuation = new GoldValuation();
-
         goldValuation.setDate(LocalDateTime.now());
         Root goldResponse = goldClient.getGoldSaleValue();
         BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
         goldValuation.setOneCoinPrice(oneCoinPrice);
 
-        BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE())
-                        .orElse(new GoldInvestment(new BigDecimal(0))).getQuantity();
+        if(modelPortfolioService.getAll().size()!=0) {
+            GoldInvestment goldInvestment = new GoldInvestment();
+            GoldInvestment lastGoldInvestment = goldInvestmentService.findTopByDate();
+            goldInvestment.setQuantity(lastGoldInvestment.getQuantity());
 
-        goldValuation.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
-        modelPortfolioService.findByDate(LocalDate.now()).setGoldValue(coinsQuantity.multiply(oneCoinPrice));
-        modelPortfolioService.calculatePercentageComposition();
+            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
+            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
+
+            BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE()).getQuantity();
+
+            goldInvestment.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
+            modelPortfolio.setGoldValue(coinsQuantity.multiply(oneCoinPrice));
+            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+
+            goldInvestmentService.saveGoldInvestment(goldInvestment);
+            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+        }
 
         goldValuationService.saveGoldValuation(goldValuation);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/gold/invest/{type}")
-    public GoldInvestmentDto getInvestmentInfo(@PathVariable String type) {
-        return goldMapper.matToGoldInvestmentDto(goldInvestmentService.findByType(type)
-                .orElse(new GoldInvestment(new BigDecimal(0))));
+    @RequestMapping(method = RequestMethod.GET, value = "/gold/invest")
+    public List<GoldInvestmentDto> getInvestmentInfo() {
+        return goldMapper.matToGoldInvestmentListDto(goldInvestmentService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/value")
@@ -63,7 +72,7 @@ public class GoldController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/values")
-    public List<RatesMap> getYearPrices() {
+    public List<BigDecimal> getYearPrices() {
         return goldClient.getYearGoldSaleValue();
     }
 

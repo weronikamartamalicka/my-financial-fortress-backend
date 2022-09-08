@@ -2,10 +2,8 @@ package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.client.GoldClient;
-import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.exception.GoldNotFoundException;
 import com.restapi.financialfortressbackend.repository.GoldInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +42,13 @@ public class GoldInvestmentService {
         if (goldModelValuation.compareTo(goldPurchase) == -1) {
             modelPortfolio.setGoldValue(goldPurchase);
             goldInvestment.setQuantity(new BigDecimal(1));
-            goldValuationService.findTopByDate().setEntireValuation(goldSale.get());
+            goldInvestment.setEntireValuation(goldSale.get());
 
         } else {
             BigDecimal coinsQuantity = goldModelValuation.divide(goldPurchase, 0, RoundingMode.DOWN);
             goldInvestment.setQuantity(coinsQuantity);
             BigDecimal actualValue = coinsQuantity.multiply(goldSale.get());
-            goldValuationService.findTopByDate().setEntireValuation(actualValue);
+            goldInvestment.setEntireValuation(actualValue);
             modelPortfolio.setGoldValue(actualValue);
         }
 
@@ -65,5 +62,17 @@ public class GoldInvestmentService {
 
     public void deleteAll() {
         goldRepository.deleteAll();
+    }
+
+    public List<GoldInvestment> findAll() {
+        return goldRepository.findAll();
+    }
+
+    public GoldInvestment findTopByDate() {
+        return  goldRepository.findAll().get(goldRepository.findAll().size() - 1);
+    }
+
+    public void saveGoldInvestment(GoldInvestment goldInvestment) {
+        goldRepository.save(goldInvestment);
     }
 }

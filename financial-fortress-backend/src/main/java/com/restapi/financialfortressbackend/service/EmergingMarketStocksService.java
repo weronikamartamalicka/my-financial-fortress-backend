@@ -1,7 +1,6 @@
 package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
-import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.EmergingMarketInvestmentRepository;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmergingMarketStocksService {
@@ -39,7 +36,7 @@ public class EmergingMarketStocksService {
 
         modelPortfolio.setEmergingMarketValue(entireStocksValuation);
         emergingMarketStocksInvestment.setQuantity(stocksNumber);
-        emergingMarketValuationService.findTopByDate().setEntireValuation(entireStocksValuation);
+        emergingMarketStocksInvestment.setEntireValuation(entireStocksValuation);
 
         emergingMarketRepository.save(emergingMarketStocksInvestment);
     }
@@ -51,5 +48,17 @@ public class EmergingMarketStocksService {
 
     public void deleteAll() {
         emergingMarketRepository.deleteAll();
+    }
+
+    public List<EmergingMarketStocksInvestment> findAll() {
+        return emergingMarketRepository.findAll();
+    }
+
+    public EmergingMarketStocksInvestment findTopByDate() {
+        return emergingMarketRepository.findAll().get(emergingMarketRepository.findAll().size() - 1);
+    }
+
+    public void saveEmergingMarketInvestment(EmergingMarketStocksInvestment emergingMarketInvestment) {
+        emergingMarketRepository.save(emergingMarketInvestment);
     }
 }
