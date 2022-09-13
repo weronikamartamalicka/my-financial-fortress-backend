@@ -3,20 +3,9 @@ package com.restapi.financialfortressbackend.client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.restapi.financialfortressbackend.domain.GoldValuation;
-import com.restapi.financialfortressbackend.domain.dto.GoldResponse;
-import com.restapi.financialfortressbackend.domain.dto.Rates;
-import com.restapi.financialfortressbackend.domain.dto.RatesMap;
-import com.restapi.financialfortressbackend.domain.dto.Root;
-import com.restapi.financialfortressbackend.service.GoldInvestmentService;
-import com.restapi.financialfortressbackend.service.GoldValuationService;
-import lombok.Getter;
+import com.restapi.financialfortressbackend.domain.dto.response.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -28,7 +17,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

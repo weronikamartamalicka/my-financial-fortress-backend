@@ -42,6 +42,7 @@ public class InflationIndexedBondsController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             InflationIndexedBondsInvestment inflationIndexedInvestment = new InflationIndexedBondsInvestment();
+            inflationIndexedInvestment.setDate(LocalDateTime.now());
             InflationIndexedBondsInvestment lastIndexedInvestment = inflationIndexedBondsService.findTopByDate();
             inflationIndexedInvestment.setQuantity(lastIndexedInvestment.getQuantity());
             inflationIndexedInvestment.setRedemptionDate(lastIndexedInvestment.getRedemptionDate());

@@ -47,6 +47,7 @@ public class DevelopedMarketStocksController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             DevelopedMarketStocksInvestment developedMarketInvestment = new DevelopedMarketStocksInvestment();
+            developedMarketInvestment.setDate(LocalDateTime.now());
             DevelopedMarketStocksInvestment lastDevelopedInvestment = developedMarketService.findTopByDate();
             developedMarketInvestment.setQuantity(lastDevelopedInvestment.getQuantity());
 

@@ -43,6 +43,7 @@ public class BondsQuotedOnTheMarketController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             BondsQuotedOnTheMarketInvestment bondsQuotedInvestment = new BondsQuotedOnTheMarketInvestment();
+            bondsQuotedInvestment.setDate(LocalDateTime.now());
             BondsQuotedOnTheMarketInvestment lastBondsInvestment = bondsQuotedService.findTopByDate();
             bondsQuotedInvestment.setRedemptionDate(lastBondsInvestment.getRedemptionDate());
             bondsQuotedInvestment.setQuantity(lastBondsInvestment.getQuantity());

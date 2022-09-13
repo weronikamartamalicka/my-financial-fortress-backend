@@ -5,6 +5,7 @@ import com.restapi.financialfortressbackend.domain.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.GoldValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.dto.*;
+import com.restapi.financialfortressbackend.domain.dto.response.Root;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -41,6 +42,7 @@ public class GoldController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             GoldInvestment goldInvestment = new GoldInvestment();
+            goldInvestment.setDate(LocalDateTime.now());
             GoldInvestment lastGoldInvestment = goldInvestmentService.findTopByDate();
             goldInvestment.setQuantity(lastGoldInvestment.getQuantity());
 

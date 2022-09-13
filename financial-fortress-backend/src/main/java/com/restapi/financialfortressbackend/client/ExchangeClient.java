@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.client;
 
-import com.restapi.financialfortressbackend.domain.dto.ExchangeResponse;
+import com.restapi.financialfortressbackend.domain.dto.response.ExchangeResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;

@@ -45,6 +45,7 @@ public class EmergingMarketStocksController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             EmergingMarketStocksInvestment emergingMarketInvestment = new EmergingMarketStocksInvestment();
+            emergingMarketInvestment.setDate(LocalDateTime.now());
             EmergingMarketStocksInvestment lastEmergingInvestment = emergingMarketService.findTopByDate();
             emergingMarketInvestment.setQuantity(lastEmergingInvestment.getQuantity());
 

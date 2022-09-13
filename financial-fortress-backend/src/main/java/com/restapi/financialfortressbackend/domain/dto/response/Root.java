@@ -1,14 +1,12 @@
-package com.restapi.financialfortressbackend.domain.dto;
+package com.restapi.financialfortressbackend.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GoldResponse {
+public class Root {
 
     @JsonProperty("success")
     public boolean success;
@@ -20,5 +18,5 @@ public class GoldResponse {
     public int timestamp;
 
     @JsonProperty("rates")
-    public List<RatesMap> rates;
+    public Rates rates;
 }

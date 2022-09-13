@@ -3,7 +3,7 @@ package com.restapi.financialfortressbackend.client;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.restapi.financialfortressbackend.domain.dto.LoginResponse;
+import com.restapi.financialfortressbackend.domain.dto.response.LoginResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
