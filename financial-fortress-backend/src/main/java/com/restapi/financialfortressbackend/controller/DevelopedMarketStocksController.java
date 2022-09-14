@@ -17,7 +17,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -38,8 +41,10 @@ public class DevelopedMarketStocksController {
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
     public void saveNewValuation() {
 
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
-        developedMarketValuation.setDate(LocalDateTime.now());
+        developedMarketValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneSharePrice = developedMarketValuationService
                 .getOneShareValue(developedMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         developedMarketValuation.setValuation(oneSharePrice);
@@ -47,12 +52,12 @@ public class DevelopedMarketStocksController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             DevelopedMarketStocksInvestment developedMarketInvestment = new DevelopedMarketStocksInvestment();
-            developedMarketInvestment.setDate(LocalDateTime.now());
+            developedMarketInvestment.setDate(LocalDateTime.now(z));
             DevelopedMarketStocksInvestment lastDevelopedInvestment = developedMarketService.findTopByDate();
             developedMarketInvestment.setQuantity(lastDevelopedInvestment.getQuantity());
 
             ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
             BigDecimal sharesQuantity = developedMarketService

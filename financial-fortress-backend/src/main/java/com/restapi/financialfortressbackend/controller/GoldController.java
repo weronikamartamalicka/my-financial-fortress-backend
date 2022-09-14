@@ -15,7 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController()
@@ -34,20 +37,22 @@ public class GoldController {
     @RequestMapping(method = RequestMethod.POST, value = "/gold/value")
     public void saveNewValuation() {
 
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
         GoldValuation goldValuation = new GoldValuation();
-        goldValuation.setDate(LocalDateTime.now());
+        goldValuation.setDate(LocalDateTime.now(z));
         Root goldResponse = goldClient.getGoldSaleValue();
         BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
         goldValuation.setOneCoinPrice(oneCoinPrice);
 
         if(modelPortfolioService.getAll().size()!=0) {
             GoldInvestment goldInvestment = new GoldInvestment();
-            goldInvestment.setDate(LocalDateTime.now());
+            goldInvestment.setDate(LocalDateTime.now(z));
             GoldInvestment lastGoldInvestment = goldInvestmentService.findTopByDate();
             goldInvestment.setQuantity(lastGoldInvestment.getQuantity());
 
             ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
             BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE()).getQuantity();

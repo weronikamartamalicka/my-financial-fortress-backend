@@ -8,8 +8,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -20,7 +22,7 @@ public class DevelopedMarketStocksValuation {
 
     @Id
     @NotNull
-    @GeneratedValue
+    @GeneratedValue()
     @Column(name = "ID", unique = true)
     private Long id;
 

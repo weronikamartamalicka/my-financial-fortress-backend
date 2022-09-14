@@ -15,7 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -34,15 +37,17 @@ public class InflationIndexedBondsController {
     @RequestMapping(method = RequestMethod.POST, value = "/inflation/value")
     public void saveNewValuation() {
 
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
         InflationIndexedBondsValuation inflationIndexedBondsValuation = new InflationIndexedBondsValuation();
-        inflationIndexedBondsValuation.setDate(LocalDateTime.now());
+        inflationIndexedBondsValuation.setDate(LocalDateTime.now(z));
         BigDecimal inflationRate = inflationClient.getInflationRate();
         inflationIndexedBondsValuation.setValuation(inflationRate);
         inflationIndexedBondsValuation.setInterestsValuation(BigDecimal.valueOf(0));
 
         if(modelPortfolioService.getAll().size()!=0) {
             InflationIndexedBondsInvestment inflationIndexedInvestment = new InflationIndexedBondsInvestment();
-            inflationIndexedInvestment.setDate(LocalDateTime.now());
+            inflationIndexedInvestment.setDate(LocalDateTime.now(z));
             InflationIndexedBondsInvestment lastIndexedInvestment = inflationIndexedBondsService.findTopByDate();
             inflationIndexedInvestment.setQuantity(lastIndexedInvestment.getQuantity());
             inflationIndexedInvestment.setRedemptionDate(lastIndexedInvestment.getRedemptionDate());
@@ -57,7 +62,7 @@ public class InflationIndexedBondsController {
                     interestRate.add(inflationRate));
 
             ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
             inflationIndexedInvestment.setEntireValuation(entireValuation);

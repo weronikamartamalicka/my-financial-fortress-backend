@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -23,7 +26,9 @@ public class ModelPortfolioService {
 
     public void calculateComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
-        modelPortfolio.setDate(LocalDateTime.now());
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
+        modelPortfolio.setDate(LocalDateTime.now(z));
 
         goldInvestmentService.calculateGoldComposition(investmentCapital, modelPortfolio);
         developedMarketStocksService.calculateDevelopedMarketComposition(investmentCapital, modelPortfolio);
@@ -81,7 +86,9 @@ public class ModelPortfolioService {
     public ModelPortfolioInvestment copyPortfolioValues(ModelPortfolioInvestment modelPortfolio) {
         ModelPortfolioInvestment lastModelPortfolio = findTopByDate();
 
-        modelPortfolio.setDate(LocalDateTime.now());
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
+        modelPortfolio.setDate(LocalDateTime.now(z));
         modelPortfolio.setBondsIndexedValue(lastModelPortfolio.getBondsIndexedValue());
         modelPortfolio.setGoldValue(lastModelPortfolio.getGoldValue());
         modelPortfolio.setEmergingMarketValue(lastModelPortfolio.getEmergingMarketValue());

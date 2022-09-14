@@ -16,7 +16,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController()
@@ -36,8 +39,10 @@ public class EmergingMarketStocksController {
     @RequestMapping(method = RequestMethod.POST, value = "/emerging/value")
     public void saveNewValuation() {
 
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
         EmergingMarketStocksValuation emergingMarketValuation = new EmergingMarketStocksValuation();
-        emergingMarketValuation.setDate(LocalDateTime.now());
+        emergingMarketValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneSharePrice = emergingValuationService
                 .getOneShareValue(emergingMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
         emergingMarketValuation.setValuation(oneSharePrice);
@@ -45,12 +50,12 @@ public class EmergingMarketStocksController {
 
         if(modelPortfolioService.getAll().size()!=0) {
             EmergingMarketStocksInvestment emergingMarketInvestment = new EmergingMarketStocksInvestment();
-            emergingMarketInvestment.setDate(LocalDateTime.now());
+            emergingMarketInvestment.setDate(LocalDateTime.now(z));
             EmergingMarketStocksInvestment lastEmergingInvestment = emergingMarketService.findTopByDate();
             emergingMarketInvestment.setQuantity(lastEmergingInvestment.getQuantity());
 
             ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
             BigDecimal sharesQuantity = emergingMarketService

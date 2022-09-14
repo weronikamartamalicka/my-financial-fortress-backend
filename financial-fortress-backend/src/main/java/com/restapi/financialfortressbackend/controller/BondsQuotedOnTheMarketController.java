@@ -15,7 +15,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -35,21 +38,23 @@ public class BondsQuotedOnTheMarketController {
     @RequestMapping(method = RequestMethod.POST, value = "/bonds/quoted/value")
     public void saveNewValuation() {
 
+        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+
         BondsQuotedOnTheMarketValuation bondsQuotedValuation = new BondsQuotedOnTheMarketValuation();
-        bondsQuotedValuation.setDate(LocalDateTime.now());
+        bondsQuotedValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneBondPrice = bondsQuotedClient.getDayBondsValuation().add(BigDecimal.valueOf(1000));
         bondsQuotedValuation.setValuation(oneBondPrice);
         bondsQuotedValuation.setCommissionRate(bondsQuotedClient.getCommissionValue());
 
         if(modelPortfolioService.getAll().size()!=0) {
             BondsQuotedOnTheMarketInvestment bondsQuotedInvestment = new BondsQuotedOnTheMarketInvestment();
-            bondsQuotedInvestment.setDate(LocalDateTime.now());
+            bondsQuotedInvestment.setDate(LocalDateTime.now(z));
             BondsQuotedOnTheMarketInvestment lastBondsInvestment = bondsQuotedService.findTopByDate();
             bondsQuotedInvestment.setRedemptionDate(lastBondsInvestment.getRedemptionDate());
             bondsQuotedInvestment.setQuantity(lastBondsInvestment.getQuantity());
 
             ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now());
+            modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
             BigDecimal bondsQuantity = bondsQuotedService
