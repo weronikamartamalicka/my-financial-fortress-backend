@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,6 +26,8 @@ public class EmergingMarketStocksService {
     public void calculateEmergingMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         EmergingMarketStocksInvestment emergingMarketStocksInvestment = new EmergingMarketStocksInvestment();
+
+        emergingMarketStocksInvestment.setDate(LocalDateTime.now());
 
         BigDecimal saleValuation = emergingMarketValuationService.findTopByDate().getValuation();
         BigDecimal commissionValue = emergingMarketValuationService.findTopByDate().getCommissionRate();

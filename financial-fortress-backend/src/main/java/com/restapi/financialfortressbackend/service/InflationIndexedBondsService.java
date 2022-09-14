@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class InflationIndexedBondsService {
     public void calculateBondsIndexedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         InflationIndexedBondsInvestment inflationIndexedBondsInvestment = new InflationIndexedBondsInvestment();
+        inflationIndexedBondsInvestment.setDate(LocalDateTime.now());
         inflationIndexedBondsInvestment.setRedemptionDate(LocalDate.now().plusYears(12));
 
         BigDecimal remainingCapital = investmentCapital
