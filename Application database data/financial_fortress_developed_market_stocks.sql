@@ -1,0 +1,16 @@
+insert into financial_fortress.developed_market_stocks (id, quantity, type, entire_valuation, date)
+values  (87, 28.00, 'MSCI China A DivAdj Ix', 7292.88, '2022-09-10 13:44:16'),
+        (92, 28.00, 'MSCI China A DivAdj Ix', 7294.91, '2022-09-10 13:44:10'),
+        (122, 28.00, 'MSCI China A DivAdj Ix', 7371.39, '2022-09-11 13:44:05'),
+        (140, 28.00, 'MSCI China A DivAdj Ix', 7407.64, '2022-09-12 13:43:58'),
+        (146, 28.00, 'MSCI China A DivAdj Ix', 7396.26, '2022-09-13 13:43:53'),
+        (164, 28.00, 'MSCI China A DivAdj Ix', 7567.07, '2022-09-14 09:42:05.740152'),
+        (167, 28.00, 'MSCI China A DivAdj Ix', 7567.07, '2022-09-14 09:42:27.269675'),
+        (170, 28.00, 'MSCI China A DivAdj Ix', 7552.00, '2022-09-14 09:59:09.514235'),
+        (176, 28.00, 'MSCI China A DivAdj Ix', 7527.51, '2022-09-14 10:19:03.636995'),
+        (182, 28.00, 'MSCI China A DivAdj Ix', 7530.69, '2022-09-14 10:31:59.074126'),
+        (185, 28.00, 'MSCI China A DivAdj Ix', 7526.08, '2022-09-14 10:42:56.501062'),
+        (189, 28.00, 'MSCI China A DivAdj Ix', 7537.25, '2022-09-14 04:55:06.956168'),
+        (192, 28.00, 'MSCI China A DivAdj Ix', 7541.39, '2022-09-14 05:00:02.681804'),
+        (195, 28.00, 'MSCI China A DivAdj Ix', 7529.73, '2022-09-14 05:33:08.598220'),
+        (198, 28.00, 'MSCI China A DivAdj Ix', 7529.73, '2022-09-14 05:33:28.903848');
