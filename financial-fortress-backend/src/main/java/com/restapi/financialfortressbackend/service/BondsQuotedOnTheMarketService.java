@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -29,7 +30,8 @@ public class BondsQuotedOnTheMarketService {
     public void calculateBondsQuotedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         BondsQuotedOnTheMarketInvestment bondsQuotedOnTheMarketInvestment = new BondsQuotedOnTheMarketInvestment();
-        bondsQuotedOnTheMarketInvestment.setDate(LocalDateTime.now());
+        ZoneId z = ZoneId.of( "Europe/Warsaw" );
+        bondsQuotedOnTheMarketInvestment.setDate(LocalDateTime.now(z));
         bondsQuotedOnTheMarketInvestment.setRedemptionDate(LocalDate.now().plusYears(10));
 
         BigDecimal saleValuation = bondsQuotedValuationService.findTopByDate().getValuation();

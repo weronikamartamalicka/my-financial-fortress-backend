@@ -37,7 +37,7 @@ public class InflationIndexedBondsController {
     @RequestMapping(method = RequestMethod.POST, value = "/inflation/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw");
 
         InflationIndexedBondsValuation inflationIndexedBondsValuation = new InflationIndexedBondsValuation();
         inflationIndexedBondsValuation.setDate(LocalDateTime.now(z));

@@ -15,10 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -38,7 +36,7 @@ public class BondsQuotedOnTheMarketController {
     @RequestMapping(method = RequestMethod.POST, value = "/bonds/quoted/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw" );
 
         BondsQuotedOnTheMarketValuation bondsQuotedValuation = new BondsQuotedOnTheMarketValuation();
         bondsQuotedValuation.setDate(LocalDateTime.now(z));

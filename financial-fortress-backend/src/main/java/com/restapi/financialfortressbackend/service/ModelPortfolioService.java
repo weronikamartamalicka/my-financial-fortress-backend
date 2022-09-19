@@ -26,8 +26,7 @@ public class ModelPortfolioService {
 
     public void calculateComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
-
+        ZoneId z = ZoneId.of( "Europe/Warsaw" );
         modelPortfolio.setDate(LocalDateTime.now(z));
 
         goldInvestmentService.calculateGoldComposition(investmentCapital, modelPortfolio);

@@ -37,7 +37,7 @@ public class GoldController {
     @RequestMapping(method = RequestMethod.POST, value = "/gold/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw");
 
         GoldValuation goldValuation = new GoldValuation();
         goldValuation.setDate(LocalDateTime.now(z));

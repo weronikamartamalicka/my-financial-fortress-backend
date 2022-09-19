@@ -39,7 +39,7 @@ public class EmergingMarketStocksController {
     @RequestMapping(method = RequestMethod.POST, value = "/emerging/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw");
 
         EmergingMarketStocksValuation emergingMarketValuation = new EmergingMarketStocksValuation();
         emergingMarketValuation.setDate(LocalDateTime.now(z));

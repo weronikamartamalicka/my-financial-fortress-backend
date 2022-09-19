@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,8 @@ public class GoldInvestmentService {
     public void calculateGoldComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         GoldInvestment goldInvestment = new GoldInvestment();
-        goldInvestment.setDate(LocalDateTime.now());
+        ZoneId z = ZoneId.of( "Europe/Warsaw" );
+        goldInvestment.setDate(LocalDateTime.now(z));
 
         Optional<BigDecimal> goldSale = Optional.ofNullable(
                 goldValuationService.findTopByDate().getOneCoinPrice());

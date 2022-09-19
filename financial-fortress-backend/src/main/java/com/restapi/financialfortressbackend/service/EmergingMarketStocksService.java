@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -26,8 +27,8 @@ public class EmergingMarketStocksService {
     public void calculateEmergingMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         EmergingMarketStocksInvestment emergingMarketStocksInvestment = new EmergingMarketStocksInvestment();
-
-        emergingMarketStocksInvestment.setDate(LocalDateTime.now());
+        ZoneId z = ZoneId.of( "Europe/Warsaw" );
+        emergingMarketStocksInvestment.setDate(LocalDateTime.now(z));
 
         BigDecimal saleValuation = emergingMarketValuationService.findTopByDate().getValuation();
         BigDecimal commissionValue = emergingMarketValuationService.findTopByDate().getCommissionRate();

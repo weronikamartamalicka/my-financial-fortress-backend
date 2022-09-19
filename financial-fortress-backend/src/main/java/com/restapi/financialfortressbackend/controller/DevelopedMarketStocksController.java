@@ -41,7 +41,7 @@ public class DevelopedMarketStocksController {
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw");
 
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
         developedMarketValuation.setDate(LocalDateTime.now(z));
