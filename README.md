@@ -3,7 +3,7 @@ Backend of an application used to secure the financial future. It is based on kn
 
 
 
-https://user-images.githubusercontent.com/104759555/191270640-021142cf-7bbe-44cf-ac64-433b59cec1bd.mp4
+https://user-images.githubusercontent.com/104759555/191286024-84ef7ead-90ce-4c7a-b6eb-c2fa5761901f.mp4
 
 
 
