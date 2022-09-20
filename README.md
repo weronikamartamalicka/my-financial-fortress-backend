@@ -8,3 +8,5 @@ Link to the app frontend:https://github.com/weronikamartamalicka/my-financial-fo
 In the future, I would like to expand it with the possibility of comparing different portfolios and the direct possibility of buying financial instruments.
 
 Due to the fact that the full functionality, any charts, changes are visible only after some time, I provide my data from the database :https://github.com/weronikamartamalicka/my-financial-fortress-backend/tree/main/Application%20database%20data
+
+HIT THE FinancialFortressBackendApplication BUTTON and enjoy!
