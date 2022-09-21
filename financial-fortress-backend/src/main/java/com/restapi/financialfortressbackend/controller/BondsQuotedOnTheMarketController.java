@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.controller;
 
-import com.restapi.financialfortressbackend.client.BondsQuotedOnTheMarketClient;
+import com.restapi.financialfortressbackend.client.FastTrackClient;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
@@ -27,10 +27,10 @@ import java.util.List;
 public class BondsQuotedOnTheMarketController {
 
     private final BondsQuotedOnTheMarketMapper bondsQuotedMapper;
-    private final BondsQuotedOnTheMarketClient bondsQuotedClient;
     private final BondsQuotedOnTheMarketService bondsQuotedService;
     private final BondsQuotedValuationService bondsQuotedValuationService;
     private final ModelPortfolioService modelPortfolioService;
+    private final FastTrackClient fastTrackClient;
 
     @Scheduled(cron = "0 0 10,18 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/bonds/quoted/value")
@@ -40,9 +40,10 @@ public class BondsQuotedOnTheMarketController {
 
         BondsQuotedOnTheMarketValuation bondsQuotedValuation = new BondsQuotedOnTheMarketValuation();
         bondsQuotedValuation.setDate(LocalDateTime.now(z));
-        BigDecimal oneBondPrice = bondsQuotedClient.getDayBondsValuation().add(BigDecimal.valueOf(1000));
+        BigDecimal oneBondPrice = fastTrackClient.getActualValidation(
+                bondsQuotedValuation.getType()).add(BigDecimal.valueOf(1000));
         bondsQuotedValuation.setValuation(oneBondPrice);
-        bondsQuotedValuation.setCommissionRate(bondsQuotedClient.getCommissionValue());
+        bondsQuotedValuation.setCommissionRate(fastTrackClient.getCommissionRate());
 
         if(modelPortfolioService.getAll().size()!=0) {
             BondsQuotedOnTheMarketInvestment bondsQuotedInvestment = new BondsQuotedOnTheMarketInvestment();
@@ -66,7 +67,6 @@ public class BondsQuotedOnTheMarketController {
             bondsQuotedService.saveBondsQuotedInvestment(bondsQuotedInvestment);
             modelPortfolioService.saveModelPortfolio(modelPortfolio);
         }
-
         bondsQuotedValuationService.saveBondsQuotedValuation(bondsQuotedValuation);
     }
 
@@ -82,6 +82,6 @@ public class BondsQuotedOnTheMarketController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/bonds/values")
     public List<BigDecimal> getYearPrices() {
-        return bondsQuotedClient.getYearBondsValuation();
+        return fastTrackClient.getHistoricalValuation("10 Yr Gov Bond iShr Ix");
     }
 }

@@ -1,7 +1,7 @@
 package com.restapi.financialfortressbackend.controller;
 
-import com.restapi.financialfortressbackend.client.DevelopedMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
+import com.restapi.financialfortressbackend.client.FastTrackClient;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
@@ -17,10 +17,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -30,12 +28,12 @@ import java.util.List;
 @RequestMapping(value = "/v1")
 public class DevelopedMarketStocksController {
 
-    private final DevelopedMarketStocksClient developedMarketClient;
     private final DevelopedMarketStocksService developedMarketService;
     private final DevelopedMarketValuationService developedMarketValuationService;
     private final DevelopedMarketStocksMapper developedMarketMapper;
     private final ExchangeClient exchangeClient;
     private final ModelPortfolioService modelPortfolioService;
+    private final FastTrackClient fastTrackClient;
 
     @Scheduled(cron = "0 0 11,19 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
@@ -46,9 +44,10 @@ public class DevelopedMarketStocksController {
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
         developedMarketValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneSharePrice = developedMarketValuationService
-                .getOneShareValue(developedMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
+                .getOneShareValue(fastTrackClient
+                        .getActualValidation(developedMarketValuation.getType()), exchangeClient.getUSDToPLN());
         developedMarketValuation.setValuation(oneSharePrice);
-        developedMarketValuation.setCommissionRate(developedMarketClient.getCommissionValue());
+        developedMarketValuation.setCommissionRate(fastTrackClient.getCommissionRate());
 
         if(modelPortfolioService.getAll().size()!=0) {
             DevelopedMarketStocksInvestment developedMarketInvestment = new DevelopedMarketStocksInvestment();
@@ -71,7 +70,6 @@ public class DevelopedMarketStocksController {
             developedMarketService.saveDevelopedMarketInvestment(developedMarketInvestment);
             modelPortfolioService.saveModelPortfolio(modelPortfolio);
         }
-
         developedMarketValuationService.saveDevelopedMarketValuation(developedMarketValuation);
     }
 
@@ -87,7 +85,6 @@ public class DevelopedMarketStocksController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/values")
     public List<BigDecimal> getYearPrices() {
-        return developedMarketClient.getYearStockValuation();
+        return fastTrackClient.getHistoricalValuation("MSCI China A DivAdj Ix");
     }
-
 }

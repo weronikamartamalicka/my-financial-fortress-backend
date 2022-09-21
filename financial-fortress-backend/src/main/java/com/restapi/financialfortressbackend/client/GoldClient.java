@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.client;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.restapi.financialfortressbackend.domain.dto.response.Root;
@@ -21,11 +22,9 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 public class GoldClient {
-
     private final RestTemplate restTemplate;
     private static final String API_ROOT = "https://api.metalpriceapi.com/v1/";
     private static final String API_KEY = "0536b4c167ab37347f33927745026aab";
-
 
     public Root getGoldSaleValue() {
 
@@ -36,7 +35,6 @@ public class GoldClient {
                 .build()
                 .encode()
                 .toUri();
-
         try {
             Root goldResponse = restTemplate.getForObject(url, Root.class);
             return Optional.ofNullable(goldResponse).orElse(new Root());
@@ -54,7 +52,8 @@ public class GoldClient {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         try {
-            HttpResponse<String> responseString = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> responseString = HttpClient.newHttpClient().send(
+                    request, HttpResponse.BodyHandlers.ofString());
             String json = responseString.body();
 
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
@@ -63,16 +62,13 @@ public class GoldClient {
 
             List<BigDecimal> priceList = new ArrayList<>();
 
-            Iterator iterator = dataRangeArray.iterator();
-            while(iterator.hasNext()) {
-                JsonObject object = (JsonObject)iterator.next();
+            for (JsonElement jsonElement : dataRangeArray) {
+                JsonObject object = (JsonObject) jsonElement;
                 priceList.add(object.get("XAU").getAsBigDecimal());
             }
             return priceList;
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (RuntimeException e) {
             e.printStackTrace();

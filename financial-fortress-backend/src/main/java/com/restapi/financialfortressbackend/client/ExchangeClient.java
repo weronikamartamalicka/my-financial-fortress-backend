@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ExchangeClient {
-
     private final RestTemplate restTemplate;
     private static final String API_ROOT = "https://api.apilayer.com/exchangerates_data/convert";
     private static final String API_KEY = "TIf9r8k6RTG5hEFMJ8jAQJIrThEMQQ07";

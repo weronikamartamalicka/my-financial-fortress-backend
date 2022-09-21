@@ -1,7 +1,7 @@
 package com.restapi.financialfortressbackend.controller;
 
-import com.restapi.financialfortressbackend.client.EmergingMarketStocksClient;
 import com.restapi.financialfortressbackend.client.ExchangeClient;
+import com.restapi.financialfortressbackend.client.FastTrackClient;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.EmergingMarketStocksValuation;
 import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
@@ -16,10 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController()
@@ -30,10 +28,10 @@ public class EmergingMarketStocksController {
 
     private final EmergingMarketValuationService emergingValuationService;
     private final EmergingMarketStocksService emergingMarketService;
-    private final EmergingMarketStocksClient emergingMarketClient;
     private final EmergingMarketStocksMapper emergingMarketMapper;
     private final ExchangeClient exchangeClient;
     private final ModelPortfolioService modelPortfolioService;
+    private final FastTrackClient fastTrackClient;
 
     @Scheduled(cron = "0 0 12,20 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/emerging/value")
@@ -44,9 +42,10 @@ public class EmergingMarketStocksController {
         EmergingMarketStocksValuation emergingMarketValuation = new EmergingMarketStocksValuation();
         emergingMarketValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneSharePrice = emergingValuationService
-                .getOneShareValue(emergingMarketClient.getDayStockValuation(), exchangeClient.getUSDToPLN());
+                .getOneShareValue(fastTrackClient
+                        .getActualValidation(emergingMarketValuation.getType()), exchangeClient.getUSDToPLN());
         emergingMarketValuation.setValuation(oneSharePrice);
-        emergingMarketValuation.setCommissionRate(emergingMarketClient.getCommissionValue());
+        emergingMarketValuation.setCommissionRate(fastTrackClient.getCommissionRate());
 
         if(modelPortfolioService.getAll().size()!=0) {
             EmergingMarketStocksInvestment emergingMarketInvestment = new EmergingMarketStocksInvestment();
@@ -69,7 +68,6 @@ public class EmergingMarketStocksController {
             emergingMarketService.saveEmergingMarketInvestment(emergingMarketInvestment);
             modelPortfolioService.saveModelPortfolio(modelPortfolio);
         }
-
         emergingValuationService.saveEmergingMarketValuation(emergingMarketValuation);
     }
 
@@ -85,6 +83,6 @@ public class EmergingMarketStocksController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/emerging/values")
     public List<BigDecimal> getYearPrices() {
-        return emergingMarketClient.getYearStockValuation();
+        return fastTrackClient.getHistoricalValuation("BofAML AAA-A Emerging Markets Corporate Ix");
     }
 }

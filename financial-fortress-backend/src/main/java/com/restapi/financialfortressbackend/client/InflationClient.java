@@ -38,9 +38,7 @@ public class InflationClient {
                     .getAsBigDecimal()
                     .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (RuntimeException e) {
             e.printStackTrace();
