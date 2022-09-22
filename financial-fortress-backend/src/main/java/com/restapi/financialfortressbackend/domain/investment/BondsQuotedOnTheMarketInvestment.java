@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.domain.investment;
 
-import com.sun.istack.NotNull;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+@Table
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity(name = "BONDS_QUOTED_ON_THE_MARKET")
 public class BondsQuotedOnTheMarketInvestment extends SimpleInvestment {
 
@@ -28,20 +27,21 @@ public class BondsQuotedOnTheMarketInvestment extends SimpleInvestment {
     private BigDecimal interestPeriod;
 
     public BondsQuotedOnTheMarketInvestment() {
-        super("10 Yr Gov Bond iShr Ix");
+        super(InvestmentInstrumentName.BONDS_QUOTED.getName());
     }
 
     public BondsQuotedOnTheMarketInvestment(BigDecimal quantity) {
-        super("10 Yr Gov Bond iShr Ix", quantity);
+        super(InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity);
     }
 
     public BondsQuotedOnTheMarketInvestment(BigDecimal quantity,
                                             BigDecimal couponRate,
                                             LocalDate redemptionDate,
                                             BigDecimal interestPeriod) {
-        super("10 Yr Gov Bond iShr Ix", quantity);
+        super(InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity);
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
         this.interestPeriod = interestPeriod;
     }
+
 }

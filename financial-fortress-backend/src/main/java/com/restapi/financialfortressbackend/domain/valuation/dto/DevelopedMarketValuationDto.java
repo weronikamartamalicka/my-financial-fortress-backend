@@ -1,15 +1,11 @@
 package com.restapi.financialfortressbackend.domain.valuation.dto;
 
-import lombok.AllArgsConstructor;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-
 @Getter
 @Setter
 public class DevelopedMarketValuationDto extends SimpleValuationDto {
@@ -17,7 +13,7 @@ public class DevelopedMarketValuationDto extends SimpleValuationDto {
     private BigDecimal commissionRate;
 
     public DevelopedMarketValuationDto(Long id, LocalDateTime date, BigDecimal valuation, BigDecimal commissionRate) {
-        super(id, date, "MSCI China A DivAdj Ix", valuation);
+        super(id, date, InvestmentInstrumentName.DEVELOPED_ETF.getName(), valuation);
         this.commissionRate = commissionRate;
     }
 }

@@ -1,16 +1,14 @@
 package com.restapi.financialfortressbackend.domain.valuation;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-
+@Table
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity(name = "INFLATION_INDEXED_BONDS_VALUATION")
 public class InflationIndexedBondsValuation extends SimpleValuation {
 
@@ -18,6 +16,6 @@ public class InflationIndexedBondsValuation extends SimpleValuation {
     private BigDecimal interestsValuation;
 
     public InflationIndexedBondsValuation() {
-        super("ROD0934");
+        super(InvestmentInstrumentName.BONDS_INDEXED.getName());
     }
 }

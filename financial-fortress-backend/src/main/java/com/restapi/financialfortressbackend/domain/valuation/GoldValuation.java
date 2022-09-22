@@ -1,18 +1,13 @@
 package com.restapi.financialfortressbackend.domain.valuation;
 
-import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 
 import javax.persistence.*;
-
-@Getter
-@Setter
+@Table
 @Entity(name = "GOLD_VALUATION")
 public class GoldValuation extends SimpleValuation {
 
-
     public GoldValuation() {
-        super("Krugerrand 1/2 oz.");
+        super(InvestmentInstrumentName.GOLD.getName());
     }
 }

@@ -1,16 +1,14 @@
 package com.restapi.financialfortressbackend.domain.valuation;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-
+@Table
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity(name = "EMERGING_MARKET_STOCKS_VALUATION")
 public class EmergingMarketStocksValuation extends SimpleValuation {
 
@@ -19,6 +17,6 @@ public class EmergingMarketStocksValuation extends SimpleValuation {
     private BigDecimal commissionRate;
 
     public EmergingMarketStocksValuation() {
-        super("BofAML AAA-A Emerging Markets Corporate Ix");
+        super(InvestmentInstrumentName.EMERGING_ETF.getName());
     }
 }

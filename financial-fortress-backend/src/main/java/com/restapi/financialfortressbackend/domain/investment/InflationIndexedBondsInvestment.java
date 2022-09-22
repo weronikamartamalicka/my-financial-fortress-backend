@@ -1,15 +1,15 @@
 package com.restapi.financialfortressbackend.domain.investment;
 
-import com.sun.istack.NotNull;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Table
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,10 +29,10 @@ public class InflationIndexedBondsInvestment extends SimpleInvestment {
     private final BigDecimal price = BigDecimal.valueOf(100);
 
     public InflationIndexedBondsInvestment() {
-        super("ROD0934");
+        super(InvestmentInstrumentName.BONDS_INDEXED.getName());
     }
 
     public InflationIndexedBondsInvestment(BigDecimal quantity) {
-        super("ROD0934", quantity);
+        super(InvestmentInstrumentName.BONDS_INDEXED.getName(), quantity);
     }
 }

@@ -1,5 +1,8 @@
 package com.restapi.financialfortressbackend.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum InvestmentInstrumentName {
 
     BONDS_INDEXED("ROD0934"), BONDS_QUOTED("10 Yr Gov Bond iShr Ix"),

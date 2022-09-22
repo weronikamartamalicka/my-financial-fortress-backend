@@ -1,23 +1,20 @@
 package com.restapi.financialfortressbackend.domain.investment;
 
-import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Table
 @Entity(name = "DEVELOPED_MARKET_STOCKS")
 public class DevelopedMarketStocksInvestment extends SimpleInvestment {
 
 
     public DevelopedMarketStocksInvestment() {
-        super("MSCI China A DivAdj Ix");
+        super(InvestmentInstrumentName.DEVELOPED_ETF.getName());
     }
 
     public DevelopedMarketStocksInvestment(BigDecimal quantity) {
-        super("MSCI China A DivAdj Ix",quantity);
+        super(InvestmentInstrumentName.DEVELOPED_ETF.getName(),quantity);
     }
 }

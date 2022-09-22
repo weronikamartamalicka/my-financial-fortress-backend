@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.domain.valuation.dto;
 
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class InflationValuationDto extends SimpleValuationDto {
     private BigDecimal interestsValuation;
 
     public InflationValuationDto(Long id, LocalDateTime date, BigDecimal valuation, BigDecimal interestsValuation) {
-        super(id, date, "ROD0934", valuation);
+        super(id, date, InvestmentInstrumentName.BONDS_INDEXED.getName(), valuation);
         this.interestsValuation = interestsValuation;
     }
 }

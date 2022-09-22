@@ -1,12 +1,12 @@
 package com.restapi.financialfortressbackend.domain.investment.dto;
 
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
 public class InflationIndexedBondsDto extends SimpleInvestmentDto {
@@ -19,7 +19,7 @@ public class InflationIndexedBondsDto extends SimpleInvestmentDto {
 
     public InflationIndexedBondsDto(Long id, LocalDateTime date, BigDecimal quantity,
                                     LocalDate redemptionDate, BigDecimal entireValuation) {
-        super(id, date,"ROD0934", quantity, entireValuation);
+        super(id, date, InvestmentInstrumentName.BONDS_INDEXED.getName(), quantity, entireValuation);
         this.redemptionDate = redemptionDate;
     }
 }
