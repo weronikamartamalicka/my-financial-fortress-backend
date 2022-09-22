@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
+import com.restapi.financialfortressbackend.domain.valuation.InflationIndexedBondsValuation;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

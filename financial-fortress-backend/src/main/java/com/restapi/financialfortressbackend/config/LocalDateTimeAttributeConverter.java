@@ -15,7 +15,7 @@ public class LocalDateTimeAttributeConverter implements AttributeConverter<Local
 
     @Override
     public LocalDateTime convertToEntityAttribute(Timestamp sqlTimestamp) {
-        ZoneId z = ZoneId.of( "America/Montreal" ) ;
+        ZoneId z = ZoneId.of( "Europe/Warsaw" ) ;
         return sqlTimestamp == null ? null : sqlTimestamp.toLocalDateTime();
     }
 }

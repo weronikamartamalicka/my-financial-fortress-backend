@@ -1,9 +1,9 @@
 package com.restapi.financialfortressbackend.mapper;
 
-import com.restapi.financialfortressbackend.domain.GoldInvestment;
-import com.restapi.financialfortressbackend.domain.GoldValuation;
-import com.restapi.financialfortressbackend.domain.dto.GoldInvestmentDto;
-import com.restapi.financialfortressbackend.domain.dto.GoldValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
+import com.restapi.financialfortressbackend.domain.investment.dto.GoldInvestmentDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.GoldValuationDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class GoldMapper {
         return new GoldValuationDto(
                 goldValuation.getId(),
                 goldValuation.getDate(),
-                goldValuation.getOneCoinPrice()
+                goldValuation.getValuation()
         );
     }
 

@@ -1,11 +1,10 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.investment.EmergingMarketStocksInvestment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

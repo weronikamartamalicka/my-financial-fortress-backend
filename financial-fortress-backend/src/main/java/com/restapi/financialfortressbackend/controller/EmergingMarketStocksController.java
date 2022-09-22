@@ -2,11 +2,11 @@ package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.ExchangeClient;
 import com.restapi.financialfortressbackend.client.FastTrackClient;
-import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
-import com.restapi.financialfortressbackend.domain.EmergingMarketStocksValuation;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.EmergingMarketStocksDto;
-import com.restapi.financialfortressbackend.domain.dto.EmergingMarketValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.EmergingMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.EmergingMarketStocksValuation;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.EmergingMarketStocksDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.EmergingMarketValuationDto;
 import com.restapi.financialfortressbackend.mapper.EmergingMarketStocksMapper;
 import com.restapi.financialfortressbackend.service.EmergingMarketStocksService;
 import com.restapi.financialfortressbackend.service.EmergingMarketValuationService;

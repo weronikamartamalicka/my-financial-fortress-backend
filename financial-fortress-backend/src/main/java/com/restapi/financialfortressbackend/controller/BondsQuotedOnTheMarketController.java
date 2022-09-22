@@ -1,11 +1,11 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.FastTrackClient;
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.BondsQuotedOnTheMarketDto;
-import com.restapi.financialfortressbackend.domain.dto.BondsQuotedValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.BondsQuotedOnTheMarketValuation;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.BondsQuotedOnTheMarketDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.BondsQuotedValuationDto;
 import com.restapi.financialfortressbackend.mapper.BondsQuotedOnTheMarketMapper;
 import com.restapi.financialfortressbackend.service.BondsQuotedOnTheMarketService;
 import com.restapi.financialfortressbackend.service.BondsQuotedValuationService;

@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
+import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

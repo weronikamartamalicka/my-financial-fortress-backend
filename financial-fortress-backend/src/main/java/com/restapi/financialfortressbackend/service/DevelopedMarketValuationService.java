@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.service;
 
-import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksValuation;
+import com.restapi.financialfortressbackend.domain.valuation.DevelopedMarketStocksValuation;
 import com.restapi.financialfortressbackend.repository.DevelopedMarketValuationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

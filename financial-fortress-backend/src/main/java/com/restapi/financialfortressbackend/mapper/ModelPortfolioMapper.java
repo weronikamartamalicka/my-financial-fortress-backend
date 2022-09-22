@@ -1,7 +1,7 @@
 package com.restapi.financialfortressbackend.mapper;
 
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.ModelPortfolioDto;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.ModelPortfolioDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

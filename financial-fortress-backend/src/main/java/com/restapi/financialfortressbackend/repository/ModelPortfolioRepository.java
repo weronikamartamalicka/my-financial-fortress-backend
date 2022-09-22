@@ -1,6 +1,6 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

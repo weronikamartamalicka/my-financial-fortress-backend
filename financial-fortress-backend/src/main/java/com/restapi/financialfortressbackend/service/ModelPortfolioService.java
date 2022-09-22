@@ -1,16 +1,14 @@
 package com.restapi.financialfortressbackend.service;
 
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service

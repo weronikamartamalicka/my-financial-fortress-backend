@@ -1,13 +1,11 @@
 package com.restapi.financialfortressbackend.repository;
 
-import com.restapi.financialfortressbackend.domain.GoldValuation;
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
+import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository

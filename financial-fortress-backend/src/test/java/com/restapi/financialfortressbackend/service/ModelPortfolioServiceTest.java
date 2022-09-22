@@ -1,6 +1,7 @@
 package com.restapi.financialfortressbackend.service;
 
-import com.restapi.financialfortressbackend.domain.*;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.*;
 import com.restapi.financialfortressbackend.repository.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

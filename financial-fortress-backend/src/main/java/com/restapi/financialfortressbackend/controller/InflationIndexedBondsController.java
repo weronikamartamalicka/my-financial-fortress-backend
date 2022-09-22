@@ -1,11 +1,11 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.InflationClient;
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.InflationIndexedBondsDto;
-import com.restapi.financialfortressbackend.domain.dto.InflationValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.InflationIndexedBondsInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.InflationIndexedBondsValuation;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.InflationIndexedBondsDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.InflationValuationDto;
 import com.restapi.financialfortressbackend.mapper.InflationMapper;
 import com.restapi.financialfortressbackend.service.InflationIndexedBondsService;
 import com.restapi.financialfortressbackend.service.InflationValuationService;
@@ -15,10 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -33,7 +31,7 @@ public class InflationIndexedBondsController {
     private final InflationMapper inflationMapper;
     private final ModelPortfolioService modelPortfolioService;
 
-    @Scheduled(cron = "0 0 10 15 * *")
+    @Scheduled(cron = "0 0 10 15 03 *")
     @RequestMapping(method = RequestMethod.POST, value = "/inflation/value")
     public void saveNewValuation() {
 

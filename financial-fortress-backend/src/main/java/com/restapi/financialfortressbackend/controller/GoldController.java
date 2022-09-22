@@ -1,11 +1,12 @@
 package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.GoldClient;
-import com.restapi.financialfortressbackend.domain.GoldInvestment;
-import com.restapi.financialfortressbackend.domain.GoldValuation;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.*;
-import com.restapi.financialfortressbackend.domain.dto.response.Root;
+import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.GoldInvestmentDto;
+import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.response.Root;
+import com.restapi.financialfortressbackend.domain.valuation.dto.GoldValuationDto;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
 import com.restapi.financialfortressbackend.service.GoldInvestmentService;
 import com.restapi.financialfortressbackend.service.GoldValuationService;
@@ -15,10 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController()
@@ -43,7 +42,7 @@ public class GoldController {
         goldValuation.setDate(LocalDateTime.now(z));
         Root goldResponse = goldClient.getGoldSaleValue();
         BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
-        goldValuation.setOneCoinPrice(oneCoinPrice);
+        goldValuation.setValuation(oneCoinPrice);
 
         if(modelPortfolioService.getAll().size()!=0) {
             GoldInvestment goldInvestment = new GoldInvestment();
@@ -55,7 +54,7 @@ public class GoldController {
             modelPortfolio.setDate(LocalDateTime.now(z));
             modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
 
-            BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getTYPE()).getQuantity();
+            BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getType()).getQuantity();
 
             goldInvestment.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
             modelPortfolio.setGoldValue(coinsQuantity.multiply(oneCoinPrice));

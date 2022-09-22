@@ -1,9 +1,9 @@
 package com.restapi.financialfortressbackend.mapper;
 
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketInvestment;
-import com.restapi.financialfortressbackend.domain.BondsQuotedOnTheMarketValuation;
-import com.restapi.financialfortressbackend.domain.dto.BondsQuotedOnTheMarketDto;
-import com.restapi.financialfortressbackend.domain.dto.BondsQuotedValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.BondsQuotedOnTheMarketValuation;
+import com.restapi.financialfortressbackend.domain.investment.dto.BondsQuotedOnTheMarketDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.BondsQuotedValuationDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +16,10 @@ public class BondsQuotedOnTheMarketMapper {
                 bonds.getId(),
                 bonds.getDate(),
                 bonds.getQuantity(),
+                bonds.getEntireValuation(),
                 bonds.getCouponRate(),
                 bonds.getRedemptionDate(),
-                bonds.getInterestPeriod(),
-                bonds.getEntireValuation()
+                bonds.getInterestPeriod()
         );
     }
 

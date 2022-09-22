@@ -1,8 +1,8 @@
 package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
-import com.restapi.financialfortressbackend.domain.DevelopedMarketStocksInvestment;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.DevelopedMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.DevelopedMarketInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

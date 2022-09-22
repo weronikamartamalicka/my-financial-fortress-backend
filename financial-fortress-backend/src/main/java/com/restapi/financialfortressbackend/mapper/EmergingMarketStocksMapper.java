@@ -1,9 +1,9 @@
 package com.restapi.financialfortressbackend.mapper;
 
-import com.restapi.financialfortressbackend.domain.EmergingMarketStocksInvestment;
-import com.restapi.financialfortressbackend.domain.EmergingMarketStocksValuation;
-import com.restapi.financialfortressbackend.domain.dto.EmergingMarketStocksDto;
-import com.restapi.financialfortressbackend.domain.dto.EmergingMarketValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.EmergingMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.EmergingMarketStocksValuation;
+import com.restapi.financialfortressbackend.domain.investment.dto.EmergingMarketStocksDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.EmergingMarketValuationDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

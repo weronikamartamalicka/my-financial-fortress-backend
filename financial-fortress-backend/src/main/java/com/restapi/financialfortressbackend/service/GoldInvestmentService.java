@@ -2,8 +2,8 @@ package com.restapi.financialfortressbackend.service;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.client.GoldClient;
-import com.restapi.financialfortressbackend.domain.GoldInvestment;
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.GoldInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class GoldInvestmentService {
         goldInvestment.setDate(LocalDateTime.now(z));
 
         Optional<BigDecimal> goldSale = Optional.ofNullable(
-                goldValuationService.findTopByDate().getOneCoinPrice());
+                goldValuationService.findTopByDate().getValuation());
 
         goldSale.orElse(new BigDecimal(4562));
 

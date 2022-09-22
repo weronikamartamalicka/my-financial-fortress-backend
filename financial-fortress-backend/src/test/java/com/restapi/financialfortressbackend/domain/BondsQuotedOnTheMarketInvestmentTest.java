@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.domain;
 
+import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

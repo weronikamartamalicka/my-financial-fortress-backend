@@ -1,7 +1,7 @@
 package com.restapi.financialfortressbackend.controller;
 
-import com.restapi.financialfortressbackend.domain.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.dto.ModelPortfolioDto;
+import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
+import com.restapi.financialfortressbackend.domain.investment.dto.ModelPortfolioDto;
 import com.restapi.financialfortressbackend.mapper.ModelPortfolioMapper;
 import com.restapi.financialfortressbackend.service.*;
 import lombok.RequiredArgsConstructor;

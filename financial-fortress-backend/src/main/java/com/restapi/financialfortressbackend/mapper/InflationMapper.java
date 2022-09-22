@@ -1,9 +1,9 @@
 package com.restapi.financialfortressbackend.mapper;
 
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsInvestment;
-import com.restapi.financialfortressbackend.domain.InflationIndexedBondsValuation;
-import com.restapi.financialfortressbackend.domain.dto.InflationIndexedBondsDto;
-import com.restapi.financialfortressbackend.domain.dto.InflationValuationDto;
+import com.restapi.financialfortressbackend.domain.investment.InflationIndexedBondsInvestment;
+import com.restapi.financialfortressbackend.domain.valuation.InflationIndexedBondsValuation;
+import com.restapi.financialfortressbackend.domain.investment.dto.InflationIndexedBondsDto;
+import com.restapi.financialfortressbackend.domain.valuation.dto.InflationValuationDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
