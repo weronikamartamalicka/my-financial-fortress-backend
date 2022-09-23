@@ -2,22 +2,22 @@ package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
 import com.restapi.financialfortressbackend.domain.investment.dto.GoldInvestmentDto;
 import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
-import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.domain.response.Root;
+import com.restapi.financialfortressbackend.domain.valuation.SimpleValuation;
 import com.restapi.financialfortressbackend.domain.valuation.dto.GoldValuationDto;
 import com.restapi.financialfortressbackend.mapper.GoldMapper;
-import com.restapi.financialfortressbackend.service.GoldInvestmentService;
-import com.restapi.financialfortressbackend.service.GoldValuationService;
+import com.restapi.financialfortressbackend.service.valuation.SavingNewValuationsService;
+import com.restapi.financialfortressbackend.service.investment.GoldInvestmentService;
+import com.restapi.financialfortressbackend.service.investment.SavingNewInvestmentService;
+import com.restapi.financialfortressbackend.service.valuation.GoldValuationService;
 import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 @RestController()
@@ -31,40 +31,33 @@ public class GoldController {
     private final GoldInvestmentService goldInvestmentService;
     private final GoldMapper goldMapper;
     private final ModelPortfolioService modelPortfolioService;
+    private final SavingNewValuationsService valuationsService;
+    private final SavingNewInvestmentService investmentService;
 
     @Scheduled(cron = "0 0 09,14 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/gold/value")
     public void saveNewValuation() {
 
-        ZoneId z = ZoneId.of( "Europe/Warsaw");
-
         GoldValuation goldValuation = new GoldValuation();
-        goldValuation.setDate(LocalDateTime.now(z));
-        Root goldResponse = goldClient.getGoldSaleValue();
-        BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldResponse);
-        goldValuation.setValuation(oneCoinPrice);
+        BigDecimal oneCoinPrice = goldValuationService.getOneCoinValue(goldClient.getGoldSaleValue());
+
+        SimpleValuation simpleValuation = valuationsService.getNewValue(goldValuation, oneCoinPrice);
+        GoldValuation gold = (GoldValuation) simpleValuation;
 
         if(modelPortfolioService.getAll().size()!=0) {
             GoldInvestment goldInvestment = new GoldInvestment();
-            goldInvestment.setDate(LocalDateTime.now(z));
             GoldInvestment lastGoldInvestment = goldInvestmentService.findTopByDate();
-            goldInvestment.setQuantity(lastGoldInvestment.getQuantity());
-
-            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now(z));
-            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
-
             BigDecimal coinsQuantity = goldInvestmentService.findByType(goldValuation.getType()).getQuantity();
+            BigDecimal entireValue = coinsQuantity.multiply(oneCoinPrice);
 
-            goldInvestment.setEntireValuation(coinsQuantity.multiply(oneCoinPrice));
-            modelPortfolio.setGoldValue(coinsQuantity.multiply(oneCoinPrice));
-            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+            SimpleInvestment simpleInvestment = investmentService
+                    .getNewInvestment(goldInvestment, lastGoldInvestment, entireValue);
 
-            goldInvestmentService.saveGoldInvestment(goldInvestment);
-            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+            GoldInvestment goldInvest = (GoldInvestment) simpleInvestment;
+
+            goldInvestmentService.saveInvestment(goldInvest);
         }
-
-        goldValuationService.saveGoldValuation(goldValuation);
+        goldValuationService.saveGoldValuation(gold);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gold/invest")

@@ -2,6 +2,7 @@ package com.restapi.financialfortressbackend.service;
 
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
+import com.restapi.financialfortressbackend.service.investment.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,11 @@ public class ModelPortfolioService {
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
         modelPortfolio.setDate(LocalDateTime.now(z));
 
-        goldInvestmentService.calculateGoldComposition(investmentCapital, modelPortfolio);
-        developedMarketStocksService.calculateDevelopedMarketComposition(investmentCapital, modelPortfolio);
-        emergingMarketStocksService.calculateEmergingMarketComposition(investmentCapital, modelPortfolio);
-        bondsQuotedOnTheMarketService.calculateBondsQuotedComposition(investmentCapital, modelPortfolio);
-        inflationIndexedBondsService.calculateBondsIndexedComposition(investmentCapital, modelPortfolio);
+        goldInvestmentService.calculateInstrumentComposition(investmentCapital, modelPortfolio);
+        developedMarketStocksService.calculateInstrumentComposition(investmentCapital, modelPortfolio);
+        emergingMarketStocksService.calculateInstrumentComposition(investmentCapital, modelPortfolio);
+        bondsQuotedOnTheMarketService.calculateInstrumentComposition(investmentCapital, modelPortfolio);
+        inflationIndexedBondsService.calculateInstrumentComposition(investmentCapital, modelPortfolio);
         calculatePercentageComposition(modelPortfolio);
     }
 

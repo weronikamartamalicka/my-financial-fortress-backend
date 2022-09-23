@@ -11,15 +11,16 @@ import java.time.LocalDateTime;
 @Setter
 public class BondsQuotedOnTheMarketDto extends SimpleInvestmentDto {
 
-    private final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
+    private BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
     private BigDecimal couponRate;
     private LocalDate redemptionDate;
     private BigDecimal interestPeriod;
 
     public BondsQuotedOnTheMarketDto(Long id, LocalDateTime time, BigDecimal quantity,
-                                     BigDecimal entireValuation,  BigDecimal couponRate,
+                                     BigDecimal entireValuation,BigDecimal faceValue, BigDecimal couponRate,
                                      LocalDate redemptionDate, BigDecimal interestPeriod) {
         super(id, time, InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity, entireValuation);
+        this.FACE_VALUE = faceValue;
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
         this.interestPeriod = interestPeriod;

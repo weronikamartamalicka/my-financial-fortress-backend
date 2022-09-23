@@ -1,7 +1,7 @@
 package com.restapi.financialfortressbackend.domain;
 
 import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
-import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
+import com.restapi.financialfortressbackend.repository.investment.BondsQuotedInvestmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

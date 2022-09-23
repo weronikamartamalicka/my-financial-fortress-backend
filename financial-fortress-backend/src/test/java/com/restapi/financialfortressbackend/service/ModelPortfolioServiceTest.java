@@ -3,6 +3,7 @@ package com.restapi.financialfortressbackend.service;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.valuation.*;
 import com.restapi.financialfortressbackend.repository.*;
+import com.restapi.financialfortressbackend.repository.valuation.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ class ModelPortfolioServiceTest {
     @Test
     public void calculateCompositionTest() {
 
-        modelPortfolioService.calculateComposition(new BigDecimal(50000));
+        //modelPortfolioService.calculateComposition(new BigDecimal(50000));
 
         ModelPortfolioInvestment myModelPortfolio = modelPortfolioRepository.findByDate(LocalDate.now());
 

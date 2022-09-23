@@ -1,11 +1,12 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.investment;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.investment.BondsQuotedOnTheMarketInvestment;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.repository.BondsQuotedInvestmentRepository;
-import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
+import com.restapi.financialfortressbackend.repository.investment.BondsQuotedInvestmentRepository;
+import com.restapi.financialfortressbackend.service.valuation.BondsQuotedValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,18 +17,15 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BondsQuotedOnTheMarketService {
 
     private static final BigDecimal BONDS_QUOTED_PERCENTAGE = new BigDecimal(0.2);
     private final static BigDecimal FACE_VALUE = new BigDecimal(1000);
-    @Autowired
-    BondsQuotedInvestmentRepository bondsQuotedInvestmentRepository;
-    @Autowired
-    BondsQuotedValuationService bondsQuotedValuationService;
-    @Autowired
-    ModelPortfolioRepository modelPortfolioRepository;
+    private final BondsQuotedInvestmentRepository bondsQuotedInvestmentRepository;
+    private final BondsQuotedValuationService bondsQuotedValuationService;
 
-    public void calculateBondsQuotedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
+    public void calculateInstrumentComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         BondsQuotedOnTheMarketInvestment bondsQuotedOnTheMarketInvestment = new BondsQuotedOnTheMarketInvestment();
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
@@ -50,7 +48,7 @@ public class BondsQuotedOnTheMarketService {
         bondsQuotedInvestmentRepository.save(bondsQuotedOnTheMarketInvestment);
     }
 
-    public BondsQuotedOnTheMarketInvestment findByType(String type) {
+    public SimpleInvestment findByType(String type) {
 
         return Iterables.getLast(bondsQuotedInvestmentRepository.findByType(type)
                 .orElse(List.of(new BondsQuotedOnTheMarketInvestment(BigDecimal.valueOf(0)))));
@@ -64,9 +62,11 @@ public class BondsQuotedOnTheMarketService {
         bondsQuotedInvestmentRepository.deleteAll();
     }
 
-    public void saveBondsQuotedInvestment(BondsQuotedOnTheMarketInvestment bondsQuotedInvestment) {
-        bondsQuotedInvestmentRepository.save(bondsQuotedInvestment);
+
+    public void saveInvestment(BondsQuotedOnTheMarketInvestment bondsQuotedOnTheMarketInvestment) {
+        bondsQuotedInvestmentRepository.save(bondsQuotedOnTheMarketInvestment);
     }
+
 
     public BondsQuotedOnTheMarketInvestment findTopByDate() {
         return bondsQuotedInvestmentRepository.findAll().get(bondsQuotedInvestmentRepository.findAll().size() - 1);

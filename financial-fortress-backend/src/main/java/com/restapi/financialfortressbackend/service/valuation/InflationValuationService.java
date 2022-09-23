@@ -1,8 +1,8 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.valuation;
 
 import com.restapi.financialfortressbackend.domain.valuation.InflationIndexedBondsValuation;
-import com.restapi.financialfortressbackend.repository.InflationIndexedInvestmentRepository;
-import com.restapi.financialfortressbackend.repository.InflationValuationRepository;
+import com.restapi.financialfortressbackend.repository.investment.InflationIndexedInvestmentRepository;
+import com.restapi.financialfortressbackend.repository.valuation.InflationValuationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,23 +2,25 @@ package com.restapi.financialfortressbackend.controller;
 
 import com.restapi.financialfortressbackend.client.ExchangeClient;
 import com.restapi.financialfortressbackend.client.FastTrackClient;
+import com.restapi.financialfortressbackend.domain.InvestmentInstrumentName;
 import com.restapi.financialfortressbackend.domain.investment.DevelopedMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
 import com.restapi.financialfortressbackend.domain.valuation.DevelopedMarketStocksValuation;
-import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
 import com.restapi.financialfortressbackend.domain.investment.dto.DevelopedMarketStocksDto;
+import com.restapi.financialfortressbackend.domain.valuation.SimpleValuation;
 import com.restapi.financialfortressbackend.domain.valuation.dto.DevelopedMarketValuationDto;
 
 import com.restapi.financialfortressbackend.mapper.DevelopedMarketStocksMapper;
-import com.restapi.financialfortressbackend.service.DevelopedMarketStocksService;
-import com.restapi.financialfortressbackend.service.DevelopedMarketValuationService;
+import com.restapi.financialfortressbackend.service.valuation.SavingNewValuationsService;
+import com.restapi.financialfortressbackend.service.investment.DevelopedMarketStocksService;
+import com.restapi.financialfortressbackend.service.investment.SavingNewInvestmentService;
+import com.restapi.financialfortressbackend.service.valuation.DevelopedMarketValuationService;
 import com.restapi.financialfortressbackend.service.ModelPortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 
@@ -35,42 +37,37 @@ public class DevelopedMarketStocksController {
     private final ModelPortfolioService modelPortfolioService;
     private final FastTrackClient fastTrackClient;
 
+    private final SavingNewValuationsService valuationsService;
+    private final SavingNewInvestmentService investmentService;
+
     @Scheduled(cron = "0 0 11,19 * * *")
     @RequestMapping(method = RequestMethod.POST, value = "/developed/value")
     public void saveNewValuation() {
-
-        ZoneId z = ZoneId.of( "Europe/Warsaw");
-
         DevelopedMarketStocksValuation developedMarketValuation = new DevelopedMarketStocksValuation();
-        developedMarketValuation.setDate(LocalDateTime.now(z));
         BigDecimal oneSharePrice = developedMarketValuationService
                 .getOneShareValue(fastTrackClient
                         .getActualValidation(developedMarketValuation.getType()), exchangeClient.getUSDToPLN());
-        developedMarketValuation.setValuation(oneSharePrice);
-        developedMarketValuation.setCommissionRate(fastTrackClient.getCommissionRate());
+        BigDecimal commissionRate = fastTrackClient.getCommissionRate();
+        SimpleValuation simpleValuation = valuationsService
+                .getNewValue(developedMarketValuation, oneSharePrice, commissionRate);
+
+        DevelopedMarketStocksValuation developedValuation = (DevelopedMarketStocksValuation) simpleValuation;
 
         if(modelPortfolioService.getAll().size()!=0) {
             DevelopedMarketStocksInvestment developedMarketInvestment = new DevelopedMarketStocksInvestment();
-            developedMarketInvestment.setDate(LocalDateTime.now(z));
             DevelopedMarketStocksInvestment lastDevelopedInvestment = developedMarketService.findTopByDate();
-            developedMarketInvestment.setQuantity(lastDevelopedInvestment.getQuantity());
-
-            ModelPortfolioInvestment modelPortfolio = new ModelPortfolioInvestment();
-            modelPortfolio.setDate(LocalDateTime.now(z));
-            modelPortfolio = modelPortfolioService.copyPortfolioValues(modelPortfolio);
-
             BigDecimal sharesQuantity = developedMarketService
                     .findByType(developedMarketValuation.getType())
                     .getQuantity();
+            BigDecimal entireValuation = sharesQuantity.multiply(oneSharePrice);
 
-            developedMarketInvestment.setEntireValuation(sharesQuantity.multiply(oneSharePrice));
-            modelPortfolio.setDevelopedMarketValue(sharesQuantity.multiply(oneSharePrice));
-            modelPortfolio = modelPortfolioService.calculatePercentageComposition(modelPortfolio);
+            SimpleInvestment simpleInvestment = investmentService
+                    .getNewInvestment(developedMarketInvestment, lastDevelopedInvestment, entireValuation);
+            DevelopedMarketStocksInvestment developedInvestment = (DevelopedMarketStocksInvestment) simpleInvestment;
 
-            developedMarketService.saveDevelopedMarketInvestment(developedMarketInvestment);
-            modelPortfolioService.saveModelPortfolio(modelPortfolio);
+            developedMarketService.saveInvestment(developedInvestment);
         }
-        developedMarketValuationService.saveDevelopedMarketValuation(developedMarketValuation);
+        developedMarketValuationService.saveDevelopedMarketValuation(developedValuation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/invest")
@@ -85,6 +82,7 @@ public class DevelopedMarketStocksController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/developed/values")
     public List<BigDecimal> getYearPrices() {
-        return fastTrackClient.getHistoricalValuation("MSCI China A DivAdj Ix");
+        return fastTrackClient
+                .getHistoricalValuation(InvestmentInstrumentName.DEVELOPED_ETF.getName());
     }
 }

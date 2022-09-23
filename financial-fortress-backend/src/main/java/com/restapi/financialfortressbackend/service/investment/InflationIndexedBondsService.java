@@ -1,10 +1,13 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.investment;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.investment.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.repository.InflationIndexedInvestmentRepository;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
+import com.restapi.financialfortressbackend.repository.investment.InflationIndexedInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
+import com.restapi.financialfortressbackend.service.valuation.InflationValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +19,13 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class InflationIndexedBondsService {
 
     private static final BigDecimal BONDS_INDEXED_PERCENTAGE = new BigDecimal(0.4);
-    @Autowired
-    InflationIndexedInvestmentRepository inflationIndexedInvestmentRepository;
-    @Autowired
-    InflationValuationService inflationValuationService;
-    @Autowired
-    ModelPortfolioRepository modelPortfolioRepository;
+    private final InflationIndexedInvestmentRepository inflationIndexedInvestmentRepository;
 
-    public void calculateBondsIndexedComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
+    public void calculateInstrumentComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         InflationIndexedBondsInvestment inflationIndexedBondsInvestment = new InflationIndexedBondsInvestment();
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
@@ -69,7 +68,7 @@ public class InflationIndexedBondsService {
         return inflationIndexedInvestmentRepository.findAll().get(inflationIndexedInvestmentRepository.findAll().size() - 1);
     }
 
-    public void saveInflationIndexedInvestment(InflationIndexedBondsInvestment inflationIndexedInvestment) {
-        inflationIndexedInvestmentRepository.save(inflationIndexedInvestment);
+    public void saveInvestment(InflationIndexedBondsInvestment inflationIndexedBondsInvestment) {
+        inflationIndexedInvestmentRepository.save(inflationIndexedBondsInvestment);
     }
 }

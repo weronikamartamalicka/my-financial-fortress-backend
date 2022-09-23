@@ -17,6 +17,7 @@ public class BondsQuotedOnTheMarketMapper {
                 bonds.getDate(),
                 bonds.getQuantity(),
                 bonds.getEntireValuation(),
+                bonds.getFACE_VALUE(),
                 bonds.getCouponRate(),
                 bonds.getRedemptionDate(),
                 bonds.getInterestPeriod()

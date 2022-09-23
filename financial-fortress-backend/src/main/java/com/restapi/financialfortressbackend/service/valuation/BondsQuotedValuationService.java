@@ -1,7 +1,8 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.valuation;
 
 import com.restapi.financialfortressbackend.domain.valuation.BondsQuotedOnTheMarketValuation;
-import com.restapi.financialfortressbackend.repository.BondsQuotedValuationRepository;
+import com.restapi.financialfortressbackend.domain.valuation.SimpleValuation;
+import com.restapi.financialfortressbackend.repository.valuation.BondsQuotedValuationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

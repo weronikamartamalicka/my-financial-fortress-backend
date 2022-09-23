@@ -1,12 +1,11 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.investment;
 
 import com.google.common.collect.Iterables;
-import com.restapi.financialfortressbackend.client.GoldClient;
 import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.repository.GoldInvestmentRepository;
-import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.restapi.financialfortressbackend.repository.investment.GoldInvestmentRepository;
+import com.restapi.financialfortressbackend.service.valuation.GoldValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,19 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class GoldInvestmentService {
 
     private static final BigDecimal GOLD_PERCENTAGE = new BigDecimal(0.1);
-    @Autowired
-    GoldInvestmentRepository goldRepository;
-    @Autowired
-    GoldValuationService goldValuationService;
-    @Autowired
-    ModelPortfolioRepository modelPortfolioRepository;
-    @Autowired
-    GoldClient goldClient;
+    private final GoldInvestmentRepository goldRepository;
+    private final GoldValuationService goldValuationService;
 
-    public void calculateGoldComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
+    public void calculateInstrumentComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         GoldInvestment goldInvestment = new GoldInvestment();
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
@@ -76,7 +70,7 @@ public class GoldInvestmentService {
         return  goldRepository.findAll().get(goldRepository.findAll().size() - 1);
     }
 
-    public void saveGoldInvestment(GoldInvestment goldInvestment) {
+    public void saveInvestment(GoldInvestment goldInvestment) {
         goldRepository.save(goldInvestment);
     }
 }

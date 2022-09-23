@@ -1,11 +1,12 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.investment;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.investment.DevelopedMarketStocksInvestment;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.repository.DevelopedMarketInvestmentRepository;
-import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
+import com.restapi.financialfortressbackend.repository.investment.DevelopedMarketInvestmentRepository;
+import com.restapi.financialfortressbackend.service.valuation.DevelopedMarketValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,17 +16,14 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DevelopedMarketStocksService {
 
     private static final BigDecimal DEVELOPED_MARKET_PERCENTAGE = new BigDecimal(0.15);
-    @Autowired
-    DevelopedMarketValuationService developedMarketValuationService;
-    @Autowired
-    ModelPortfolioRepository modelPortfolioRepository;
-    @Autowired
-    DevelopedMarketInvestmentRepository developedMarketRepository;
+    private final DevelopedMarketValuationService developedMarketValuationService;
+    private final DevelopedMarketInvestmentRepository developedMarketRepository;
 
-    public void calculateDevelopedMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
+    public void calculateInstrumentComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         DevelopedMarketStocksInvestment developedMarketStocksInvestment = new DevelopedMarketStocksInvestment();
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
@@ -62,8 +60,7 @@ public class DevelopedMarketStocksService {
     public DevelopedMarketStocksInvestment findTopByDate() {
         return developedMarketRepository.findAll().get(developedMarketRepository.findAll().size() - 1);
     }
-
-    public void saveDevelopedMarketInvestment(DevelopedMarketStocksInvestment developedMarketInvestment) {
-        developedMarketRepository.save(developedMarketInvestment);
+    public void saveInvestment(DevelopedMarketStocksInvestment developedMarketStocksInvestment) {
+        developedMarketRepository.save(developedMarketStocksInvestment);
     }
 }

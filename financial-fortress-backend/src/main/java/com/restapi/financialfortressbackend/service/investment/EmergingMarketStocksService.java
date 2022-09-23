@@ -1,10 +1,14 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.investment;
 
 import com.google.common.collect.Iterables;
 import com.restapi.financialfortressbackend.domain.investment.EmergingMarketStocksInvestment;
+import com.restapi.financialfortressbackend.domain.investment.InflationIndexedBondsInvestment;
 import com.restapi.financialfortressbackend.domain.investment.ModelPortfolioInvestment;
-import com.restapi.financialfortressbackend.repository.EmergingMarketInvestmentRepository;
+import com.restapi.financialfortressbackend.domain.investment.SimpleInvestment;
+import com.restapi.financialfortressbackend.repository.investment.EmergingMarketInvestmentRepository;
 import com.restapi.financialfortressbackend.repository.ModelPortfolioRepository;
+import com.restapi.financialfortressbackend.service.valuation.EmergingMarketValuationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +19,13 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmergingMarketStocksService {
     private static final BigDecimal EMERGING_MARKET_PERCENTAGE = new BigDecimal(0.15);
-    @Autowired
-    EmergingMarketInvestmentRepository emergingMarketRepository;
-    @Autowired
-    ModelPortfolioRepository modelPortfolioRepository;
-    @Autowired
-    EmergingMarketValuationService emergingMarketValuationService;
+    private final EmergingMarketInvestmentRepository emergingMarketRepository;
+    private final EmergingMarketValuationService emergingMarketValuationService;
 
-    public void calculateEmergingMarketComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
+    public void calculateInstrumentComposition(BigDecimal investmentCapital, ModelPortfolioInvestment modelPortfolio) {
 
         EmergingMarketStocksInvestment emergingMarketStocksInvestment = new EmergingMarketStocksInvestment();
         ZoneId z = ZoneId.of( "Europe/Warsaw" );
@@ -62,7 +63,7 @@ public class EmergingMarketStocksService {
         return emergingMarketRepository.findAll().get(emergingMarketRepository.findAll().size() - 1);
     }
 
-    public void saveEmergingMarketInvestment(EmergingMarketStocksInvestment emergingMarketInvestment) {
-        emergingMarketRepository.save(emergingMarketInvestment);
+    public void saveInvestment(EmergingMarketStocksInvestment emergingMarketStocksInvestment) {
+        emergingMarketRepository.save(emergingMarketStocksInvestment);
     }
 }

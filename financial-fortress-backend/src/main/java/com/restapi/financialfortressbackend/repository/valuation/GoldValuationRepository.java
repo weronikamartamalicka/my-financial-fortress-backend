@@ -1,4 +1,4 @@
-package com.restapi.financialfortressbackend.repository;
+package com.restapi.financialfortressbackend.repository.valuation;
 
 import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
 import org.springframework.data.repository.CrudRepository;

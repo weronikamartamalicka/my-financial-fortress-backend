@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class BondsQuotedOnTheMarketInvestment extends SimpleInvestment {
 
     @Column(name = "FACE_VALUE")
-    public final BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
+    private BigDecimal FACE_VALUE = BigDecimal.valueOf(1000);
 
     @Column(name = "COUPON")
     private BigDecimal couponRate;
@@ -35,10 +35,12 @@ public class BondsQuotedOnTheMarketInvestment extends SimpleInvestment {
     }
 
     public BondsQuotedOnTheMarketInvestment(BigDecimal quantity,
+                                            BigDecimal faceValue,
                                             BigDecimal couponRate,
                                             LocalDate redemptionDate,
                                             BigDecimal interestPeriod) {
         super(InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity);
+        this.FACE_VALUE = faceValue;
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
         this.interestPeriod = interestPeriod;

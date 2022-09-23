@@ -1,8 +1,8 @@
-package com.restapi.financialfortressbackend.service;
+package com.restapi.financialfortressbackend.service.valuation;
 
 import com.restapi.financialfortressbackend.domain.valuation.GoldValuation;
 import com.restapi.financialfortressbackend.domain.response.Root;
-import com.restapi.financialfortressbackend.repository.GoldValuationRepository;
+import com.restapi.financialfortressbackend.repository.valuation.GoldValuationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

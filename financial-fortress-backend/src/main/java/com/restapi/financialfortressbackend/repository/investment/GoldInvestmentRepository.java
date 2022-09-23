@@ -1,4 +1,4 @@
-package com.restapi.financialfortressbackend.repository;
+package com.restapi.financialfortressbackend.repository.investment;
 
 import com.restapi.financialfortressbackend.domain.investment.GoldInvestment;
 import org.springframework.data.repository.CrudRepository;
@@ -11,20 +11,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface GoldInvestmentRepository extends CrudRepository<GoldInvestment, Long> {
-
-    @Override
-    GoldInvestment save(GoldInvestment goldInvestment);
-
-    @Override
-    Optional<GoldInvestment> findById(Long id);
-
-    @Override
-    List<GoldInvestment> findAll();
-
-    @Override
-    long count();
-
     Optional<List<GoldInvestment>> findByType(String type);
-
+    List<GoldInvestment> findAll();
 
 }
