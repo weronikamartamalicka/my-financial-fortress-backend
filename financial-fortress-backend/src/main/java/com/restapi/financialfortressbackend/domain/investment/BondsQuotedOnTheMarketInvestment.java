@@ -34,16 +34,10 @@ public class BondsQuotedOnTheMarketInvestment extends SimpleInvestment {
         super(InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity);
     }
 
-    public BondsQuotedOnTheMarketInvestment(BigDecimal quantity,
-                                            BigDecimal faceValue,
-                                            BigDecimal couponRate,
-                                            LocalDate redemptionDate,
-                                            BigDecimal interestPeriod) {
-        super(InvestmentInstrumentName.BONDS_QUOTED.getName(), quantity);
-        this.FACE_VALUE = faceValue;
+    public BondsQuotedOnTheMarketInvestment(String type, BigDecimal quantity,
+                                            BigDecimal couponRate, LocalDate redemptionDate) {
+        super(type, quantity);
         this.couponRate = couponRate;
         this.redemptionDate = redemptionDate;
-        this.interestPeriod = interestPeriod;
     }
-
 }
