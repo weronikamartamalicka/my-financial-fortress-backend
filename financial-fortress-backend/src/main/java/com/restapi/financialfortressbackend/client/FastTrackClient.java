@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.restapi.financialfortressbackend.config.ClientConfiguration;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,10 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class FastTrackClient {
+
+    private final ClientConfiguration clientConfiguration;
     private final FastTrackValidationClient validationClient;
     private static String API_ROOT;
-    private static final String API_KEY = "80b494e1-792e-4f10-a727-9afa62c3e7e0";
     private static String API_TOKEN;
     private static String API_TICKER;
     private BigDecimal commissionRate;
@@ -83,7 +85,7 @@ public class FastTrackClient {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_ROOT + API_TICKER + "/range?start=2021-AUG-29&end=2022-AUG-29"))
                 .header("Content-Type", "application/json")
-                .header("appid", API_KEY)
+                .header("appid", clientConfiguration.getFAST_TRACK_CLIENT_APIKEY())
                 .header("token", API_TOKEN)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -117,7 +119,7 @@ public class FastTrackClient {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_ROOT + API_TICKER + "/range"))
                 .header("Content-Type", "application/json")
-                .header("appid", API_KEY)
+                .header("appid", clientConfiguration.getFAST_TRACK_CLIENT_APIKEY())
                 .header("token", API_TOKEN)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();

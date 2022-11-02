@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.client;
 
+import com.restapi.financialfortressbackend.config.ClientConfiguration;
 import com.restapi.financialfortressbackend.domain.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,18 +15,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FastTrackValidationClient {
 
+    private final ClientConfiguration clientConfiguration;
     private final RestTemplate restTemplate;
     private static final String API_ROOT = "https://ftl.fasttrack.net/v1/auth/login";
-    private static final String API_KEY = "80b494e1-792e-4f10-a727-9afa62c3e7e0";
-    private static final String API_ACCOUNT = "700671";
-    private static final String API_PASSWORD = "B0B760C8";
+
 
     public String getApiToken() {
 
         URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT)
-                .queryParam("account", API_ACCOUNT)
-                .queryParam("appid", API_KEY)
-                .queryParam("pass", API_PASSWORD)
+                .queryParam("account", clientConfiguration.getFAST_TRACK_CLIENT_API_ACCOUNT())
+                .queryParam("appid", clientConfiguration.getFAST_TRACK_CLIENT_APIKEY())
+                .queryParam("pass", clientConfiguration.getFAST_TRACK_CLIENT_API_PASSWORD())
                 .build()
                 .encode()
                 .toUri();

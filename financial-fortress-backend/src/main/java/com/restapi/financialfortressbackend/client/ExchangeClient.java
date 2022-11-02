@@ -1,5 +1,6 @@
 package com.restapi.financialfortressbackend.client;
 
+import com.restapi.financialfortressbackend.config.ClientConfiguration;
 import com.restapi.financialfortressbackend.domain.response.ExchangeResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ExchangeClient {
     private final RestTemplate restTemplate;
+    private final ClientConfiguration clientConfiguration;
     private static final String API_ROOT = "https://api.apilayer.com/exchangerates_data/convert";
-    private static final String API_KEY = "TIf9r8k6RTG5hEFMJ8jAQJIrThEMQQ07";
+
     public BigDecimal getUSDToPLN() {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "?apikey=" + API_KEY)
+        URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "?apikey="
+                        + clientConfiguration.getEXCHANGE_CLIENT_APIKEY())
                 .queryParam("amount", "1")
                 .queryParam("from", "USD")
                 .queryParam("to", "PLN")

@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.restapi.financialfortressbackend.config.ClientConfiguration;
 import com.restapi.financialfortressbackend.domain.response.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,14 +23,15 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 public class GoldClient {
+
+    private final ClientConfiguration clientConfiguration;
     private final RestTemplate restTemplate;
     private static final String API_ROOT = "https://api.metalpriceapi.com/v1/";
-    private static final String API_KEY = "0536b4c167ab37347f33927745026aab";
 
     public Root getGoldSaleValue() {
 
         URI url = UriComponentsBuilder.fromHttpUrl(API_ROOT + "latest")
-                .queryParam("api_key", API_KEY)
+                .queryParam("api_key", clientConfiguration.getGOLD_CLIENT_APIKEY())
                 .queryParam("base", "PLN")
                 .queryParam("currencies", "XAU")
                 .build()
@@ -47,7 +49,8 @@ public class GoldClient {
     public List<BigDecimal> getYearGoldSaleValue() {
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_ROOT + "timeframe" + "?api_key=" + API_KEY + "&start_date=2021-09-29" +
+                .uri(URI.create(API_ROOT + "timeframe" + "?api_key="
+                        + clientConfiguration.getGOLD_CLIENT_APIKEY() + "&start_date=2021-09-29" +
                         "&end_date=2022-08-20" + "&base=PLN" + "&currencies=XAU"))
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
